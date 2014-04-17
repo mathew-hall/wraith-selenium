@@ -1,10 +1,28 @@
 #Headless browser option
-browser:
-  webkit: "phantomjs"
+
+#cang ethis line based on which suite of browsers you want to run
+#better to pass as a command line argument when have time to refactor
+suite: "webkit"
+
+#define different suites of browsers here
+suites:
+  webkit: ["phantomjs"]
+  standard: []
   # gecko: "slimerjs"
 
+#define different engines/drivers to run your browser suites here - e.g. selenium
+engine:
+  webkit: ""
+  standard: "selenium"
+
+options:
+  webkit: ""
+  standard: ""
+
 #If you want to have multiple snapping files, set the file name here
-snap_file: "javascript/snap.js"
+snap_file:
+  webkit: "javascript/snap.js"
+  standard: ""
 
 # Type the name of the directory that shots will be stored in
 directory:
@@ -32,14 +50,11 @@ paths:
 # collection as follows, and names will be derived by replacing / with _
 #
 # paths:
-#  - /
-#  - /uk
+#  - /imghp
+#  - /maps
 
 #Amount of fuzz ImageMagick will use
 fuzz: '20%'
-
-#Set the filename of the spider file to use, if not specified it will fallback to spider.txt
-# spider_file: bbc_co_uk_spider.txt
 
 #Set the number of days to keep the site spider file
 spider_days:

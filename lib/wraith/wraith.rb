@@ -12,7 +12,7 @@ class Wraith::Wraith
   end
 
   def snap_file
-    @config['snap_file'] ? @config['snap_file'] : File.expand_path('lib/wraith/javascript/snap.js')
+    @config['snap_file'][@config['suite']]
   end
 
   def widths
@@ -52,15 +52,32 @@ class Wraith::Wraith
   end
 
   def engine
-    @config['browser']
+    @config['engine'][@config['suite']]
+  end
+
+  def suites
+    @config['suites']
+  end
+
+  def suite
+    @config['suites'][@config['suite']]
   end
 
   def fuzz
     @config['fuzz']
   end
 
-  def capture_page_image(browser, url, width, file_name)
-    puts `"#{browser}" #{@config['phantomjs_options']} "#{snap_file}" "#{url}" "#{width}" "#{file_name}"`
+  def capture_page_image(engine, browser, url, width, file_name)
+
+    command = "#{browser}" + " " + "#{@config['options'][@config['suite']]}" + " " + "#{snap_file}"  + " " + "#{url}" + " " + "#{width}" + " " + "#{file_name}"
+    #puts `"#{engine}" "#{browser}" #{@config['options'][@config['suite']]} "#{snap_file}" "#{url}" "#{width}" "#{file_name}"`
+    #puts `"#{browser}" #{@config['options'][@config['suite']]} "#{snap_file}" "#{url}" "#{width}" "#{file_name}"`
+
+    if engine.length
+      command = "#{engine} " + command
+    end
+    
+    puts `#{command}`
   end
 
   def self.crop_images(crop, height)

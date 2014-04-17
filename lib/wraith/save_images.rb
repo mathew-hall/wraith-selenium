@@ -21,7 +21,7 @@ class Wraith::SaveImages
   end
 
   def engine
-    wraith.engine.each { |label, browser| return browser }
+    wraith.engine
   end
 
   def base_urls(path)
@@ -49,9 +49,11 @@ class Wraith::SaveImages
       wraith.widths.each do |width|
         base_file_name = file_names(width, label, wraith.base_domain_label)
         compare_file_name = file_names(width, label, wraith.comp_domain_label)
-    
-        wraith.capture_page_image engine, base_url, width, base_file_name unless base_url.nil?
-        wraith.capture_page_image engine, compare_url, width, compare_file_name unless compare_url.nil?
+
+        wraith.suite.each do |browser|
+          wraith.capture_page_image engine, browser, base_url, width, base_file_name unless base_url.nil?
+          wraith.capture_page_image engine, browser, compare_url, width, compare_file_name unless compare_url.nil?
+        end
       end
     end
   end
