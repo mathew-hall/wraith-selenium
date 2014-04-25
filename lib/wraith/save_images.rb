@@ -1,7 +1,9 @@
 require 'wraith'
+require 'wraith/driver'
 
 class Wraith::SaveImages
   attr_reader :wraith
+  include Wraith::Driver
 
   def initialize(config)
     @wraith = Wraith::Wraith.new(config)
@@ -24,6 +26,10 @@ class Wraith::SaveImages
     wraith.engine
   end
 
+  def timeout
+    wraith.timeout
+  end
+
   def base_urls(path)
     wraith.base_domain + path unless wraith.base_domain.nil?
   end
@@ -32,8 +38,8 @@ class Wraith::SaveImages
     wraith.comp_domain + path unless wraith.comp_domain.nil?
   end
 
-  def file_names(width, label, domain_label)
-    "#{directory}/#{label}/#{width}_#{engine}_#{domain_label}.png"
+  def file_names(width, label, browser, domain_label)
+    "#{directory}/#{label}/#{width}_#{engine}_#{browser}_#{domain_label}.png"
   end
 
   def save_images
@@ -46,14 +52,26 @@ class Wraith::SaveImages
       base_url = base_urls(path)
       compare_url = compare_urls(path)
 
-      wraith.widths.each do |width|
-        base_file_name = file_names(width, label, wraith.base_domain_label)
-        compare_file_name = file_names(width, label, wraith.comp_domain_label)
+      wraith.suite.each do |browser|
 
-        wraith.suite.each do |browser|
-          wraith.capture_page_image engine, browser, base_url, width, base_file_name unless base_url.nil?
-          wraith.capture_page_image engine, browser, compare_url, width, compare_file_name unless compare_url.nil?
-        end
+          next unless(os_compatible(browser))
+
+          #can return nil if there is no engine
+          driver = return_driver_instance(engine, browser)
+          set_page_load_timeout(driver,timeout)
+
+          wraith.widths.each do |width|
+
+            base_file_name = file_names(width, label, browser, wraith.base_domain_label)
+            compare_file_name = file_names(width, label, browser, wraith.comp_domain_label)
+
+            wraith.capture_page_image driver, browser, base_url, width, base_file_name unless base_url.nil?
+            wraith.capture_page_image driver, browser, compare_url, width, compare_file_name unless compare_url.nil?
+
+          end
+
+          quit(driver)
+
       end
     end
   end

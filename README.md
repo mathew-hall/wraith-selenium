@@ -1,4 +1,4 @@
-# Wraith
+# Wraith-Selenium
 
 [![Build Status](https://secure.travis-ci.org/BBC-News/wraith.png?branch=master)](http://travis-ci.org/BBC-News/wraith)
 [![Code Climate](https://codeclimate.com/github/BBC-News/wraith.png)](https://codeclimate.com/github/BBC-News/wraith)
@@ -6,18 +6,38 @@
  * Website: http://responsivenews.co.uk
  * Source: http://github.com/bbc-news/wraith
 
-Wraith is a screenshot comparison tool, created by developers at BBC News.
+Wraith-Selenium is an augmentation of the BBC Wraith gem by the Friday design agency.
+
+The original Wraith is a screenshot comparison tool, created by developers at BBC News.
 
 
 ## What is it?
 
-Wraith uses either [PhantomJS](http://phantomjs.org) or
+The original Wraith uses either [PhantomJS](http://phantomjs.org) or
 [SlimerJS](http://slimerjs.org) to create screen-shots of different environments
 and then creates a diff of the two images, the affected areas are highlighted in
-blue
+blue.
+
 
 ![Photo of BBC News with a
 diff](http://bbc-news.github.io/wraith/img/320_diff.png)
+
+Wraith-Selenium adds the ability to use a configurable Selenium grid of browsers.
+
+##To Do
+
+Wraith-Selenium is NOT production ready at the current time. Below is a non-comprehensive list
+of actions that should be completed.
+
+1. Write unit tests that are understandable and actually work.
+2. Add functionality to specify multiple browser versions to get true Selenium grid style functionality
+3. Add ability to specify OS / Device types for emulation purposes
+4. Enhance cropping functionality to allow defined crops of parts of pages so that component testing can
+be properly isolated from changes elsewhere on the page.
+5. Add ability to create more flexible base images - for example a browser rendering of the same url
+can identified as 'base' for all other browsers to be tested against
+6. Nice To Have - some mechanism to based on the diff images produced that allow the tests to be marked passed,
+failed or indefinite (i.e. for human inspection). - maybe a machine learning problem :-)
 
 
 ## Requirements

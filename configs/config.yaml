@@ -1,19 +1,30 @@
 #Headless browser option
 
-#cang ethis line based on which suite of browsers you want to run
+#change this line based on which suite of browsers you want to run
 #better to pass as a command line argument when have time to refactor
-suite: "webkit"
+suite: "standard"
 
 #define different suites of browsers here
 suites:
   webkit: ["phantomjs"]
-  standard: []
+  standard: ["safari", "chrome", "firefox","ie"] #android
   # gecko: "slimerjs"
 
 #define different engines/drivers to run your browser suites here - e.g. selenium
 engine:
   webkit: ""
   standard: "selenium"
+
+#todo -- implment this
+browser_versions:
+  android: []
+  safari: []
+  chrome: []
+  firefox: []
+  ie: []
+
+#todo - implement this or incorporate into versions hash?
+devices:
 
 options:
   webkit: ""
@@ -27,6 +38,9 @@ snap_file:
 # Type the name of the directory that shots will be stored in
 directory:
   - 'shots'
+
+#page load timeout
+timeout: 20
 
 # Add only 2 domains, key will act as a label
 domains:

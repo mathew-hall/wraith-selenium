@@ -15,6 +15,10 @@ class Wraith::Wraith
     @config['snap_file'][@config['suite']]
   end
 
+  def timeout
+    @config['timeout']
+  end
+
   def widths
     @config['screen_widths']
   end
@@ -67,17 +71,19 @@ class Wraith::Wraith
     @config['fuzz']
   end
 
-  def capture_page_image(engine, browser, url, width, file_name)
+  def capture_page_image(driver, browser, url, width, file_name)
 
-    command = "#{browser}" + " " + "#{@config['options'][@config['suite']]}" + " " + "#{snap_file}"  + " " + "#{url}" + " " + "#{width}" + " " + "#{file_name}"
-    #puts `"#{engine}" "#{browser}" #{@config['options'][@config['suite']]} "#{snap_file}" "#{url}" "#{width}" "#{file_name}"`
-    #puts `"#{browser}" #{@config['options'][@config['suite']]} "#{snap_file}" "#{url}" "#{width}" "#{file_name}"`
-
-    if engine.length
-      command = "#{engine} " + command
+    if (defined?(driver)) && driver.instance_of?(Selenium::WebDriver::Driver)
+      unless driver.capabilities.browser_name =~ /selendroid/
+        driver.manage.window.resize_to(width, 1000)
+      end
+      driver.get(url)
+      driver.save_screenshot(file_name)
+    else
+      command = "#{browser}" + " " + "#{@config['options'][@config['suite']]}" + " " + "#{snap_file}"  + " " + "#{url}" + " " + "#{width}" + " " + "#{file_name}"
+      puts `#{command}`
     end
-    
-    puts `#{command}`
+
   end
 
   def self.crop_images(crop, height)

@@ -1,3 +1,4 @@
+require 'selenium-webdriver'
 require 'thor'
 require 'wraith'
 require 'wraith/save_images'
