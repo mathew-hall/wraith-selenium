@@ -15,11 +15,11 @@ describe 'Wraith Module' do
     Wraith.constants.include?(:CLI).should == true
   end
 
-  it 'check that the error component is  auto-loaded' do
+  it 'check that the error component is auto-loaded' do
     Wraith.constants.include?(:Error).should == true
   end
 
-  it 'check that the cli component is  auto-loaded' do
+  it 'check that the Wraith component is not auto-loaded' do
     Wraith.constants.include?(:Wraith).should == false
   end
 
