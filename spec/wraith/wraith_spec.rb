@@ -1,31 +1,31 @@
 require 'rspec'
 
-require_relative "../../lib/wraith/wraith"
-require_relative "../lib/spec_lib"
+require_relative '../../lib/wraith/wraith'
+require_relative '../lib/spec_lib'
 
 
-wraith_webkit = Wraith::Wraith.new("test_webkit_config")
-wraith_selenium = Wraith::Wraith.new("test_selenium_config")
+wraith_webkit = Wraith::Wraith.new('test_webkit_config')
+wraith_selenium = Wraith::Wraith.new('test_selenium_config')
 
 describe Wraith, '#directory'  do
 
   it 'should return the directory specified when using the webkit config file' do
-    wraith_webkit.directory.should == "shots"
+    wraith_webkit.directory.should == 'shots'
   end
 
   it 'should return the directory specified when using the selenium config file' do
-    wraith_selenium.directory.should == "shots"
+    wraith_selenium.directory.should == 'shots'
   end
 end
 
 describe Wraith, '#snap_file' do
 
   it 'should return the snap file specified when using the webkit config file' do
-    wraith_webkit.snap_file.should == "javascript/snap.js"
+    wraith_webkit.snap_file.should == 'javascript/snap.js'
   end
 
   it 'should return the snap file specified when using the selenium config file' do
-    wraith_selenium.snap_file.should == ""
+    wraith_selenium.snap_file.should == ''
   end
 end
 
@@ -57,8 +57,8 @@ end
 describe Wraith, '#domains' do
 
   expected_hash = {
-                    'english' => "http://www.live.bbc.co.uk/news",
-                    'russian' =>  "http://www.live.bbc.co.uk/russian"
+                    'english' => 'http://www.live.bbc.co.uk/news',
+                    'russian' =>  'http://www.live.bbc.co.uk/russian'
                   }
   it 'should return the domains specified when using the webkit config file' do
     wraith_webkit.domains.should == expected_hash
@@ -71,7 +71,7 @@ end
 
 describe Wraith, '#base_domain' do
 
-  expected_base = "http://www.live.bbc.co.uk/news"
+  expected_base = 'http://www.live.bbc.co.uk/news'
 
   it 'should return the base domain specified when using the webkit config file' do
     wraith_webkit.base_domain.should == expected_base
@@ -84,7 +84,7 @@ end
 
 describe Wraith, '#comp_domain' do
 
-  expected_comparison_domain = "http://www.live.bbc.co.uk/russian"
+  expected_comparison_domain = 'http://www.live.bbc.co.uk/russian'
   it 'should return the comp domain specified when using the selenium config file' do
     wraith_webkit.comp_domain.should == expected_comparison_domain
   end
@@ -95,7 +95,7 @@ describe Wraith, '#comp_domain' do
 end
 
 describe Wraith, '#base_domain_label' do
-  expected_base_label = "english"
+  expected_base_label = 'english'
   it 'should return the base domain label specified when using the webkit config file' do
     wraith_webkit.base_domain_label.should == expected_base_label
   end
@@ -107,7 +107,7 @@ end
 
 describe Wraith, '#comp_domain_label' do
 
-  expected_comp_label = "russian"
+  expected_comp_label = 'russian'
   it 'should return the comp domain label specified when using the webkit config file' do
     wraith_webkit.comp_domain_label.should == expected_comp_label
   end
@@ -119,7 +119,7 @@ end
 
 describe Wraith, '#spider_file' do
 
-  expected_spider_file = "spider.txt"
+  expected_spider_file = 'spider.txt'
   it 'should return the spider file name specified when using the webkit config file' do
     wraith_webkit.spider_file.should == expected_spider_file
   end
@@ -144,8 +144,8 @@ end
 describe Wraith, '#paths' do
 
   expected_paths =  {
-                      "home" => "/",
-                      "uk_index" => "/uk"
+                      'home' => '/',
+                      'uk_index' => '/uk'
                     }
 
   it 'should return the file paths specified when using the webkit config file' do
@@ -160,19 +160,19 @@ end
 
 describe Wraith, '#engine' do
   it 'should return the engine type specified when using the webkit config file' do
-    wraith_webkit.engine.should == ""
+    wraith_webkit.engine.should == ''
   end
 
   it 'should return the engine type specified when using the selenium config file' do
-    wraith_selenium.engine.should == "selenium"
+    wraith_selenium.engine.should == 'selenium'
   end
 end
 
 describe Wraith, '#suites' do
 
   expected_suites = {
-                        "webkit" => ["phantomjs"],
-                        "standard" => ["android", "chrome", "firefox","ie"]
+                        'webkit' => ['phantomjs'],
+                        'standard' => ['android', 'chrome', 'firefox', 'ie']
                     }
 
   it 'should return the suites of browsers specified when using the webkit config file' do
@@ -186,11 +186,11 @@ end
 
 describe Wraith, '#suite' do
   it 'should return the suite specified as the current choice to run when using the webkit config file' do
-    wraith_webkit.suite.should == ["phantomjs"]
+    wraith_webkit.suite.should == ['phantomjs']
   end
 
   it 'should return the suite specified as the current choice to run when using the selenium config file' do
-    wraith_selenium.suite.should == ["android", "chrome", "firefox", "ie"]
+    wraith_selenium.suite.should == ['android', 'chrome', 'firefox', 'ie']
   end
 end
 

@@ -1,4 +1,4 @@
-#Headless browser option
+#Selenium Engine option
 
 #change this line based on which suite of browsers you want to run
 #better to pass as a command line argument when have time to refactor
