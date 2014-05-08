@@ -11,11 +11,11 @@ describe Wraith::Thumbnails, '#generate_thumbnails' do
   helpers = WraithSpecHelpers.new("spec")
   directory = helpers.directory
   thumbnails_dir = helpers.thumbnails_dir
-
   paths = helpers.paths
 
   before(:each) do
-      helpers.image_setup(directory,paths)
+    helpers.loop_and_execute_on_directories('create', directory, paths, '')
+    helpers.image_setup(directory,paths)
   end
 
   after(:each) do
