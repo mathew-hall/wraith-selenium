@@ -14,7 +14,7 @@ describe Wraith::Thumbnails, '#generate_thumbnails' do
   paths = helpers.paths
 
   before(:each) do
-    helpers.loop_and_execute_on_directories('create', directory, paths, '')
+    #helpers.loop_and_execute_on_directories('create', directory, paths, '')
     helpers.image_setup(directory,paths)
   end
 

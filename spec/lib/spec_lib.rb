@@ -66,7 +66,7 @@ class WraithSpecHelpers
         directory_paths_to_create = [sub_dir_path, thumbnails_sub_path]
 
         directory_paths_to_create.each do |dpath|
-
+          create_directory(dpath)
         end
 
         copy_files(image_store_sub_path,sub_dir_path)
