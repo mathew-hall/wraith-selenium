@@ -1,0 +1,20 @@
+#config values for setting up test runs only
+
+#used to find whether the specs are being run in a working
+#directory within the test environment
+test_root_match: 'spec'
+
+#this should match the directory given in the wraith configs
+directory:
+  - 'shots'
+
+#store of test images
+image_store_dir: 'image_store'
+
+#store of thumbnail images created during tests
+thumbnails_dir: 'thumbnails'
+
+#these should match the path directories in the wraith configs
+paths:
+  home: /
+  uk_index: /uk

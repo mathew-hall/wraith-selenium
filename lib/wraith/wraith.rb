@@ -96,7 +96,12 @@ class Wraith::Wraith
     self.class.crop_images
   end
 
-  def thumbnail_image(png_path, output_path)
+  def thumbnail_image(png_path, output_path, pwd)
+
+    if defined?(pwd)
+      png_path = pwd + '/' + png_path
+      output_path =  pwd + '/' + output_path
+    end
     # For compatibility with windows file structures switch commenting on the following 2 lines
     `convert #{png_path} -thumbnail 200 -crop 200x200+0+0 #{output_path}`
     #`convert #{png_path.gsub('/', '\\')} -thumbnail 200 -crop 200x200+0+0 #{output_path}`

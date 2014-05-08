@@ -10,7 +10,7 @@ class Wraith::Thumbnails
   def generate_thumbnails
     Dir.glob("#{wraith.directory}/*/*.png").each do |filename|
       new_name = filename.gsub(/^#{wraith.directory}/, "#{wraith.directory}/thumbnails")
-      wraith.thumbnail_image(filename, new_name)
+      wraith.thumbnail_image(filename, new_name, Dir.pwd)
     end
     puts 'Generating thumbnails'
   end
