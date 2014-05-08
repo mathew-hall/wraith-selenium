@@ -14,21 +14,24 @@ describe Wraith::Thumbnails, '#generate_thumbnails' do
   paths = helpers.paths
 
   before(:each) do
-    #helpers.loop_and_execute_on_directories('create', directory, paths, '')
     helpers.image_setup(directory,paths)
   end
 
   after(:each) do
-    helpers.loop_and_execute_on_directories('wipe', directory, paths, 'png')
+    helpers.loop_and_execute_on_directories('wipe', directory, paths, '*')
     helpers.loop_and_execute_on_directories('destroy', directory, paths, '')
+    helpers.loop_and_execute_on_directories('wipe', directory + '/' + thumbnails_dir, paths, '*')
+    helpers.loop_and_execute_on_directories('destroy', directory + '/' + thumbnails_dir, paths, '')
+    helpers.destroy_directory(directory + '/' + thumbnails_dir)
   end
 
   it 'should generate thumbnails of the created images' do
 
     thumbnails_webkit.generate_thumbnails
 
-    thumbnails_file_count = Dir.glob(directory + '/' + thumbnails_dir + '/*.png').length
-
-    thumbnails_file_count.should == 1
+    paths.each_key do |path|
+      thumbnails_file_count = Dir.glob(directory + '/' + thumbnails_dir + '/' + path + '/*.png').length
+      thumbnails_file_count.should == 45
+    end
   end
 end

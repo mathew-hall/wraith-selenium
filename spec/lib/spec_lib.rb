@@ -47,6 +47,8 @@ class WraithSpecHelpers
       thumbnails_path = pdirectory_path + '/' + thumbnails_dir
       image_store_path = pwd + '/' + image_store_dir
 
+      create_directory(thumbnails_path)
+
       files = Dir.glob(pdirectory_path + "/*")
 
       files.each do |file|
@@ -55,7 +57,6 @@ class WraithSpecHelpers
         end
       end
 
-      create_directory(thumbnails_path)
       copy_files(image_store_path, pdirectory_path)
 
       paths.each_key do |key|
@@ -70,7 +71,7 @@ class WraithSpecHelpers
         end
 
         copy_files(image_store_sub_path,sub_dir_path)
-        check_files_are_generated(sub_dir_path, "png", 1)
+        check_files_are_generated(sub_dir_path, "*", 60)
       end
 
     end
@@ -85,9 +86,11 @@ class WraithSpecHelpers
     end
   end
 
-  def check_files_are_generated(file_path, ext, count)
-    until Dir.glob(file_path + '/*.' + ext).length == count
+  def check_files_are_generated(file_path, ext, required_count)
+    iteration = 0
+    until Dir.glob(file_path + '/*.' + ext).length >= required_count || iteration = 20
       sleep 0.1
+      iteration += 1
     end
   end
 
