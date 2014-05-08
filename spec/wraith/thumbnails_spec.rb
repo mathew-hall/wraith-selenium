@@ -4,7 +4,7 @@ require_relative '../../lib/wraith/thumbnails'
 require_relative '../../lib/wraith/wraith'
 require_relative '../lib/spec_lib'
 
-thumbnails_webkit = Wraith::Thumbnails.new('test_webkit_config')
+thumbnails_webkit = Wraith::Thumbnails.new('test_selenium_config')
 
 describe Wraith::Thumbnails, '#generate_thumbnails' do
 
@@ -14,6 +14,7 @@ describe Wraith::Thumbnails, '#generate_thumbnails' do
   paths = helpers.paths
 
   before(:each) do
+    helpers.create_directory(directory)
     helpers.image_setup(directory,paths)
   end
 
@@ -23,6 +24,7 @@ describe Wraith::Thumbnails, '#generate_thumbnails' do
     helpers.loop_and_execute_on_directories('wipe', directory + '/' + thumbnails_dir, paths, '*')
     helpers.loop_and_execute_on_directories('destroy', directory + '/' + thumbnails_dir, paths, '')
     helpers.destroy_directory(directory + '/' + thumbnails_dir)
+    helpers.destroy_directory(directory)
   end
 
   it 'should generate thumbnails of the created images' do

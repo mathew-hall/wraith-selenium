@@ -88,7 +88,8 @@ class WraithSpecHelpers
 
   def check_files_are_generated(file_path, ext, required_count)
     iteration = 0
-    until Dir.glob(file_path + '/*.' + ext).length >= required_count || iteration = 20
+    until Dir.glob(file_path + '/*.' + ext).length >= required_count || iteration == 20
+      #ugh!
       sleep 0.1
       iteration += 1
     end
