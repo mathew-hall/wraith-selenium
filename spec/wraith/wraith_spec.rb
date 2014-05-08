@@ -171,8 +171,8 @@ end
 describe Wraith, '#suites' do
 
   expected_suites = {
-                        'webkit' => ['phantomjs'],
-                        'standard' => ['android', 'chrome', 'firefox', 'ie']
+                        'webkit' => %w[phantomjs],
+                        'standard' => %w['android' 'chrome' 'firefox' 'ie']
                     }
 
   it 'should return the suites of browsers specified when using the webkit config file' do
@@ -186,11 +186,11 @@ end
 
 describe Wraith, '#suite' do
   it 'should return the suite specified as the current choice to run when using the webkit config file' do
-    wraith_webkit.suite.should == ['phantomjs']
+    wraith_webkit.suite.should == %w[phantomjs]
   end
 
   it 'should return the suite specified as the current choice to run when using the selenium config file' do
-    wraith_selenium.suite.should == ['android', 'chrome', 'firefox', 'ie']
+    wraith_selenium.suite.should == %w[android chrome firefox ie]
   end
 end
 

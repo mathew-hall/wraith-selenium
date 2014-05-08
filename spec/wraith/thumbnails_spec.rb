@@ -8,7 +8,7 @@ thumbnails_webkit = Wraith::Thumbnails.new('test_webkit_config')
 
 describe Wraith::Thumbnails, '#generate_thumbnails' do
 
-  helpers = WraithSpecHelpers.new("spec")
+  helpers = WraithSpecHelpers.new('spec')
   directory = helpers.directory
   thumbnails_dir = helpers.thumbnails_dir
   paths = helpers.paths
