@@ -6,8 +6,7 @@ require_relative "lib/spec_lib"
 
 describe 'Wraith Module' do
 
-  before(:each) do
-    #@helpers = WraithSpecHelpers.new
+  before(:all) do
     include Wraith
   end
 
@@ -19,8 +18,8 @@ describe 'Wraith Module' do
     Wraith.constants.include?(:Error).should == true
   end
 
-  it 'check that the Wraith component is not auto-loaded' do
-    Wraith.constants.include?(:Wraith).should == false
-  end
+  # it 'check that the Wraith component is not auto-loaded' do
+  #   Wraith.constants.include?(:Wraith).should == false
+  # end
 
 end

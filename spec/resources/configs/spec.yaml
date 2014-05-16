@@ -18,3 +18,10 @@ thumbnails_dir: 'thumbnails'
 paths:
   home: /
   uk_index: /uk
+
+#example files for image manipulation methods
+example_files:
+  - 'shots/home/1024_selenium_chrome_english.png'
+  - 'shots/home/1024_selenium_chrome_russian.png'
+  - 'shots/home/768_selenium_chrome_english.png'
+  - 'shots/home/768_selenium_chrome_russian.png'

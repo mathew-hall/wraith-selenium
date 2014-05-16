@@ -8,23 +8,22 @@ folder_selenium = Wraith::FolderManager.new('test_selenium_config')
 
 helpers = WraithSpecHelpers.new('spec')
 
+directory = helpers.directory
+thumbnails_dir = helpers.thumbnails_dir
+paths = helpers.paths
+
 describe Wraith::FolderManager, '#dir' do
 
   it 'should return the directory(ies) stipulated in the config file' do
 
-   folder_selenium.dir.should == %w[shots]
+   folder_selenium.dir.should == 'shots'
   end
 end
 
 describe Wraith::FolderManager, '#paths' do
 
-  expected_paths =  {
-      'home' => '/',
-      'uk_index' => '/uk'
-  }
-
   it 'should return the file paths specified when using the selenium config file' do
-    folder_selenium.paths.should == expected_paths
+    folder_selenium.paths.should == helpers.paths
 
   end
 end
@@ -54,7 +53,25 @@ end
 
 describe Wraith::FolderManager, '#create_folders' do
 
+  before(:each) do
+    helpers.loop_and_execute_on_directories('wipe', directory, paths, '*')
+    helpers.loop_and_execute_on_directories('destroy', directory, paths, '')
+    helpers.loop_and_execute_on_directories('wipe', directory + '/' + thumbnails_dir, paths, '*')
+    helpers.loop_and_execute_on_directories('destroy', directory + '/' + thumbnails_dir, paths, '')
+  end
+
   it 'should create the directory and all subfolders beneath it based on the configured thumbnails folder and paths' do
-    should.false == true
+    folder_selenium.create_folders
+
+    directory = helpers.directory
+    thumbnails_dir = helpers.thumbnails_dir
+
+    helpers.paths.each_key do |path|
+      directory_sub_path = directory + '/' + path
+      thumbnail_sub_path = directory + '/' + thumbnails_dir + '/' + path
+
+      File.directory?(directory_sub_path).should == true
+      File.directory?(thumbnail_sub_path).should == true
+    end
   end
 end
