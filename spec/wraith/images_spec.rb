@@ -9,18 +9,21 @@ helpers = WraithSpecHelpers.new('spec')
 
 describe Wraith::Images, '#generate_thumbnails' do
 
-
-
   directory = helpers.directory
+  thumbnails_dir = helpers.thumbnails_dir
   paths = helpers.paths
 
-  before(:each) do
+  before(:all) do
+    helpers.loop_and_execute_on_directories('wipe', directory + '/' + thumbnails_dir, paths, '*')
+    helpers.loop_and_execute_on_directories('destroy', directory + '/' + thumbnails_dir, paths, '')
+    helpers.loop_and_execute_on_directories('wipe', directory, paths, '*')
+    helpers.loop_and_execute_on_directories('destroy', directory, paths, '')
     helpers.create_directory(directory)
     helpers.loop_and_execute_on_directories('create', directory, paths, '')
   end
 
-  after(:each) do
-    helpers.loop_and_execute_on_directories('wipe', directory, paths, 'png')
+  after(:all) do
+    helpers.loop_and_execute_on_directories('wipe', directory, paths, '*')
     helpers.loop_and_execute_on_directories('destroy', directory, paths, '')
     helpers.destroy_directory(directory)
   end

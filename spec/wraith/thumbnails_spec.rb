@@ -13,12 +13,13 @@ describe Wraith::Thumbnails, '#generate_thumbnails' do
   thumbnails_dir = helpers.thumbnails_dir
   paths = helpers.paths
 
-  before(:each) do
+  before(:all) do
     helpers.create_directory(directory)
+    helpers.create_directory(directory + '/' + thumbnails_dir)
     helpers.image_setup(directory,paths)
   end
 
-  after(:each) do
+  after(:all) do
     helpers.loop_and_execute_on_directories('wipe', directory, paths, '*')
     helpers.loop_and_execute_on_directories('destroy', directory, paths, '')
     helpers.loop_and_execute_on_directories('wipe', directory + '/' + thumbnails_dir, paths, '*')

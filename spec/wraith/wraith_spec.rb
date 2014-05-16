@@ -7,6 +7,8 @@ require_relative '../lib/spec_lib'
 wraith_webkit = Wraith::Wraith.new('test_webkit_config')
 wraith_selenium = Wraith::Wraith.new('test_selenium_config')
 
+helpers = WraithSpecHelpers.new('spec')
+
 describe Wraith, '#directory'  do
 
   it 'should return the directory specified when using the webkit config file' do
@@ -143,10 +145,7 @@ end
 
 describe Wraith, '#paths' do
 
-  expected_paths =  {
-                      'home' => '/',
-                      'uk_index' => '/uk'
-                    }
+  expected_paths =  helpers.paths
 
   it 'should return the file paths specified when using the webkit config file' do
     wraith_webkit.paths.should == expected_paths
@@ -172,7 +171,7 @@ describe Wraith, '#suites' do
 
   expected_suites = {
                         'webkit' => %w[phantomjs],
-                        'standard' => %w['android' 'chrome' 'firefox' 'ie']
+                        'standard' => %w[android chrome firefox ie]
                     }
 
   it 'should return the suites of browsers specified when using the webkit config file' do

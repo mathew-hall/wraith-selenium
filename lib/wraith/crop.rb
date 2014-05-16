@@ -41,8 +41,8 @@ class Wraith::CropImages
     end
   end
 
-  def find_heights(height)
-    File.open(height, 'rb') do |fh|
+  def find_heights(file)
+    File.open(file, 'rb') do |fh|
       size = ImageSize.new(fh.read).size
       height = size[1]
     end

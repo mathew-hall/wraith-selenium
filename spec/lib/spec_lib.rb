@@ -34,6 +34,10 @@ class WraithSpecHelpers
     @spec_config['thumbnails_dir']
   end
 
+  def example_files
+    @spec_config['example_files']
+  end
+
   def image_setup(pdirectory,paths)
     pwd = Dir.pwd
 
@@ -57,7 +61,7 @@ class WraithSpecHelpers
         end
       end
 
-      copy_files(image_store_path, pdirectory_path)
+      # copy_files(image_store_path, pdirectory_path)
 
       paths.each_key do |key|
         sub_dir_path = pdirectory_path + '/' + key
@@ -70,7 +74,7 @@ class WraithSpecHelpers
           create_directory(dpath)
         end
 
-        copy_files(image_store_sub_path,sub_dir_path)
+        copy_files(image_store_sub_path,sub_dir_path, 45)
         check_files_are_generated(sub_dir_path, "*", 60)
       end
 
@@ -78,17 +82,22 @@ class WraithSpecHelpers
 
   end
 
-  def copy_files(from,to)
+  def copy_files(from,to,number)
     Dir[from +'/*' ].each do |copied_file|
       unless File.directory?(copied_file)
         FileUtils.cp(copied_file, to)
+      end
+      iteration = 0
+      unless Dir.glob(to + '/*').length >= number || iteration >= 20
+        sleep 0.1
+        iteration += 1
       end
     end
   end
 
   def check_files_are_generated(file_path, ext, required_count)
     iteration = 0
-    until Dir.glob(file_path + '/*.' + ext).length >= required_count || iteration == 20
+    until Dir.glob(file_path + '/*.' + ext).length >= required_count || iteration >= 20
       #ugh!
       sleep 0.1
       iteration += 1
@@ -130,6 +139,8 @@ class WraithSpecHelpers
   end
 
   def destroy_directory(path)
-    Dir.rmdir path
+    if File.directory?(path)
+      Dir.rmdir path
+      end
   end
 end
