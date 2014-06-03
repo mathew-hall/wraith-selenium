@@ -4,8 +4,9 @@ require_relative '../../lib/wraith/wraith'
 require_relative '../../lib/wraith/images'
 require_relative '../lib/spec_lib'
 
-images_webkit = Wraith::Images.new('test_selenium_config')
 helpers = WraithSpecHelpers.new('spec')
+configs = helpers.wraith_configs
+images_webkit = Wraith::Images.new(configs['test_selenium_url_config'])
 
 describe Wraith::Images, '#generate_thumbnails' do
 

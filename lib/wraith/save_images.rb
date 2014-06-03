@@ -54,24 +54,28 @@ class Wraith::SaveImages
 
       wraith.suite.each do |browser|
 
-          next unless(os_compatible(browser))
+        next unless(os_compatible(browser))
 
-          #can return nil if there is no engine
-          driver = return_driver_instance(engine, browser)
+        #can return nil if there is no engine
+        driver = return_driver_instance(engine, browser)
+
+        unless driver.nil?
           set_page_load_timeout(driver,timeout)
+        end
 
-          wraith.widths.each do |width|
+        wraith.widths.each do |width|
 
-            base_file_name = file_names(width, label, browser, wraith.base_domain_label)
-            compare_file_name = file_names(width, label, browser, wraith.comp_domain_label)
+          base_file_name = file_names(width, label, browser, wraith.base_domain_label)
+          compare_file_name = file_names(width, label, browser, wraith.comp_domain_label)
 
-            wraith.capture_page_image driver, browser, base_url, width, base_file_name unless base_url.nil?
-            wraith.capture_page_image driver, browser, compare_url, width, compare_file_name unless compare_url.nil?
+          wraith.capture_page_image driver, browser, base_url, width, base_file_name unless base_url.nil?
+          wraith.capture_page_image driver, browser, compare_url, width, compare_file_name unless compare_url.nil?
 
-          end
+        end
 
+        unless driver.nil?
           quit(driver)
-
+        end
       end
     end
   end

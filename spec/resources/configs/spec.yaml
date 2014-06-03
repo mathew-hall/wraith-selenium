@@ -25,3 +25,36 @@ example_files:
   - 'shots/home/1024_selenium_chrome_russian.png'
   - 'shots/home/768_selenium_chrome_english.png'
   - 'shots/home/768_selenium_chrome_russian.png'
+
+
+wraith_configs:
+  test_webkit_url_config: 'test_webkit_url_config'
+  test_selenium_url_config: 'test_selenium_url_config'
+
+test_expectations:
+  test_engine: 'selenium'
+  shots_directory: 'shots'
+  snap_directory: 'javascript/snap.js'
+  thumbnails_directory: 'thumbnails_dir'
+  image_store_dir: 'image_store_dir'
+  timeout: 20
+  width_array: [320, 600, 768, 1024, 1280]
+  domains:
+    base: 'http://www.live.bbc.co.uk/news'
+    compare: 'http://www.live.bbc.co.uk/russian'
+  domain_labels:
+    base: 'base'
+    compare: 'compare'
+  spider_days: [10]
+  suites:
+    standard: ['android','chrome','firefox','ie']
+    webkit: ['phantomjs']
+  thumbnails_file_count: 45
+  crop_args: [10,20,30,40]
+  height_of_file: 748
+  extn_diff_png: '/*diff.png'
+  extn_data_txt: '/*data.txt'
+  diff_png_count: 15
+  data_txt_count: 15
+
+

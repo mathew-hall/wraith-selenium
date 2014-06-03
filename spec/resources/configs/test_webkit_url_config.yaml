@@ -12,8 +12,8 @@ suites:
 
 #define different engines/drivers to run your browser suites here - e.g. selenium
 engine:
-  webkit: ""
-  standard: "selenium"
+  base: ""
+  compare: "selenium"
 
 #todo -- implment this
 browser_versions:
@@ -44,8 +44,8 @@ timeout: 20
 
 # Add only 2 domains, key will act as a label
 domains:
-  english: "http://www.live.bbc.co.uk/news"
-  russian: "http://www.live.bbc.co.uk/russian"
+  base: "http://www.live.bbc.co.uk/news"
+  compare: "http://www.live.bbc.co.uk/russian"
 
 #Type screen widths below, here are a couple of examples
 screen_widths:

@@ -6,15 +6,19 @@ Feature: Capturing browser screenshots of URLS and calculating diffs between a b
     When I capture screen shots for a list of browser widths
     And I crop the screen shots
     And I do diffs of the screen shots against the base image
-    Then I expect to see a diff image preserved in each case
+    And I create thumbnails and a gallery
+    Then I expect to see <base_image_count> base files preserved for each width
+    And I expect to see <compare_image_count> compare files preserved for each width
+    And I expect to see <diff_image_count> diff files preserved for each width
+    And I expect to see <data_file_count> data files preserved for each width
     And the filename of the image should reflect that it was created using <driver>
     And the filename of the image should reflect that it was represents a given browser width
+    And a thumbnail version should be created for each image
     And a gallery of images created as an HTML page
     And the gallery page should contain the parameters used as information
   Examples:
-    |driver   |base_type|
-    |phantomJS|url      |
-    |phantomJS|browser  |
-    |selenium |url      |
-    |selenium |browser  |
+    |driver   |base_type|base_image_count |compare_image_count|diff_image_count |data_file_count|
+    |webkit   |url      | 16              |16                 |16               |16             |
+    |selenium |url      | 16              |16                 |16               |16             |
+    |selenium |browser  | 16              |16                 |16               |16             |
 

@@ -4,19 +4,21 @@ require_relative '../../lib/wraith/wraith'
 require_relative '../../lib/wraith/folder'
 require_relative '../lib/spec_lib'
 
-folder_selenium = Wraith::FolderManager.new('test_selenium_config')
-
 helpers = WraithSpecHelpers.new('spec')
+configs = helpers.wraith_configs
+folder_selenium = Wraith::FolderManager.new(configs['test_selenium_url_config'])
 
 directory = helpers.directory
 thumbnails_dir = helpers.thumbnails_dir
 paths = helpers.paths
 
+test_expectations = helpers.test_expectations
+
 describe Wraith::FolderManager, '#dir' do
 
   it 'should return the directory(ies) stipulated in the config file' do
 
-   folder_selenium.dir.should == 'shots'
+   folder_selenium.dir.should == test_expectations['shots_directory']
   end
 end
 
@@ -24,19 +26,18 @@ describe Wraith::FolderManager, '#paths' do
 
   it 'should return the file paths specified when using the selenium config file' do
     folder_selenium.paths.should == helpers.paths
-
   end
 end
 
 describe Wraith::FolderManager, '#clear_shots_folder' do
 
   #make sure the directory is created and full as the method should destroy and recreate it empty
-  before(:each) do
+  before do
     helpers.create_directory(folder_selenium.dir)
     helpers.image_setup(folder_selenium.dir,folder_selenium.paths)
   end
 
-  after(:each) do
+  after do
     helpers.destroy_directory(folder_selenium.dir)
   end
 
@@ -53,7 +54,7 @@ end
 
 describe Wraith::FolderManager, '#create_folders' do
 
-  before(:each) do
+  before do
     helpers.loop_and_execute_on_directories('wipe', directory, paths, '*')
     helpers.loop_and_execute_on_directories('destroy', directory, paths, '')
     helpers.loop_and_execute_on_directories('wipe', directory + '/' + thumbnails_dir, paths, '*')

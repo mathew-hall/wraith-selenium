@@ -1,14 +1,19 @@
 require 'rspec'
+
 require_relative '../../lib/wraith/wraith'
 require_relative '../../lib/wraith/compare_images'
 require_relative '../lib/spec_lib'
 
-compare_images_selenium = Wraith::CompareImages.new('test_selenium_config')
-
 helpers = WraithSpecHelpers.new('spec')
+configs = helpers.wraith_configs
+
+compare_images_selenium = Wraith::CompareImages.new(configs['test_selenium_url_config'])
+
 directory = helpers.directory
 thumbnails_dir = helpers.thumbnails_dir
 paths = helpers.paths
+
+test_expectations = helpers.test_expectations
 
 describe Wraith::CompareImages, '#compare_images' do
 
@@ -32,16 +37,16 @@ describe Wraith::CompareImages, '#compare_images' do
   it 'should do compare images and save those comparisons and data text files' do
 
     paths.each_key do |path|
-      diff_png_count = Dir.glob(directory + '/' + path + '/*diff.png').length
-      diff_png_count.should == 15
+      diff_png_count = Dir.glob(directory + '/' + path + test_expectations['extn_diff_png']).length
+      diff_png_count.should == test_expectations['diff_png_count']
     end
   end
 
   it 'should do compare images and save data text files' do
 
     paths.each_key do |path|
-      data_txt_count = Dir.glob(directory + '/' + path + '/*data.txt').length
-      data_txt_count.should == 15
+      data_txt_count = Dir.glob(directory + '/' + path + test_expectations['extn_data_txt']).length
+      data_txt_count.should == test_expectations['data_txt_count']
     end
   end
 end

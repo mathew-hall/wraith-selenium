@@ -7,6 +7,18 @@ class WraithSpecHelpers
     @spec_config = YAML::load(File.open("configs/" + config + ".yaml"))
   end
 
+  def wraith_instance(wraith_config)
+    Wraith::Wraith.new(wraith_config)
+  end
+
+  def wraith_configs
+    @spec_config['wraith_configs']
+  end
+
+  def test_expectations
+    @spec_config['test_expectations']
+  end
+
   def class_exists?(class_name)
     klass = Module.const_get(class_name)
     return klass.is_a?(Class)
@@ -75,7 +87,7 @@ class WraithSpecHelpers
         end
 
         copy_files(image_store_sub_path,sub_dir_path, 45)
-        check_files_are_generated(sub_dir_path, "*", 60)
+        check_files_are_generated(sub_dir_path, '*.', '*', 60)
       end
 
     end
@@ -95,9 +107,37 @@ class WraithSpecHelpers
     end
   end
 
-  def check_files_are_generated(file_path, ext, required_count)
+  #counts and recounts files in directory at intervals until
+  #directory appears to have stopped mutating
+  def file_count(file_path, file_regex, ext, total_iterations, wait)
+    iteration = 1
+    filtered_count = 0
+    last_count = 0
+    count = 0
+    until iteration > total_iterations
+      files = Dir.glob(file_path + '/*'  + ext)
+      count = files.count
+      if count == last_count
+        #loop through files here to filter on regex and return filtered number
+        files.each do |file|
+          if / (.*)(#{file_regex}) /.match(file)
+            filtered_count = filtered_count + 1
+          end
+        end
+        return filtered_count
+      else
+        last_count = count
+      end
+      sleep wait
+    end
+  end
+
+  def check_files_are_generated(file_path, file_regex, ext, required_count)
     iteration = 0
-    until Dir.glob(file_path + '/*.' + ext).length >= required_count || iteration >= 20
+    if file_regex.nil?
+      file_regex = '*.'
+    end
+    until Dir.glob(file_path + '/' + file_regex + ext).length >= required_count || iteration >= 20
       #ugh!
       sleep 0.1
       iteration += 1
