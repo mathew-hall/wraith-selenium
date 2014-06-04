@@ -7,7 +7,7 @@ suite: "webkit"
 #define different suites of browsers here
 suites:
   webkit: ["phantomjs"]
-  standard: ["android", "chrome", "firefox","ie"] #safari
+  standard: ["chrome", "firefox"] #safari
   # gecko: "slimerjs"
 
 #define different engines/drivers to run your browser suites here - e.g. selenium
