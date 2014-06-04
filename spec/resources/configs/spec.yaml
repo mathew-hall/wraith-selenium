@@ -28,7 +28,7 @@ example_files:
 
 
 wraith_configs:
-  test_webkit_url_config: 'test_webkit_url_config'
+  test_webkit_url_config: 'test_phantomjs_url_config'
   test_selenium_url_config: 'test_selenium_url_config'
 
 test_expectations:
@@ -47,7 +47,7 @@ test_expectations:
     compare: 'compare'
   spider_days: [10]
   suites:
-    standard: ['android','chrome','firefox','ie']
+    standard: ['chrome','firefox']
     webkit: ['phantomjs']
   thumbnails_file_count: 45
   crop_args: [10,20,30,40]

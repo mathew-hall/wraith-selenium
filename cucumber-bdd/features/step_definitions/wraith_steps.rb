@@ -44,7 +44,7 @@ And(/^I create thumbnails and a gallery$/) do
   @cli.generate_gallery(@config_file)
 end
 
-Then(/^I expect to see (.*) (.*) files preserved for each width$/) do |base_image_count,file_type|
+Then(/^I expect to see (.*) (.*) files preserved for each width$/) do |expected_file_count,file_type|
 
   extn = '.png'
   if file_type == 'data'
@@ -55,20 +55,35 @@ Then(/^I expect to see (.*) (.*) files preserved for each width$/) do |base_imag
   paths = @cnf_vals['paths']
 
   paths.each_key do |path|
-  full_path = Dir.pwd + '/' + shot_directory + '/' + path
+    full_path = Dir.pwd + '/' + shot_directory + '/' + path
     widths.each do |width|
-      count = helpers.file_count(full_path,file_type, extn, 100, 2)
-      count.should == base_image_count
+      regex_hash = {
+        'prefix' => width,
+        'middle' => '',
+        'suffix' => file_type
+      }
+      count = helpers.file_count(full_path, regex_hash, extn, 100, 2, 'count')
+      count.to_s.should == expected_file_count
     end
   end
 end
 
 And(/^the filename of the image should reflect that it was created using (.*)$/) do |driver|
-  pending
-end
 
-And(/^the filename of the image should reflect that it was represents a given browser width$/) do
-  pending
+  extn = '.png'
+  shot_directory = @cnf_vals['directory'][0]
+  paths = @cnf_vals['paths']
+  regex_hash = {
+    'prefix' => '',
+    'middle' => driver,
+    'suffix' => ''
+  }
+
+  paths.each_key do |path|
+    full_path = Dir.pwd + '/' + shot_directory + '/' + path
+    result = helpers.file_count(full_path, regex_hash, extn, 100, 0.1, 'required')
+    result.should == true
+  end
 end
 
 And(/^a gallery of images created as an HTML page$/) do
@@ -80,5 +95,5 @@ And(/^the gallery page should contain the parameters used as information$/) do
 end
 
 And(/^a thumbnail version should be created for each image$/) do
-
+ pending
 end

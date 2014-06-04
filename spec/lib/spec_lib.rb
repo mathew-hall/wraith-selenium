@@ -109,7 +109,7 @@ class WraithSpecHelpers
 
   #counts and recounts files in directory at intervals until
   #directory appears to have stopped mutating
-  def file_count(file_path, file_regex, ext, total_iterations, wait)
+  def file_count(file_path, regex_hash, ext, total_iterations, wait, mode)
     iteration = 1
     filtered_count = 0
     last_count = 0
@@ -117,14 +117,20 @@ class WraithSpecHelpers
     until iteration > total_iterations
       files = Dir.glob(file_path + '/*'  + ext)
       count = files.count
-      if count == last_count
+      if count == last_count && count > 0
         #loop through files here to filter on regex and return filtered number
         files.each do |file|
-          if / (.*)(#{file_regex}) /.match(file)
+          if /(.*)(#{Regexp.quote(regex_hash['prefix'].to_s)})(.*)(#{Regexp.quote(regex_hash['middle'].to_s)})(.*)(#{Regexp.quote(regex_hash['suffix'].to_s)})(.*)/.match(file)
             filtered_count = filtered_count + 1
+          elsif mode == 'required'
+            return false
           end
         end
-        return filtered_count
+        if mode == 'count'
+          return filtered_count
+        else
+          return true
+        end
       else
         last_count = count
       end
