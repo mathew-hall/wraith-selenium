@@ -87,13 +87,33 @@ And(/^the filename of the image should reflect that it was created using (.*)$/)
 end
 
 And(/^a gallery of images created as an HTML page$/) do
-  pending
+  shot_directory = @cnf_vals['directory'][0]
+  gallery_path = Dir.pwd + '/' + shot_directory +'/gallery.html'
+  File.file?(gallery_path).should == true
 end
 
 And(/^the gallery page should contain the parameters used as information$/) do
   pending
 end
 
-And(/^a thumbnail version should be created for each image$/) do
- pending
+And(/^a thumbnail version should be created for the images at each width giving (.*) images per width$/) do |thumbnail_count|
+  extn = '.png'
+
+  shot_directory = @cnf_vals['directory'][0]
+  widths = @cnf_vals['screen_widths']
+  paths = @cnf_vals['paths']
+  thumbnail_directory = @cnf_vals['thumbnail_directory']
+
+  paths.each_key do |path|
+    full_path = Dir.pwd + '/' + shot_directory + '/' + thumbnail_directory + '/' + path
+    widths.each do |width|
+      regex_hash = {
+        'prefix' => width,
+        'middle' => '',
+        'suffix' => ''
+      }
+      count = helpers.file_count(full_path, regex_hash, extn, 100, 2, 'count')
+      count.to_s.should == thumbnail_count
+    end
+  end
 end

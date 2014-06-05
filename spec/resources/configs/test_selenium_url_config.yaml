@@ -39,6 +39,9 @@ snap_file:
 directory:
   - 'shots'
 
+#thumbnail images subdirectory name
+thumbnail_directory: thumbnails
+
 #page load timeout
 timeout: 20
 
