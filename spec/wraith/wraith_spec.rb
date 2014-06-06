@@ -120,6 +120,14 @@ describe Wraith, '#comp_domain_label' do
   end
 end
 
+describe Wraith, '#browser_devices' do
+
+  expected_browser_devices = test_expectations['browser_devices']
+  it 'should return the devices mapped to individual browsers when using the selenium config file' do
+    wraith_selenium.browser_devices.should == expected_browser_devices
+  end
+end
+
 describe Wraith, '#spider_file' do
 
   expected_spider_file = 'spider.txt'

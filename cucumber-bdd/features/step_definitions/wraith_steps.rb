@@ -86,6 +86,30 @@ And(/^the filename of the image should reflect that it was created using (.*)$/)
   end
 end
 
+And(/^the filename of the image should reflect whether it was created using device or desktop$/) do
+  expected_devices = test_expectations['expected_devices']
+  expected_browser_device_file_count = test_expectations['expected_browser_device_file_count']
+  shot_directory = @cnf_vals['directory'][0]
+  paths = @cnf_vals['paths']
+  browser_suite  = @cnf_vals['suites']['suite']
+  expected_devices.each do |expected_device|
+
+    browser_suite.each do |browser|
+      regex_hash = {
+        'prefix' => '',
+        'middle' => browser,
+        'suffix' => expected_device
+      }
+
+      paths.each_key do |path|
+        full_path = Dir.pwd + '/' + shot_directory + '/' + path
+        result = helpers.file_count(full_path, regex_hash, extn, 100, 0.1, 'count')
+        result.should == expected_browser_device_file_count[browser][expected_device]
+      end
+    end
+  end
+end
+
 And(/^a gallery of images created as an HTML page$/) do
   shot_directory = @cnf_vals['directory'][0]
   gallery_path = Dir.pwd + '/' + shot_directory +'/gallery.html'
@@ -117,3 +141,4 @@ And(/^a thumbnail version should be created for the images at each width giving 
     end
   end
 end
+

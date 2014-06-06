@@ -12,6 +12,7 @@ Feature: Capturing browser screenshots of URLS and calculating diffs between a b
     And I expect to see <diff_image_count> diff files preserved for each width
     And I expect to see <data_file_count> data files preserved for each width
     And the filename of the image should reflect that it was created using <driver>
+    And the filename of the image should reflect whether it was created using device or desktop
     And a thumbnail version should be created for the images at each width giving <thumbnail_count> images per width
     And a gallery of images created as an HTML page
     And the gallery page should contain the parameters used as information
