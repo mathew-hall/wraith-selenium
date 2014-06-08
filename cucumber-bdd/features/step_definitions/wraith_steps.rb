@@ -86,26 +86,24 @@ And(/^the filename of the image should reflect that it was created using (.*)$/)
   end
 end
 
-And(/^the filename of the image should reflect whether it was created using device or desktop$/) do
-  expected_devices = test_expectations['expected_devices']
+And(/^the filename of the image should reflect whether it was created using (.*)$/) do  |device_or_desktop|
   expected_browser_device_file_count = test_expectations['expected_browser_device_file_count']
   shot_directory = @cnf_vals['directory'][0]
   paths = @cnf_vals['paths']
-  browser_suite  = @cnf_vals['suites']['suite']
-  expected_devices.each do |expected_device|
+  #reverse mapping of specified driver to the suite which maps to the driver in the config file
+  browser_suite  = @cnf_vals['suites'][test_expectations['driver_suites'][@driver]]
 
-    browser_suite.each do |browser|
-      regex_hash = {
-        'prefix' => '',
-        'middle' => browser,
-        'suffix' => expected_device
-      }
+  browser_suite.each do |browser|
+    regex_hash = {
+      'prefix' => '',
+      'middle' => browser,
+      'suffix' => device_or_desktop
+    }
 
-      paths.each_key do |path|
-        full_path = Dir.pwd + '/' + shot_directory + '/' + path
-        result = helpers.file_count(full_path, regex_hash, extn, 100, 0.1, 'count')
-        result.should == expected_browser_device_file_count[browser][expected_device]
-      end
+    paths.each_key do |path|
+      full_path = Dir.pwd + '/' + shot_directory + '/' + path
+      result = helpers.file_count(full_path, regex_hash, '.png', 100, 0.1, 'count')
+      result.to_i.should == expected_browser_device_file_count[browser][device_or_desktop].to_i
     end
   end
 end

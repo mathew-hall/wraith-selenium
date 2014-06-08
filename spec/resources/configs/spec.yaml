@@ -45,10 +45,21 @@ test_expectations:
   domain_labels:
     base: 'base'
     compare: 'compare'
+  file_name: 'shots/home/320_selenium_firefox_desktop_base.png'
   spider_days: [10]
+  driver_suites:
+    phantomjs: 'webkit'
+    selenium: 'standard'
   suites:
     standard: ['chrome','firefox']
     webkit: ['phantomjs']
+  expected_browser_device_file_count:
+    phantomjs:
+      desktop: 15
+    chrome:
+      desktop: 15
+    firefox:
+      desktop: 15
   thumbnails_file_count: 45
   crop_args: [10,20,30,40]
   height_of_file: 748

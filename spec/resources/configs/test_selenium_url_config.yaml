@@ -7,7 +7,7 @@ suite: "standard"
 #define different suites of browsers here
 suites:
   webkit: ["phantomjs"]
-  standard: ["chrome", "firefox"] #safari
+  standard: ["safari", "chrome", "firefox"] #safari
   # gecko: "slimerjs"
 
 #define different engines/drivers to run your browser suites here - e.g. selenium
@@ -15,20 +15,13 @@ engine:
   webkit: ""
   standard: "selenium"
 
-#todo -- implment this
-browser_versions:
-  android: []
-  safari: []
-  chrome: []
-  firefox: []
-  ie: []
 
-#todo - implement this or incorporate into versions hash?
-devices:
-
-options:
-  webkit: ""
-  standard: ""
+browser_devices:
+  android: ['device']
+  safari: ['desktop','device']
+  chrome: ['desktop']
+  firefox: ['desktop']
+  ie: ['desktop']
 
 #If you want to have multiple snapping files, set the file name here
 snap_file:

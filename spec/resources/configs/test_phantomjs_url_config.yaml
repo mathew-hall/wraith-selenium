@@ -15,16 +15,7 @@ engine:
   base: ""
   compare: "selenium"
 
-#todo -- implment this
-browser_versions:
-  android: []
-  safari: []
-  chrome: []
-  firefox: []
-  ie: []
-
-#todo - implement this or incorporate into versions hash?
-devices:
+#browser_devices:
 
 options:
   webkit: ""

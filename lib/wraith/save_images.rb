@@ -38,8 +38,8 @@ class Wraith::SaveImages
     wraith.comp_domain + path unless wraith.comp_domain.nil?
   end
 
-  def file_names(width, label, browser, domain_label)
-    "#{directory}/#{label}/#{width}_#{engine}_#{browser}_#{domain_label}.png"
+  def file_names(width, label, browser, device, domain_label)
+    "#{directory}/#{label}/#{width}_#{engine}_#{browser}_#{device}_#{domain_label}.png"
   end
 
   def save_images
@@ -54,27 +54,37 @@ class Wraith::SaveImages
 
       wraith.suite.each do |browser|
 
-        next unless(os_compatible(browser))
-
-        #can return nil if there is no engine
-        driver = return_driver_instance(engine, browser)
-
-        unless driver.nil?
-          set_page_load_timeout(driver,timeout)
+        #if no browser devices specified, assume desktop
+        browser_devices = wraith.browser_devices
+        if browser_devices.nil?
+           browser_devices_for_browser = ['desktop']
+        else
+          browser_devices_for_browser = browser_devices[browser]
         end
+        browser_devices_for_browser.each do |device|
 
-        wraith.widths.each do |width|
+          next unless(os_compatible(browser, device))
 
-          base_file_name = file_names(width, label, browser, wraith.base_domain_label)
-          compare_file_name = file_names(width, label, browser, wraith.comp_domain_label)
+          #can return nil if there is no engine
+          driver = return_driver_instance(engine, browser, device)
 
-          wraith.capture_page_image driver, browser, base_url, width, base_file_name unless base_url.nil?
-          wraith.capture_page_image driver, browser, compare_url, width, compare_file_name unless compare_url.nil?
+          unless driver.nil?
+            set_page_load_timeout(driver,timeout)
+          end
 
-        end
+          wraith.widths.each do |width|
 
-        unless driver.nil?
-          quit(driver)
+            base_file_name = file_names(width, label, browser, device, wraith.base_domain_label)
+            compare_file_name = file_names(width, label, browser, device, wraith.comp_domain_label)
+
+            wraith.capture_page_image driver, browser, base_url, width, base_file_name unless base_url.nil?
+            wraith.capture_page_image driver, browser, compare_url, width, compare_file_name unless compare_url.nil?
+
+          end
+
+          unless driver.nil?
+            quit(driver)
+          end
         end
       end
     end
