@@ -82,13 +82,8 @@ class Wraith::Wraith
   def capture_page_image(driver, browser, url, width, file_name)
 
     if (defined?(driver)) && driver.instance_of?(Selenium::WebDriver::Driver)
-      # unless driver.capabilities.browser_name =~ /selendroid|android/
-      #   driver.manage.window.resize_to(width, 1000)
-      # end
       begin
         driver.manage.window.resize_to(width, 1000)
-      rescue
-        file_name.sub(/^([0-9]*)_/, 'device_defined')
       end
       driver.get(url)
       driver.save_screenshot(file_name)

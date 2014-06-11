@@ -27,6 +27,8 @@ module Wraith::Driver
         return Selenium::WebDriver.for :remote, :desired_capabilities => :firefox
       elsif engine.eql?('selenium') && browser.eql?('ie')
         return Selenium::WebDriver.for :remote, :desired_capabilities => :ie
+      elsif engine.eql?('selenium') && browser.eql?('safari')
+        return Selenium::WebDriver.for :remote, :desired_capabilities => :ipad, :url => "http://192.168.1.69:3001/wd/hub/"
       end
     end
   end
@@ -48,7 +50,7 @@ module Wraith::Driver
       true
   end
   def set_page_load_timeout(driver, timeout)
-    unless driver.capabilities.browser_name =~ /selendroid|safari|android/
+    unless driver.capabilities.browser_name =~ /selendroid|safari|android|iPad|iPhone/
       driver.manage.timeouts.page_load = timeout
     end
   end

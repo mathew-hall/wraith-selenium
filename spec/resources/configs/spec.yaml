@@ -38,7 +38,9 @@ test_expectations:
   thumbnails_directory: 'thumbnails_dir'
   image_store_dir: 'image_store_dir'
   timeout: 20
-  width_array: [320, 600, 768, 1024, 1280]
+  width_array:
+    desktop: [320, 600, 768, 1024, 1280]
+    device: [1024]
   domains:
     base: 'http://www.live.bbc.co.uk/news'
     compare: 'http://www.live.bbc.co.uk/russian'
@@ -51,8 +53,14 @@ test_expectations:
     phantomjs: 'webkit'
     selenium: 'standard'
   suites:
-    standard: ['chrome','firefox']
+    standard: ["safari", "chrome", "firefox"]
     webkit: ['phantomjs']
+  browser_devices:
+    android: ['device']
+    safari: ['device','desktop']
+    chrome: ['desktop']
+    firefox: ['desktop']
+    ie: ['desktop']
   expected_browser_device_file_count:
     phantomjs:
       desktop: 15

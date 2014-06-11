@@ -54,16 +54,19 @@ Then(/^I expect to see (.*) (.*) files preserved for each width$/) do |expected_
   widths = @cnf_vals['screen_widths']
   paths = @cnf_vals['paths']
 
-  paths.each_key do |path|
+   paths.each_key do |path|
     full_path = Dir.pwd + '/' + shot_directory + '/' + path
-    widths.each do |width|
-      regex_hash = {
-        'prefix' => width,
-        'middle' => '',
-        'suffix' => file_type
-      }
-      count = helpers.file_count(full_path, regex_hash, extn, 100, 2, 'count')
-      count.to_s.should == expected_file_count
+    widths.each_key do |device|
+      #not correct - need to think about this a lot more - maybe device sceanrios as well??
+      widths[device].each do |width|
+        regex_hash = {
+          'prefix' => width,
+          'middle' => '',
+          'suffix' => file_type
+        }
+        count = helpers.file_count(full_path, regex_hash, extn, 100, 2, 'count')
+        count.to_s.should == expected_file_count
+      end
     end
   end
 end

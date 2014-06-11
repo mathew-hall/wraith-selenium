@@ -17,11 +17,14 @@ domains:
 
 #Type screen widths below, here are a couple of examples
 screen_widths:
-  - 320
-  - 600
-  - 768
-  - 1024
-  - 1280
+  desktop:
+    - 320
+    - 600
+    - 768
+    - 1024
+    - 1280
+  device:
+    - 1024
 
 #Type page URL paths below, here are a couple of examples
 paths:

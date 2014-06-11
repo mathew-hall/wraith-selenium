@@ -7,7 +7,7 @@ suite: "standard"
 #define different suites of browsers here
 suites:
   webkit: ["phantomjs"]
-  standard: ["safari", "chrome", "firefox"] #safari
+  standard: ["safari", "chrome", "firefox"]
   # gecko: "slimerjs"
 
 #define different engines/drivers to run your browser suites here - e.g. selenium
@@ -18,7 +18,7 @@ engine:
 
 browser_devices:
   android: ['device']
-  safari: ['desktop','device']
+  safari: ['device','desktop']
   chrome: ['desktop']
   firefox: ['desktop']
   ie: ['desktop']
@@ -45,11 +45,14 @@ domains:
 
 #Type screen widths below, here are a couple of examples
 screen_widths:
-  - 320
-  - 600
-  - 768
-  - 1024
-  - 1280
+  desktop:
+    - 320
+    - 600
+    - 768
+    - 1024
+    - 1280
+  device:
+    - 1024
 
 #Type page URL paths below, here are a couple of examples
 paths:

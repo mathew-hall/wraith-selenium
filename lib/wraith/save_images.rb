@@ -72,7 +72,7 @@ class Wraith::SaveImages
             set_page_load_timeout(driver,timeout)
           end
 
-          wraith.widths.each do |width|
+          wraith.widths[device].each do |width|
 
             base_file_name = file_names(width, label, browser, device, wraith.base_domain_label)
             compare_file_name = file_names(width, label, browser, device, wraith.comp_domain_label)
