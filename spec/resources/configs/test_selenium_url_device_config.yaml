@@ -1,0 +1,69 @@
+#Selenium Engine option
+
+#change this line based on which suite of browsers you want to run
+#better to pass as a command line argument when have time to refactor
+suite: "standard"
+
+#define different suites of browsers here
+suites:
+  webkit: ["phantomjs"]
+  standard: ["safari"]
+  # gecko: "slimerjs"
+
+#define different engines/drivers to run your browser suites here - e.g. selenium
+engine:
+  webkit: ""
+  standard: "selenium"
+
+browser_devices:
+  safari: ['device']
+
+#If you want to have multiple snapping files, set the file name here
+snap_file:
+  webkit: "javascript/snap.js"
+  standard: ""
+
+# Type the name of the directory that shots will be stored in
+directory:
+  - 'shots'
+
+#thumbnail images subdirectory name
+thumbnail_directory: thumbnails
+
+#page load timeout
+timeout: 20
+
+# Add only 2 domains, key will act as a label
+domains:
+  base: "http://www.live.bbc.co.uk/news"
+  compare: "http://www.live.bbc.co.uk/russian"
+
+#Type screen widths below, here are a couple of examples
+screen_widths:
+  desktop:
+    - 320
+    - 600
+    - 768
+    - 1024
+    - 1280
+  device:
+    - 1024
+
+#Type page URL paths below, here are a couple of examples
+paths:
+  home: /
+  uk_index: /uk
+
+# If you don't want to name the paths explicitly you can use a yaml
+# collection as follows, and names will be derived by replacing / with _
+#
+# paths:
+#  - /imghp
+#  - /maps
+
+#Amount of fuzz ImageMagick will use
+fuzz: '20%'
+
+#Set the number of days to keep the site spider file
+spider_days:
+  - 10

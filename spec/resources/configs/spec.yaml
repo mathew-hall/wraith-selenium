@@ -28,8 +28,8 @@ example_files:
 
 
 wraith_configs:
-  test_webkit_url_config: 'test_phantomjs_url_config'
-  test_selenium_url_config: 'test_selenium_url_config'
+  test_webkit_url_config: 'test_phantomjs_url_desktop_config'
+  test_selenium_url_config: 'test_selenium_url_desktop_config'
 
 test_expectations:
   test_engine: 'selenium'
@@ -57,7 +57,7 @@ test_expectations:
     webkit: ['phantomjs']
   browser_devices:
     android: ['device']
-    safari: ['device','desktop']
+    safari: ['desktop']
     chrome: ['desktop']
     firefox: ['desktop']
     ie: ['desktop']
@@ -68,6 +68,9 @@ test_expectations:
       desktop: 15
     firefox:
       desktop: 15
+    safari:
+      desktop: 15
+      device: 3
   thumbnails_file_count: 45
   crop_args: [10,20,30,40]
   height_of_file: 748

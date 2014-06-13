@@ -18,7 +18,7 @@ engine:
 
 browser_devices:
   android: ['device']
-  safari: ['device','desktop']
+  safari: ['desktop']
   chrome: ['desktop']
   firefox: ['desktop']
   ie: ['desktop']

@@ -10,7 +10,11 @@ end
 
 And(/^I wish to use a (.*) as a base comparison in all cases$/) do |base_type|
   @base_type = base_type
-  @config_file = 'test' + '_' + @driver + '_' + @base_type + '_config'
+  @config_file_prefix = 'test' + '_' + @driver + '_' + @base_type
+end
+
+And(/^I wish to test on (.*)$/) do |device_or_desktop|
+  @config_file = @config_file_prefix + '_' + device_or_desktop + '_config'
   @cnf_vals = YAML::load(File.open("configs/" + @config_file + ".yaml"))
 end
 
@@ -44,7 +48,7 @@ And(/^I create thumbnails and a gallery$/) do
   @cli.generate_gallery(@config_file)
 end
 
-Then(/^I expect to see (.*) (.*) files preserved for each width$/) do |expected_file_count,file_type|
+Then(/^I expect to see (.*) (.*) files preserved for each width for (.*)$/) do |expected_file_count,file_type,device_or_desktop|
 
   extn = '.png'
   if file_type == 'data'
@@ -56,17 +60,14 @@ Then(/^I expect to see (.*) (.*) files preserved for each width$/) do |expected_
 
    paths.each_key do |path|
     full_path = Dir.pwd + '/' + shot_directory + '/' + path
-    widths.each_key do |device|
-      #not correct - need to think about this a lot more - maybe device sceanrios as well??
-      widths[device].each do |width|
-        regex_hash = {
-          'prefix' => width,
-          'middle' => '',
-          'suffix' => file_type
-        }
-        count = helpers.file_count(full_path, regex_hash, extn, 100, 2, 'count')
-        count.to_s.should == expected_file_count
-      end
+    widths[device_or_desktop].each do |width|
+      regex_hash = {
+        'prefix' => width,
+        'middle' => '',
+        'suffix' => file_type
+      }
+      count = helpers.file_count(full_path, regex_hash, extn, 100, 2, 'count')
+      count.to_s.should == expected_file_count
     end
   end
 end
@@ -121,7 +122,7 @@ And(/^the gallery page should contain the parameters used as information$/) do
   pending
 end
 
-And(/^a thumbnail version should be created for the images at each width giving (.*) images per width$/) do |thumbnail_count|
+And(/^a thumbnail version should be created for the images at each width giving (.*) images per width for (.*)$/) do |thumbnail_count, device_or_desktop|
   extn = '.png'
 
   shot_directory = @cnf_vals['directory'][0]
@@ -131,7 +132,7 @@ And(/^a thumbnail version should be created for the images at each width giving 
 
   paths.each_key do |path|
     full_path = Dir.pwd + '/' + shot_directory + '/' + thumbnail_directory + '/' + path
-    widths.each do |width|
+    widths[device_or_desktop].each do |width|
       regex_hash = {
         'prefix' => width,
         'middle' => '',
@@ -142,4 +143,5 @@ And(/^a thumbnail version should be created for the images at each width giving 
     end
   end
 end
+
 
