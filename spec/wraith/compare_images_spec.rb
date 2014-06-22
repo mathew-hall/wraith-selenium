@@ -15,12 +15,17 @@ paths = helpers.paths
 
 test_expectations = helpers.test_expectations
 
+
+
 describe Wraith::CompareImages, '#compare_images' do
 
   before(:all) do
     helpers.create_directory(directory)
     helpers.create_directory(directory + '/' + thumbnails_dir)
     helpers.image_setup(directory,paths)
+
+    helpers.loop_and_execute_on_directories('wipe', directory, paths, '*','diff')
+    helpers.loop_and_execute_on_directories('wipe', directory, paths, '*txt')
 
     compare_images_selenium.compare_images
   end
@@ -34,7 +39,7 @@ describe Wraith::CompareImages, '#compare_images' do
     helpers.destroy_directory(directory)
   end
 
-  it 'should do compare images and save those comparisons and data text files' do
+  it 'should compare images and save those comparisons and data text files' do
 
     paths.each_key do |path|
       diff_png_count = Dir.glob(directory + '/' + path + test_expectations['extn_diff_png']).length
@@ -42,7 +47,7 @@ describe Wraith::CompareImages, '#compare_images' do
     end
   end
 
-  it 'should do compare images and save data text files' do
+  it 'should compare images and save data text files' do
 
     paths.each_key do |path|
       data_txt_count = Dir.glob(directory + '/' + path + test_expectations['extn_data_txt']).length

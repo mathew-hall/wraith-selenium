@@ -21,8 +21,9 @@ Feature: Capturing browser screenshots of URLS and calculating diffs between a b
     |driver       |base_type|base_image_count |compare_image_count|diff_image_count |data_file_count|thumbnail_count|device_or_desktop|
     |phantomjs    |url      | 1               |1                  |1                |1              |3              |desktop          |
     |selenium     |url      | 3               |3                  |3                |3              |9              |desktop          |
-    |selenium     |url      | 1               |1                  |1                |1              |3              |device           |
-#    |selenium     |browser  | 16              |16                 |16               |16             |6              |desktop          |
-#    |selenium     |browser  | 16              |16                 |16               |16             |6              |device           |
+    |selenium     |browser  | 1               |3                  |3                |3              |7              |desktop          |
+    #|selenium     |url      | 1               |1                  |1                |1              |3              |device           |
+
+
 
 

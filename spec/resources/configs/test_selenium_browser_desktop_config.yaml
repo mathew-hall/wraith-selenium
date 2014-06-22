@@ -7,8 +7,7 @@ suite: "standard"
 #define different suites of browsers here
 suites:
   webkit: ["phantomjs"]
-  standard: ["safari"]
-  # gecko: "slimerjs"
+  standard: ["safari", "chrome", "firefox"]
 
 #define different engines/drivers to run your browser suites here - e.g. selenium
 engine:
@@ -16,7 +15,11 @@ engine:
   standard: "selenium"
 
 browser_devices:
-  safari: ['device']
+  android: ['device']
+  safari: ['desktop']
+  chrome: ['desktop']
+  firefox: ['desktop']
+  ie: ['desktop']
 
 #If you want to have multiple snapping files, set the file name here
 snap_file:
@@ -36,23 +39,30 @@ timeout: 20
 #base type - either 'browser' or 'url'.
 #browser base type will compare a given url using a browser as a base
 #domain base type will use a url as the basis for comparison against a second url
-base_type: url
+base_type: browser
 
 #set this flag to true if using browser based comparison and you wish to compare
-#the base browser to itself. This can be useful to check for page differences caused
-#by loading or other instabilities
-compare_base_to_base: false
+#the base browser image to a shot of the refreshed page url using the base browser.
+#This can be useful to check for page differences caused by loading or other instabilities,
+#but first check that caching in the base browser has been entirely disabled.
+compare_base_to_base: true
 
 # if you are using url comparison, set the url: base: and url: compare: values
-# if using browser comparison, set the url: target: value
+# if using browser comparison, set the url: compare: value
+# when using browser testing, always leave the base value blank, as we only use the comparison value
 domains:
   url:
     base: "http://www.live.bbc.co.uk/news"
     compare: "http://www.live.bbc.co.uk/russian"
   browser:
-    compare:
+    base:
+    compare: "http://www.live.bbc.co.uk/news"
 
-base_browser:
+#set this if you are using browser type based comparison
+base_browser: chrome
+
+#set this to get selenium to wait until a certain page element is displayed
+wait_until_element: orb-contentinfo
 
 #Type screen widths below, here are a couple of examples
 screen_widths:

@@ -19,17 +19,32 @@ paths:
   home: /
   uk_index: /uk
 
+
+
 #example files for image manipulation methods
 example_files:
-  - 'shots/home/1024_selenium_chrome_english.png'
-  - 'shots/home/1024_selenium_chrome_russian.png'
-  - 'shots/home/768_selenium_chrome_english.png'
-  - 'shots/home/768_selenium_chrome_russian.png'
+  - 'shots/home/1024_selenium_chrome_base.png'
+  - 'shots/home/1024_selenium_chrome_compare.png'
+  - 'shots/home/768_selenium_chrome_base.png'
+  - 'shots/home/768_selenium_chrome_compare.png'
 
+#base and compare example files for creating diffs from
+base_compare_file_examples_url_comparison:
+  - 'shots/home/320_selenium_chrome_desktop_base.png'
+  - 'shots/home/320_selenium_chrome_desktop_compare.png'
+  - 'shots/home/320_selenium_firefox_desktop_base.png'
+  - 'shots/home/320_selenium_firefox_desktop_compare.png'
+
+base_compare_file_examples_browser_comparison:
+  - 'shots/home/320_selenium_chrome_desktop_base.png'
+  - 'shots/home/320_selenium_chrome_desktop_compare.png'
+  - 'shots/home/320_selenium_firefox_desktop_compare.png'
+  - 'shots/home/320_selenium_safari_desktop_compare.png'
 
 wraith_configs:
   test_webkit_url_config: 'test_phantomjs_url_desktop_config'
   test_selenium_url_config: 'test_selenium_url_desktop_config'
+  test_selenium_browser_config: 'test_selenium_browser_desktop_config'
 
 test_expectations:
   test_engine: 'selenium'
@@ -41,6 +56,10 @@ test_expectations:
   width_array:
     desktop: [320, 600, 768, 1024, 1280]
     device: [1024]
+  base_browser: chrome
+  base_types:
+    url: 'url'
+    browser: 'browser'
   domains:
     base: 'http://www.live.bbc.co.uk/news'
     compare: 'http://www.live.bbc.co.uk/russian'
@@ -49,6 +68,7 @@ test_expectations:
     compare: 'compare'
   file_name: 'shots/home/320_selenium_firefox_desktop_base.png'
   spider_days: [10]
+  fuzz: '20%'
   driver_suites:
     phantomjs: 'webkit'
     selenium: 'standard'
@@ -78,5 +98,23 @@ test_expectations:
   extn_data_txt: '/*data.txt'
   diff_png_count: 15
   data_txt_count: 15
-
-
+  slice_size:
+    url:
+      cbb_true: 2
+      cbb_false: 2
+    browser:
+      cbb_true: 3
+      cbb_false: 2
+  base_compare_file_examples_url_comparison:
+    base:
+    - 'shots/home/320_selenium_chrome_desktop_base.png'
+    compare:
+    - 'shots/home/320_selenium_chrome_desktop_compare.png'
+  base_compare_file_examples_browser_comparison:
+      base:
+      - 'shots/home/320_selenium_chrome_desktop_base.png'
+      compare:
+      - 'shots/home/320_selenium_chrome_desktop_compare.png'
+      - 'shots/home/320_selenium_firefox_desktop_compare.png'
+      - 'shots/home/320_selenium_safari_desktop_compare.png'
+  wait_until_element: orb-contentinfo

@@ -11,13 +11,30 @@ class Wraith::CompareImages
 
   def compare_images
     files = Dir.glob("#{wraith.directory}/*/*.png").sort
+
     until files.empty?
-      base, compare = files.slice!(0, 2)
-      diff = base.gsub(/([a-z0-9]+).png$/, 'diff.png')
-      info = base.gsub(/([a-z0-9]+).png$/, 'data.txt')
-      compare_task(base, compare, diff, info)
-      Dir.glob("#{wraith.directory}/*/*.txt").map { |f| "\n#{f}\n#{File.read(f)}" }
-      puts 'Saved diff'
+      base, files = @wraith.get_files_from_array_while_regex(files,@wraith.base_domain_label,@wraith.comp_domain_label)
+      compare, files = @wraith.get_files_from_array_while_regex(files,@wraith.comp_domain_label,@wraith.base_domain_label)
+      #in fact should only be base file at a time
+      base.each do |base_file|
+        base_width = @wraith.find_image_dimensions(base_file,'width')
+        #can be multiple compare files if using browser based comparison
+        compare.each do |compare_file|
+          compare_width = @wraith.find_image_dimensions(compare_file,'width')
+          #if base and compare images have different widths then can not be diffed
+          #for some reason selenium quite buggy with resizing browser windows correctly
+          if base_width != compare_width
+            next
+          end
+          diff_file = compare_file.gsub(/([a-z0-9]+).png$/, 'diff.png')
+          info_file = compare_file.gsub(/([a-z0-9]+).png$/, 'data.txt')
+          begin
+            compare_task(base_file, compare_file, diff_file, info_file)
+            Dir.glob("#{wraith.directory}/*/*.txt").map { |f| "\n#{f}\n#{File.read(f)}" }
+            puts 'Saved diff'
+          end
+        end
+      end
     end
   end
 

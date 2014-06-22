@@ -24,11 +24,20 @@ class Wraith::Wraith
   end
 
   def domains
-    @config['domains']
+    domains = @config['domains'][base_type]
+    #we only use the comparison url for browser based comparisons
+    # if base_type.eql?('browser')
+    #   domains[base_domain_label] = comp_domain
+    # end
+    return domains
   end
 
-  def base_domain
-    domains[base_domain_label]
+  def base_domain(base_type)
+    if base_type =='url'
+      domains[base_domain_label]
+    else
+      comp_domain
+    end
   end
 
   def comp_domain
@@ -41,6 +50,32 @@ class Wraith::Wraith
 
   def comp_domain_label
     domains.keys[1]
+  end
+
+  def check_domains(base_type,hash)
+    urls = hash[base_type]
+
+    urls.each_key do |label|
+      if urls[label].empty?
+        return false
+      end
+    end
+
+    return true
+  end
+
+  def base_browser
+    @config['base_browser']
+  end
+
+  def check_base_browser(base_type,base_browser)
+    if base_type == 'url'
+      return true
+    elsif base_type == 'browser' && base_browser.length > 0
+      return true
+    else
+      return false
+    end
   end
 
   def browser_devices
@@ -72,11 +107,23 @@ class Wraith::Wraith
   end
 
   def suite
-    @config['suites'][@config['suite']]
+    suites[@config['suite']]
   end
 
   def fuzz
     @config['fuzz']
+  end
+
+  def base_type
+    @config['base_type']
+  end
+
+  def compare_base_to_base
+    @config['compare_base_to_base']
+  end
+
+  def wait_until_element
+    @config['wait_until_element']
   end
 
   def capture_page_image(driver, browser, url, width, file_name)
@@ -84,8 +131,17 @@ class Wraith::Wraith
     if (defined?(driver)) && driver.instance_of?(Selenium::WebDriver::Driver)
       begin
         driver.manage.window.resize_to(width, 1000)
+        #sleep a couple of additional seconds to make sure width is right
+        sleep 3
       end
       driver.get(url)
+
+      if wait_until_element
+        begin
+          wait = Selenium::WebDriver::Wait.new(:timeout => 10) # seconds
+          element = wait.until { driver.find_element(:id => wait_until_element) }
+        end
+      end
       driver.save_screenshot(file_name)
     else
       command = "#{browser}" + " " + "#{@config['options'][@config['suite']]}" + " " + "#{snap_file}"  + " " + "#{url}" + " " + "#{width}" + " " + "#{file_name}"
@@ -114,4 +170,33 @@ class Wraith::Wraith
     `convert #{png_path} -thumbnail 200 -crop 200x200+0+0 #{output_path}`
     #`convert #{png_path.gsub('/', '\\')} -thumbnail 200 -crop 200x200+0+0 #{output_path}`
   end
+
+  def get_files_from_array_while_regex(files,regex,regex2)
+      remnant = files.dup
+      slice = []
+      files.each do |file|
+         if file.match(regex)
+           slice.push(file)
+           remnant.shift
+         elsif file.match(regex2)
+           break
+         else
+          remnant.shift
+         end
+      end
+      return slice, remnant
+  end
+
+  def find_image_dimensions(file,dimensions='all')
+      File.open(file, 'rb') do |fh|
+        size = ImageSize.new(fh.read).size
+        if dimensions == 'all'
+          return size
+        elsif dimensions == 'width'
+          return size[0]
+        elsif dimensions == 'height'
+          return size[1]
+        end
+      end
+    end
 end

@@ -50,6 +50,14 @@ class WraithSpecHelpers
     @spec_config['example_files']
   end
 
+  def base_compare_file_examples_url_comparison
+    @spec_config['base_compare_file_examples_url_comparison']
+  end
+
+  def base_compare_file_examples_browser_comparison
+    @spec_config['base_compare_file_examples_browser_comparison']
+  end
+
   def image_setup(pdirectory,paths)
     pwd = Dir.pwd
 
@@ -157,13 +165,13 @@ class WraithSpecHelpers
     end
   end
 
-  def loop_and_execute_on_directories(cmd, pdirectory, paths, ext)
+  def loop_and_execute_on_directories(cmd, pdirectory, paths, ext, match=nil)
     paths.each_key do |path|
       full_path = pdirectory + '/' + path
       if cmd == 'create'
         create_directory(full_path)
       elsif cmd == 'wipe'
-        wipe_directory(full_path, ext)
+        wipe_directory(full_path, ext, match)
       elsif cmd == 'destroy'
         destroy_directory(full_path)
       end
@@ -176,10 +184,12 @@ class WraithSpecHelpers
     end
   end
 
-  def wipe_directory(path, ext)
+  def wipe_directory(path, ext, match=nil)
     Dir.glob(path + '/*.' + ext).each do |file|
       unless File.directory?(file)
-        File.delete(file)
+        if match.nil? || file.match(match)
+          File.delete(file)
+        end
       end
     end
   end

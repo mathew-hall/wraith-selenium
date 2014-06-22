@@ -37,6 +37,25 @@ class Wraith::CLI < Thor
     create.create_folders
   end
 
+  desc "check_comparison_set_up [config_name]","check comparison set"
+  def check_comparison_set_up(config_name)
+    wraith = Wraith::Wraith.new(config_name)
+    cd = wraith.check_domains(wraith.base_type,wraith.domains)
+    cb = wraith.check_base_browser(wraith.base_type,wraith.base_browser)
+
+    unless cd
+      puts 'sorry your domains do not appear to be set correctly'
+    end
+
+    unless cb
+      puts 'sorry but your base type and/or browser does not appear to be set correctly'
+    end
+
+    unless cd && cb
+      exit
+    end
+  end
+
   no_commands do
     def check_for_paths(config_name)
       spider = Wraith::Spidering.new(config_name)
@@ -83,6 +102,7 @@ class Wraith::CLI < Thor
   desc "capture [config_name]", "A full Wraith job"
   def capture(config)
     reset_shots(config)
+    check_domains_are_set(config)
     check_for_paths(config)
     setup_folders(config)
     save_images(config)

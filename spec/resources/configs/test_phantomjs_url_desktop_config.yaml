@@ -36,10 +36,30 @@ thumbnail_directory: thumbnails
 #page load timeout
 timeout: 20
 
-# Add only 2 domains, key will act as a label
+#base type - either 'browser' or 'url'.
+#browser base type will compare a given url using a browser as a base
+#domain base type will use a url as the basis for comparison against a second url
+base_type: url
+
+#set this flag to true if using browser based comparison and you wish to compare
+#the base browser to itself. This can be useful to check for page differences caused
+#by loading or other instabilities
+compare_base_to_base: false
+
+# if you are using url comparison, set the url: base: and url: compare: values
+# if using browser comparison, set the url: compare: value
 domains:
-  base: "http://www.live.bbc.co.uk/news"
-  compare: "http://www.live.bbc.co.uk/russian"
+  url:
+    base: "http://www.live.bbc.co.uk/news"
+    compare: "http://www.live.bbc.co.uk/russian"
+  browser:
+    base:
+    compare:
+
+base_browser:
+
+#set this to get selenium to wait until a certain page element is displayed
+wait_until_element:
 
 #Type screen widths below, here are a couple of examples
 screen_widths:

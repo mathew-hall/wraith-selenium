@@ -13,6 +13,10 @@ class Wraith::SaveImages
     wraith.directory
   end
 
+  def base_type
+    wraith.base_type
+  end
+
   def check_paths
     if !wraith.paths
       path = File.read(wraith.spider_file)
@@ -31,7 +35,7 @@ class Wraith::SaveImages
   end
 
   def base_urls(path)
-    wraith.base_domain + path unless wraith.base_domain.nil?
+    wraith.base_domain(base_type) + path unless wraith.base_domain(base_type).nil?
   end
 
   def compare_urls(path)
@@ -77,9 +81,28 @@ class Wraith::SaveImages
             base_file_name = file_names(width, label, browser, device, wraith.base_domain_label)
             compare_file_name = file_names(width, label, browser, device, wraith.comp_domain_label)
 
-            wraith.capture_page_image driver, browser, base_url, width, base_file_name unless base_url.nil?
-            wraith.capture_page_image driver, browser, compare_url, width, compare_file_name unless compare_url.nil?
-
+            #with url based testing we always take a base shot and comparison shot. The urls are unique in each case
+            if wraith.base_type == 'url'
+              wraith.capture_page_image driver, browser, base_url, width, base_file_name unless base_url.nil?
+              wraith.capture_page_image driver, browser, compare_url, width, compare_file_name unless compare_url.nil?
+            #with browser based comparison we take base shot if the current browser is the configured base browser.
+            #the urls tested are always identical
+            #we can also take a second comparison shot using the base browser if we wish
+            #this will be helpful to capture web site instabilities which have nothing to do
+            #with cross browser issues
+            elsif wraith.base_type == 'browser' && wraith.base_browser == browser && wraith.compare_base_to_base
+              wraith.capture_page_image driver, browser, base_url, width, base_file_name unless base_url.nil?
+              wraith.capture_page_image driver, browser, compare_url, width, compare_file_name unless compare_url.nil?
+            elsif wraith.base_type == 'browser' && wraith.base_browser == browser
+              wraith.capture_page_image driver, browser, base_url, width, base_file_name unless base_url.nil?
+              # if wraith.compare_base_to_base
+              #
+              # end
+            #if the comparison type is browser, then any screenshots from a browser that is not the base browser are
+            #saved as comparison shots
+            elsif wraith.base_type == 'browser'
+              wraith.capture_page_image driver, browser, compare_url, width, compare_file_name unless compare_url.nil?
+            end
           end
 
           unless driver.nil?
