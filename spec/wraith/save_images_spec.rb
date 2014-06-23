@@ -16,6 +16,6 @@ describe Wraith::SaveImages, '#file_names' do
 
     file_name = save_images_selenium.file_names('320','home','firefox','desktop','base')
 
-    file_name.should == test_expectations['file_name']
+    expect(file_name).to eq test_expectations['file_name']
   end
 end

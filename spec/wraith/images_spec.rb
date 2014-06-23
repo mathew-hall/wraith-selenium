@@ -36,7 +36,7 @@ describe Wraith::Images, '#generate_thumbnails' do
     paths.each_key do |path|
       files = Dir.glob(directory + '/' + path + '/*.png')
       files.each do |file|
-        File.zero?(file).should == false
+        expect(File.zero?(file)).to eq false
       end
     end
   end

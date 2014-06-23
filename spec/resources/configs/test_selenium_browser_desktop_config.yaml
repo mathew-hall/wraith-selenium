@@ -38,7 +38,7 @@ timeout: 20
 
 #base type - either 'browser' or 'url'.
 #browser base type will compare a given url using a browser as a base
-#domain base type will use a url as the basis for comparison against a second url
+#url base type will use a url as the basis for comparison against a second url
 base_type: browser
 
 #set this flag to true if using browser based comparison and you wish to compare

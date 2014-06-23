@@ -37,7 +37,7 @@ describe Wraith::Thumbnails, '#generate_thumbnails' do
 
     paths.each_key do |path|
       thumbnails_file_count = Dir.glob(directory + '/' + thumbnails_dir + '/' + path + '/*.png').length
-      thumbnails_file_count.should == test_expectations['thumbnails_file_count']
+      expect(thumbnails_file_count).to eq test_expectations['thumbnails_file_count']
     end
   end
 end

@@ -43,7 +43,7 @@ describe Wraith::CompareImages, '#compare_images' do
 
     paths.each_key do |path|
       diff_png_count = Dir.glob(directory + '/' + path + test_expectations['extn_diff_png']).length
-      diff_png_count.should == test_expectations['diff_png_count']
+      expect(diff_png_count).to eq test_expectations['diff_png_count']
     end
   end
 
@@ -51,7 +51,7 @@ describe Wraith::CompareImages, '#compare_images' do
 
     paths.each_key do |path|
       data_txt_count = Dir.glob(directory + '/' + path + test_expectations['extn_data_txt']).length
-      data_txt_count.should == test_expectations['data_txt_count']
+      expect(data_txt_count).to eq test_expectations['data_txt_count']
     end
   end
 end

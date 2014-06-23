@@ -48,7 +48,7 @@ describe Wraith::FolderManager, '#clear_shots_folder' do
     File.directory?(folder_selenium.dir).should == true
 
     files = Dir.glob(folder_selenium.dir + '/*')
-    files.length.should == 0
+    expect(files.length).to eq 0
   end
 end
 
@@ -71,8 +71,8 @@ describe Wraith::FolderManager, '#create_folders' do
       directory_sub_path = directory + '/' + path
       thumbnail_sub_path = directory + '/' + thumbnails_dir + '/' + path
 
-      File.directory?(directory_sub_path).should == true
-      File.directory?(thumbnail_sub_path).should == true
+      expect(File.directory?(directory_sub_path)).to eq true
+      expect(File.directory?(thumbnail_sub_path)).to eq true
     end
   end
 end
