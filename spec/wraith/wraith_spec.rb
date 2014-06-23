@@ -424,5 +424,17 @@ describe Wraith::CropImages, '#find_heights' do
     end
   end
 
-  #TODO - add tests for width and all dimensions
+  it 'should return the correct width of the file' do
+
+    example_files = helpers.example_files
+    actual_file_widths = []
+    expected_widths = test_expectations['widths_of_files']
+
+    example_files.each do |example_file|
+      actual_file_widths.push(wraith_selenium_browser.find_image_dimensions(example_file,'width'))
+    end
+
+    expect(actual_file_widths).to match_array(expected_widths)
+  end
+
 end

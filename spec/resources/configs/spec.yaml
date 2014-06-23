@@ -94,17 +94,11 @@ test_expectations:
   thumbnails_file_count: 45
   crop_args: [10,20,30,40]
   height_of_file: 748
+  widths_of_files: [1024,1024,768,768]
   extn_diff_png: '/*diff.png'
   extn_data_txt: '/*data.txt'
   diff_png_count: 15
   data_txt_count: 15
-  slice_size:
-    url:
-      cbb_true: 2
-      cbb_false: 2
-    browser:
-      cbb_true: 3
-      cbb_false: 2
   base_compare_file_examples_url_comparison:
     base:
     - 'shots/home/320_selenium_chrome_desktop_base.png'
