@@ -20,7 +20,7 @@ module Wraith::Driver
       end
     elsif device == 'device'
       if engine.eql?('selenium') && browser.eql?('android')
-        return Selenium::WebDriver.for :remote, :desired_capabilities => :android, :url => "http://localhost:4444/wd/hub/"
+        return Selenium::WebDriver.for :remote, :desired_capabilities => :android, :url => 'http://localhost:4444/wd/hub/'
       elsif engine.eql?('selenium') && browser.eql?('chrome')
         return Selenium::WebDriver.for :remote, :desired_capabilities => :chrome
       elsif engine.eql?('selenium') && browser.eql?('firefox')
@@ -28,7 +28,7 @@ module Wraith::Driver
       elsif engine.eql?('selenium') && browser.eql?('ie')
         return Selenium::WebDriver.for :remote, :desired_capabilities => :ie
       elsif engine.eql?('selenium') && browser.eql?('safari')
-        return Selenium::WebDriver.for :remote, :desired_capabilities => :ipad, :url => "http://192.168.1.69:3001/wd/hub/"
+        return Selenium::WebDriver.for :remote, :desired_capabilities => :ipad, :url => 'http://<DEVICE IP>:3001/wd/hub/'
       end
     end
   end
