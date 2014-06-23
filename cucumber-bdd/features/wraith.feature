@@ -19,9 +19,13 @@ Feature: Capturing browser screenshots of URLS and calculating diffs between a b
     And the gallery page should contain the parameters used as information
   Examples:
     |driver       |base_type|base_image_count |compare_image_count|diff_image_count |data_file_count|thumbnail_count|device_or_desktop|
+    #phantomJS url based comparison
     |phantomjs    |url      | 1               |1                  |1                |1              |3              |desktop          |
+    #selenium url based comparison
     |selenium     |url      | 3               |3                  |3                |3              |9              |desktop          |
+    #selenium browser based comparison
     |selenium     |browser  | 1               |3                  |3                |3              |7              |desktop          |
+    #selenium url based comparison using devices. This example uses an iPad with webdriver installed upon it
     #|selenium     |url      | 1               |1                  |1                |1              |3              |device           |
 
 
