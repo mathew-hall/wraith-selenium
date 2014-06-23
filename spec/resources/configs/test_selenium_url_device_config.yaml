@@ -15,6 +15,8 @@ engine:
   webkit: ""
   standard: "selenium"
 
+#set the devices you want to run each browser in your suite on here.
+#you can have 'desktop', 'device', or both
 browser_devices:
   safari: ['device']
 
@@ -44,7 +46,8 @@ base_type: url
 compare_base_to_base: false
 
 # if you are using url comparison, set the url: base: and url: compare: values
-# if using browser comparison, set the url: target: value
+# if using browser comparison, set the url: compare: value
+# when using browser-based comparison, always leave the base value blank, as we only use the comparison value
 domains:
   url:
     base: "http://www.live.bbc.co.uk/news"

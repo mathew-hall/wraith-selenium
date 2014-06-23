@@ -1,7 +1,7 @@
 #Selenium Engine option
 
 #change this line based on which suite of browsers you want to run
-#better to pass as a command line argument when have time to refactor
+#TODO: better to pass as a command line argument when have time to refactor
 suite: "standard"
 
 #define different suites of browsers here
@@ -14,6 +14,8 @@ engine:
   webkit: ""
   standard: "selenium"
 
+#set the devices you want to run each browser in your suite on here.
+#you can have 'desktop', 'device', or both
 browser_devices:
   android: ['device']
   safari: ['desktop']
@@ -26,7 +28,7 @@ snap_file:
   webkit: "javascript/snap.js"
   standard: ""
 
-# Type the name of the directory that shots will be stored in
+# The name of the directory that shots will be stored in
 directory:
   - 'shots'
 
@@ -37,19 +39,19 @@ thumbnail_directory: thumbnails
 timeout: 20
 
 #base type - either 'browser' or 'url'.
-#browser base type will compare a given url using a browser as a base
+#browser base type will compare a given url using a browser as a base.
 #url base type will use a url as the basis for comparison against a second url
 base_type: browser
 
 #set this flag to true if using browser based comparison and you wish to compare
-#the base browser image to a shot of the refreshed page url using the base browser.
+#the base browser image to a shot of the refreshed page url using the same base browser.
 #This can be useful to check for page differences caused by loading or other instabilities,
 #but first check that caching in the base browser has been entirely disabled.
 compare_base_to_base: true
 
 # if you are using url comparison, set the url: base: and url: compare: values
 # if using browser comparison, set the url: compare: value
-# when using browser testing, always leave the base value blank, as we only use the comparison value
+# when using browser-based comparison, always leave the base value blank, as we only use the comparison value
 domains:
   url:
     base: "http://www.live.bbc.co.uk/news"
