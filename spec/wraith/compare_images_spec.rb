@@ -16,7 +16,6 @@ paths = helpers.paths
 test_expectations = helpers.test_expectations
 
 
-
 describe Wraith::CompareImages, '#compare_images' do
 
   before(:all) do

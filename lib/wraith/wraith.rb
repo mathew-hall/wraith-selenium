@@ -24,12 +24,7 @@ class Wraith::Wraith
   end
 
   def domains
-    domains = @config['domains'][base_type]
-    #we only use the comparison url for browser based comparisons
-    # if base_type.eql?('browser')
-    #   domains[base_domain_label] = comp_domain
-    # end
-    return domains
+    @config['domains'][base_type]
   end
 
   def base_domain(base_type)
@@ -61,7 +56,7 @@ class Wraith::Wraith
       end
     end
 
-    return true
+    true
   end
 
   def base_browser
@@ -70,11 +65,11 @@ class Wraith::Wraith
 
   def check_base_browser(base_type,base_browser)
     if base_type == 'url'
-      return true
+      true
     elsif base_type == 'browser' && base_browser.length > 0
-      return true
+      true
     else
-      return false
+      false
     end
   end
 
@@ -139,12 +134,12 @@ class Wraith::Wraith
       if wait_until_element
         begin
           wait = Selenium::WebDriver::Wait.new(:timeout => 10) # seconds
-          element = wait.until { driver.find_element(:id => wait_until_element) }
+          wait.until { driver.find_element(:id => wait_until_element) }
         end
       end
       driver.save_screenshot(file_name)
     else
-      command = "#{browser}" + " " + "#{@config['options'][@config['suite']]}" + " " + "#{snap_file}"  + " " + "#{url}" + " " + "#{width}" + " " + "#{file_name}"
+      command = "#{browser}" + ' ' + "#{@config['options'][@config['suite']]}" + ' ' + "#{snap_file}"  + ' ' + "#{url}" + ' ' + "#{width}" + ' ' + "#{file_name}"
       puts `#{command}`
     end
 

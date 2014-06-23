@@ -15,7 +15,7 @@ end
 
 And(/^I wish to test on (.*)$/) do |device_or_desktop|
   @config_file = @config_file_prefix + '_' + device_or_desktop + '_config'
-  @cnf_vals = YAML::load(File.open("configs/" + @config_file + ".yaml"))
+  @cnf_vals = YAML::load(File.open('configs/' + @config_file + '.yaml'))
 end
 
 When(/^I capture screen shots for a list of browser widths$/) do
