@@ -48,10 +48,12 @@
                                         <div class="col-lg-3">
                                             <p class="text-center">Type: <%=file[:type]%></p>
                                             <p class="text-center">Engine: <%=file[:engine]%></p>
-                                            <p class="text-center">Platform: <%=file[:platform]%></p>
-                                            <p class="text-center">Browser: <%=file[:browser]%></p>
+
                                             <% if file[:type] == 'diff' %>
-                                              <p class="text-center text-muted"><%=files[:data]%> percent different</p>
+                                              <p class="text-center text-muted"><%=file[:diff_data] %> percent different</p>
+                                            <%else %>
+                                              <p class="text-center"><img src="../assets/<%=file[:platform]%>.jpg"/></p>
+                                              <p class="text-center"><img src="../assets/<%=file[:browser]%>.jpg"/></p>
                                             <% end %>
                                         </div>
                                       </td></tr>

@@ -36,6 +36,7 @@ class Wraith::GalleryGenerator
   def match(categories, dirname)
     categories.each do |category|
       @dirs[category] = {}
+      @diff_data
       Dir.foreach("#{dirname}/#{category}") do |filename|
         match = MATCH_FILENAME.match(filename)
         if !match.nil?
@@ -59,6 +60,7 @@ class Wraith::GalleryGenerator
           #   }
           when 'data'
             size_dict[:data] = File.read("#{dirname}/#{filepath}")
+            @diff_data = File.read("#{dirname}/#{filepath}")
           else
             size_dict[:variants] << {
                 type: type,
@@ -66,7 +68,8 @@ class Wraith::GalleryGenerator
                 platform: platform,
                 browser: browser,
                 filename: filepath,
-                thumb: thumbnail
+                thumb: thumbnail,
+                diff_data: @diff_data
               }
 
           end
