@@ -36,7 +36,7 @@
                         <% sizes.to_a.sort.each do |size, files| %>
                             <div class="row">
                                 <h3 class="col-lg-1 text-muted"><%=size%>px</h3>
-                                <table cellpadding='10' bgcolor="#ffee88">
+                                <table cellpadding='10' cellspacing='10' bgcolor="#ffee88" border='1' bordercolor='black'>
                                 <% files[:variants].each do |file| %>
                                     <tr><td>
                                     <div class="col-lg-3">
