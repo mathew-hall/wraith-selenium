@@ -85,13 +85,13 @@ And(/^the filename of the image should reflect that it was created using (.*)$/)
 
   paths.each_key do |path|
     full_path = Dir.pwd + '/' + shot_directory + '/' + path
-    result = helpers.file_count(full_path, regex_hash, extn, 100, 0.1, 'required')
+    result = helpers.file_count(full_path, regex_hash, extn, 100, 0.5, 'required')
     result.should == true
   end
 end
 
 And(/^the filename of the image should reflect whether it was created using (.*)$/) do  |device_or_desktop|
-  expected_browser_device_file_count = test_expectations['expected_browser_device_file_count']
+  expected_browser_device_file_count = test_expectations['base_type_browser_device_file_count']
   shot_directory = @cnf_vals['directory'][0]
   paths = @cnf_vals['paths']
   #reverse mapping of specified driver to the suite which maps to the driver in the config file
@@ -106,8 +106,8 @@ And(/^the filename of the image should reflect whether it was created using (.*)
 
     paths.each_key do |path|
       full_path = Dir.pwd + '/' + shot_directory + '/' + path
-      result = helpers.file_count(full_path, regex_hash, '.png', 100, 0.1, 'count')
-      result.to_i.should == expected_browser_device_file_count[browser][device_or_desktop].to_i
+      result = helpers.file_count(full_path, regex_hash, '.png', 100, 1.0, 'count')
+      result.to_i.should == expected_browser_device_file_count[@base_type][browser][device_or_desktop].to_i
     end
   end
 end

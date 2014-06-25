@@ -23,11 +23,15 @@ class Wraith::CompareImages
           compare_width = @wraith.find_image_dimensions(compare_file,'width')
           #if base and compare images have different widths then can not be diffed
           #for some reason selenium quite buggy with resizing browser windows correctly
-          if base_width != compare_width
-            next
-          end
           diff_file = compare_file.gsub(/([a-z0-9]+).png$/, 'diff.png')
           info_file = compare_file.gsub(/([a-z0-9]+).png$/, 'data.txt')
+          if base_width != compare_width
+            #copy over invalid files for display in gallery
+            FileUtils.cp('assets/invalid.jpg',diff_file)
+            FileUtils.cp('assets/invalid.txt',info_file)
+            next
+          end
+
           begin
             compare_task(base_file, compare_file, diff_file, info_file)
             Dir.glob("#{wraith.directory}/*/*.txt").map { |f| "\n#{f}\n#{File.read(f)}" }

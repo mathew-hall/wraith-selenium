@@ -6,8 +6,8 @@ require 'wraith/wraith'
 class Wraith::GalleryGenerator
   attr_reader :wraith
 
-  MATCH_FILENAME = /(\S+)_(\S+)\.\S+/
-
+  #MATCH_FILENAME = /(\S+)_(\S+)\.\S+/
+  MATCH_FILENAME = /(\S+)_(\S*)_(\S+)_(\S+)_(\S+)\.\S+/
   TEMPLATE_LOCATION = File.expand_path('gallery_template/gallery_template.erb', File.dirname(__FILE__))
   TEMPLATE_BY_DOMAIN_LOCATION = File.expand_path('gallery_template/gallery_template.erb', File.dirname(__FILE__))
   BOOTSTRAP_LOCATION = File.expand_path('gallery_template/bootstrap.min.css', File.dirname(__FILE__))
@@ -40,7 +40,10 @@ class Wraith::GalleryGenerator
         match = MATCH_FILENAME.match(filename)
         if !match.nil?
           size = match[1].to_i
-          group = match[2]
+          engine = match[2]
+          browser = match[3]
+          platform = match[4]
+          type = match[5]
           filepath = category + "/" + filename
           thumbnail = "thumbnails/#{category}/#{filename}"
 
@@ -49,16 +52,19 @@ class Wraith::GalleryGenerator
           end
           size_dict = @dirs[category][size]
 
-          case group
-          when 'diff'
-            size_dict[:diff] = {
-                filename: filepath, thumb: thumbnail
-            }
+          case type
+          # when 'diff'
+          #   size_dict[:diff] = {
+          #       filename: filepath, thumb: thumbnail
+          #   }
           when 'data'
             size_dict[:data] = File.read("#{dirname}/#{filepath}")
           else
             size_dict[:variants] << {
-                name: group,
+                type: type,
+                engine: engine,
+                platform: platform,
+                browser: browser,
                 filename: filepath,
                 thumb: thumbnail
               }

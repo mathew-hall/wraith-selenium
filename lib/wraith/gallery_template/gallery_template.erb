@@ -12,7 +12,8 @@
     <body>
         <div class="container">
             <div class="row page-header">
-                <h1>List of screenshots for <%= location %> </h1>
+              <img src="../assets/wraith.jpg"/>
+              <h1>List of screenshots for <%= location %> </h1>
             </div>
             <div class="row">
                 <!-- <%= directories.length %> -->
@@ -35,24 +36,27 @@
                         <% sizes.to_a.sort.each do |size, files| %>
                             <div class="row">
                                 <h3 class="col-lg-1 text-muted"><%=size%>px</h3>
+                                <table cellpadding='10' bgcolor="#ffee88">
                                 <% files[:variants].each do |file| %>
+                                    <tr><td>
                                     <div class="col-lg-3">
                                         <a href="<%=file[:filename]%>">
                                             <img class="short-screenshot img-thumbnail" src="<%=path%><%=file[:thumb]%>">
                                         </a>
-                                        <p class="text-center"><%=file[:name]%></p>
-                                    </div>
+                                    </div></td>
+                                      <td>
+                                        <div class="col-lg-3">
+                                            <p class="text-center">Type: <%=file[:type]%></p>
+                                            <p class="text-center">Engine: <%=file[:engine]%></p>
+                                            <p class="text-center">Platform: <%=file[:platform]%></p>
+                                            <p class="text-center">Browser: <%=file[:browser]%></p>
+                                            <% if file[:type] == 'diff' %>
+                                              <p class="text-center text-muted"><%=files[:data]%> percent different</p>
+                                            <% end %>
+                                        </div>
+                                      </td></tr>
                                 <% end %>
-                                <div class="col-lg-3">
-                                    <% if files[:diff] %>
-                                        <a href="<%=files[:diff][:filename]%>">
-                                            <img class="short-screenshot img-thumbnail" src="<%=path%><%=files[:diff][:thumb]%>">
-                                        </a>
-                                    <% end %>
-                                    <p class="text-center">diff</p>
-                                    <p class="text-center text-muted"><%=files[:data]%> percent different</p>
-
-                                </div>
+                                </table>
                             </div>
                         <% end %>
                     <% end %>

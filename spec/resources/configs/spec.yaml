@@ -82,16 +82,24 @@ test_expectations:
     chrome: ['desktop']
     firefox: ['desktop']
     ie: ['desktop']
-  expected_browser_device_file_count:
-    phantomjs:
-      desktop: 15
-    chrome:
-      desktop: 15
-    firefox:
-      desktop: 15
-    safari:
-      desktop: 15
-      device: 3
+  base_type_browser_device_file_count:
+    url:
+      phantomjs:
+        desktop: 15
+      chrome:
+        desktop: 15
+      firefox:
+        desktop: 15
+      safari:
+        desktop: 15
+        device: 3
+    browser:
+      chrome:
+        desktop: 15
+      firefox:
+        desktop: 10
+      safari:
+        desktop: 10
   thumbnails_file_count: 45
   crop_args: [10,20,30,40]
   height_of_file: 748
