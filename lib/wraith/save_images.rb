@@ -55,6 +55,7 @@ class Wraith::SaveImages
 
       base_url = base_urls(path)
       compare_url = compare_urls(path)
+      screenshot_bias = wraith.screenshot_bias
 
       wraith.suite.each do |browser|
 
@@ -80,6 +81,12 @@ class Wraith::SaveImages
 
             base_file_name = file_names(width, label, browser, device, wraith.base_domain_label)
             compare_file_name = file_names(width, label, browser, device, wraith.comp_domain_label)
+            #calculate the actual width of screenshot buy adding the bias
+            width_bias = screenshot_bias['width'][browser][device][width]
+            if width_bias.nil?
+              width_bias = 0
+            end
+            width = width + width_bias
 
             #with url based testing we always take a base shot and comparison shot. The urls are unique in each case
             if wraith.base_type == 'url'
@@ -95,9 +102,6 @@ class Wraith::SaveImages
               wraith.capture_page_image driver, browser, compare_url, width, compare_file_name unless compare_url.nil?
             elsif wraith.base_type == 'browser' && wraith.base_browser == browser
               wraith.capture_page_image driver, browser, base_url, width, base_file_name unless base_url.nil?
-              # if wraith.compare_base_to_base
-              #
-              # end
             #if the comparison type is browser, then any screenshots from a browser that is not the base browser are
             #saved as comparison shots
             elsif wraith.base_type == 'browser'

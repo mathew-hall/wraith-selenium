@@ -121,16 +121,30 @@ class Wraith::Wraith
     @config['wait_until_element']
   end
 
+  def screenshot_bias
+    @config['screenshot_bias']
+  end
+
   def capture_page_image(driver, browser, url, width, file_name)
 
     if (defined?(driver)) && driver.instance_of?(Selenium::WebDriver::Driver)
       begin
-        driver.manage.window.resize_to(width, 1000)
-        #sleep a couple of additional seconds to make sure width is right
-        sleep 3
+        height = driver.manage.window.size.height
+        if height.nil?
+          height = 1000
+        end
+        driver.manage.window.resize_to(width, height)
+
+        new_dimensions = driver.manage.window.size
+        new_width = new_dimensions.width
+        new_height = new_dimensions.height
+        puts "width = " + new_width.to_s
+        puts "new_height = " + new_height.to_s
       end
       driver.get(url)
-
+      if width != new_width
+        puts "Width error!!! Should be " + width.to_s + " but is " + new_width.to_s
+      end
       if wait_until_element
         begin
           wait = Selenium::WebDriver::Wait.new(:timeout => 10) # seconds

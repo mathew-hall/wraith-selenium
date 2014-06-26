@@ -7,7 +7,7 @@ suite: "standard"
 #define different suites of browsers here
 suites:
   webkit: ["phantomjs"]
-  standard: ["safari", "chrome", "firefox"]
+  standard: ["chrome", "firefox"]
 
 #define different engines/drivers to run your browser suites here - e.g. selenium
 engine:
@@ -52,19 +52,28 @@ compare_base_to_base: true
 # if you are using url comparison, set the url: base: and url: compare: values
 # if using browser comparison, set the url: compare: value
 # when using browser-based comparison, always leave the base value blank, as we only use the comparison value
+#domains:
+#  url:
+#    base: "http://www.live.bbc.co.uk/news"
+#    compare: "http://www.live.bbc.co.uk/russian"
+#  browser:
+#    base:
+#    compare: "http://www.live.bbc.co.uk/news"
+
 domains:
   url:
     base: "http://www.live.bbc.co.uk/news"
     compare: "http://www.live.bbc.co.uk/russian"
   browser:
     base:
-    compare: "http://www.live.bbc.co.uk/news"
+    compare: "http://network.cmbpws.hsbc.testing.fridayengineering.net"
 
 #set this if you are using browser type based comparison
 base_browser: chrome
 
 #set this to get selenium to wait until a certain page element is displayed
-wait_until_element: orb-contentinfo
+#wait_until_element: orb-contentinfo
+wait_until_element:
 
 #Type screen widths below, here are a couple of examples
 screen_widths:
@@ -78,9 +87,12 @@ screen_widths:
     - 1024
 
 #Type page URL paths below, here are a couple of examples
+#paths:
+#  home: /
+#  uk_index: /uk
+
 paths:
-  home: /
-  uk_index: /uk
+  index: /
 
 # If you don't want to name the paths explicitly you can use a yaml
 # collection as follows, and names will be derived by replacing / with _
@@ -95,3 +107,36 @@ fuzz: '20%'
 #Set the number of days to keep the site spider file
 spider_days:
   - 10
+
+#very annoyingly and weirdly, selenium often interprets screenshot sizes different from those
+#stipulated in your window dimensions. Offset behaviour seems inconsistent between browsers, browser versions and
+#between different widths, so you will probably have to set some of these values by inspection of the image gallery
+screenshot_bias:
+  width:
+    chrome:
+      desktop:
+        320: 0
+        600: 0
+        768: 0
+        1024: 0
+        1280: 0
+      device:
+        1024: 0
+    firefox:
+      desktop:
+        320: 15
+        600: 15
+        768: 15
+        1024: 15
+        1280: 15
+      device:
+        1024: 15
+    safari:
+      desktop:
+        320: 15
+        600: 15
+        768: 15
+        1024: 15
+        1280: 15
+      device:
+        1024: 15
