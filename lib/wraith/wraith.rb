@@ -133,6 +133,10 @@ class Wraith::Wraith
     @config['screenshot_bias']
   end
 
+  def grid_url
+    @config['grid_url']
+  end
+
   def capture_page_image(driver, browser, url, width, file_name)
 
     if (defined?(driver)) && driver.instance_of?(Selenium::WebDriver::Driver)

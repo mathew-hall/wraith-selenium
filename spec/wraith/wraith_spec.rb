@@ -220,6 +220,15 @@ describe Wraith, '#suite' do
   end
 end
 
+describe Wraith, '#grid_url' do
+
+  it 'should return the configured grid url' do
+    expected_grid_url = test_expectations['grid_url']
+
+    expect(wraith_selenium_grid_browser.grid_url).to eq expected_grid_url
+  end
+end
+
 describe Wraith, '#fuzz' do
 
   expected_fuzz = test_expectations['fuzz']

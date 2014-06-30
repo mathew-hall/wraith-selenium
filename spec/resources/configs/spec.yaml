@@ -72,7 +72,7 @@ test_expectations:
   domain_labels:
     base: 'base'
     compare: 'compare'
-  file_name: 'shots/home/320_selenium_local_firefox_desktop_base.png'
+  file_name: 'shots/home/320_selenium_local_linux_firefox_desktop_base.png'
   spider_days: [10]
   fuzz: '20%'
   driver_suites:
@@ -126,4 +126,10 @@ test_expectations:
       - 'shots/home/320_selenium_firefox_desktop_compare.png'
       - 'shots/home/320_selenium_safari_desktop_compare.png'
   wait_until_element: comp-most-popular
-
+  os_string:
+    grid: 'Linux'
+    local: ['Windows','Mac','Linux','Unix']
+  capabilities_array:
+    - :url: 'http://blah.com'
+      :os: 'linux'
+  grid_url: 'http://localhost:4444'
