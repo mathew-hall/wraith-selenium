@@ -30,6 +30,10 @@ class Wraith::SaveImages
     wraith.engine
   end
 
+  def engine_mode
+    wraith.engine_mode
+  end
+
   def timeout
     wraith.timeout
   end
@@ -43,7 +47,7 @@ class Wraith::SaveImages
   end
 
   def file_names(width, label, browser, device, domain_label)
-    "#{directory}/#{label}/#{width}_#{engine}_#{browser}_#{device}_#{domain_label}.png"
+    "#{directory}/#{label}/#{width}_#{engine}_#{engine_mode}_#{browser}_#{device}_#{domain_label}.png"
   end
 
   def save_images
@@ -66,11 +70,13 @@ class Wraith::SaveImages
         else
           browser_devices_for_browser = browser_devices[browser]
         end
+        #TODO: refactor for capabilities hash structure
         browser_devices_for_browser.each do |device|
-
+          #TODO: refactor to include os recognition for macos. linux, etc
           next unless(os_compatible(browser, device))
 
           #can return nil if there is no engine
+          #TODO: fix this to insert capabilities
           driver = return_driver_instance(engine, browser, device)
 
           unless driver.nil?
@@ -81,13 +87,14 @@ class Wraith::SaveImages
 
             base_file_name = file_names(width, label, browser, device, wraith.base_domain_label)
             compare_file_name = file_names(width, label, browser, device, wraith.comp_domain_label)
-            #calculate the actual width of screenshot buy adding the bias
-            width_bias = screenshot_bias['width'][browser][device][width]
-            if width_bias.nil?
-              width_bias = 0
+            #if using selenium, calculate the actual width of screenshot buy adding the bias
+            unless driver.nil?
+              width_bias = screenshot_bias['width'][browser][device][width]
+              if width_bias.nil?
+                width_bias = 0
+              end
+              width = width + width_bias
             end
-            width = width + width_bias
-
             #with url based testing we always take a base shot and comparison shot. The urls are unique in each case
             if wraith.base_type == 'url'
               wraith.capture_page_image driver, browser, base_url, width, base_file_name unless base_url.nil?

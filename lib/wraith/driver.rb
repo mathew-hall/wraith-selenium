@@ -1,35 +1,39 @@
 require 'selenium-webdriver'
 
 module Wraith::Driver
-
-  def return_driver_instance(engine, browser, device)
+  #TODO: Pass in capabilities structure to include browser, os, devices, etc
+  def return_driver_instance(engine, engine_mode, capabilities, device)
     if (defined?(engine)).nil?
       nil
     end
-    if device == 'desktop'
-      if engine.eql?('selenium') && browser.eql?('chrome')
-        return Selenium::WebDriver.for :chrome
-      elsif engine.eql?('selenium') && browser.eql?('safari')
-        return Selenium::WebDriver.for :safari
-      elsif engine.eql?('selenium') && browser.eql?('firefox')
-        return Selenium::WebDriver.for :firefox
-      elsif engine.eql?('selenium') && browser.eql?('ie')
-        return Selenium::WebDriver.for :ie
-      elsif engine.eql?('selenium') && browser.eql?('opera')
-        return Selenium::WebDriver.for :opera
+    if engine_mode == 'local'
+      if device == 'desktop'
+        if engine.eql?('selenium') && browser.eql?('chrome')
+          return Selenium::WebDriver.for :chrome
+        elsif engine.eql?('selenium') && browser.eql?('safari')
+          return Selenium::WebDriver.for :safari
+        elsif engine.eql?('selenium') && browser.eql?('firefox')
+          return Selenium::WebDriver.for :firefox
+        elsif engine.eql?('selenium') && browser.eql?('ie')
+          return Selenium::WebDriver.for :ie
+        elsif engine.eql?('selenium') && browser.eql?('opera')
+          return Selenium::WebDriver.for :opera
+        end
+      elsif device == 'device'
+        if engine.eql?('selenium') && browser.eql?('android')
+          return Selenium::WebDriver.for :remote, :desired_capabilities => :android, :url => 'http://localhost:4444/wd/hub/'
+        elsif engine.eql?('selenium') && browser.eql?('chrome')
+          return Selenium::WebDriver.for :remote, :desired_capabilities => :chrome
+        elsif engine.eql?('selenium') && browser.eql?('firefox')
+          return Selenium::WebDriver.for :remote, :desired_capabilities => :firefox
+        elsif engine.eql?('selenium') && browser.eql?('ie')
+          return Selenium::WebDriver.for :remote, :desired_capabilities => :ie
+        elsif engine.eql?('selenium') && browser.eql?('safari')
+          return Selenium::WebDriver.for :remote, :desired_capabilities => :ipad, :url => 'http://<DEVICE IP>:3001/wd/hub/'
+        end
       end
-    elsif device == 'device'
-      if engine.eql?('selenium') && browser.eql?('android')
-        return Selenium::WebDriver.for :remote, :desired_capabilities => :android, :url => 'http://localhost:4444/wd/hub/'
-      elsif engine.eql?('selenium') && browser.eql?('chrome')
-        return Selenium::WebDriver.for :remote, :desired_capabilities => :chrome
-      elsif engine.eql?('selenium') && browser.eql?('firefox')
-        return Selenium::WebDriver.for :remote, :desired_capabilities => :firefox
-      elsif engine.eql?('selenium') && browser.eql?('ie')
-        return Selenium::WebDriver.for :remote, :desired_capabilities => :ie
-      elsif engine.eql?('selenium') && browser.eql?('safari')
-        return Selenium::WebDriver.for :remote, :desired_capabilities => :ipad, :url => 'http://<DEVICE IP>:3001/wd/hub/'
-      end
+    elsif engine_mode == 'grid'
+      #TODO: send details to grid here
     end
   end
 

@@ -1,14 +1,12 @@
 #Selenium Engine option
 
 #change this line based on which suite of browsers you want to run
-#better to pass as a command line argument when have time to refactor
 suite: "standard"
 
 #define different suites of browsers here
 suites:
   webkit: ["phantomjs"]
   standard: ["safari", "chrome", "firefox"]
-  # gecko: "slimerjs"
 
 #define different engines/drivers to run your browser suites here - e.g. selenium
 engine:
@@ -16,10 +14,11 @@ engine:
   standard: "selenium"
 
 #engine_mode - set to 'grid' if using a selenium grid, defaults to 'local'
-engine_mode:
+engine_mode: "grid"
 
 #set the devices you want to run each browser in your suite on here.
 #you can have 'desktop', 'device', or both
+#TODO: Change this to a more functional capabilities hash structure
 browser_devices:
   android: ['device']
   safari: ['desktop']
@@ -32,17 +31,12 @@ snap_file:
   webkit: "javascript/snap.js"
   standard: ""
 
-# Type the name of the directory that shots will be stored in
+# The name of the directory that shots will be stored in
 directory:
   - 'shots'
 
 #thumbnail images subdirectory name
 thumbnail_directory: thumbnails
-
-#base type - either 'browser' or 'url'.
-#browser base type will compare a given url using a browser as a base
-#domain base type will use a url as the basis for comparison against a second url
-base_type: url
 
 # if you are using url comparison, set the url: base: and url: compare: values
 # if using browser comparison, set the url: compare: value
@@ -52,7 +46,8 @@ domains:
     base: "http://www.live.bbc.co.uk/news"
     compare: "http://www.live.bbc.co.uk/russian"
   browser:
-    compare:
+    base:
+    compare: "http://www.live.bbc.co.uk/news"
 
 #Type screen widths below, here are a couple of examples
 screen_widths:
@@ -66,9 +61,12 @@ screen_widths:
     - 1024
 
 #Type page URL paths below, here are a couple of examples
+#paths:
+#  home: /
+#  uk_index: /uk
+
 paths:
-  home: /
-  uk_index: /uk
+  index: /
 
 # If you don't want to name the paths explicitly you can use a yaml
 # collection as follows, and names will be derived by replacing / with _
@@ -90,20 +88,25 @@ spider_days:
 #
 ###################################################################
 
-
 #page load timeout
 timeout: 20
 
+#base type - either 'browser' or 'url'.
+#browser base type will compare a given url using a browser as a base.
+#url base type will use a url as the basis for comparison against a second url
+base_type: browser
+
 #set this if you are using browser type based comparison
-base_browser:
+base_browser: chrome
+
+#set this flag to true if using browser based comparison and you wish to compare
+#the base browser image to a shot of the refreshed page url using the same base browser.
+#This can be useful to check for page differences caused by loading or other instabilities,
+#but first check that caching in the base browser has been entirely disabled.
+compare_base_to_base: true
 
 #set this to get selenium to wait until a certain page element is displayed
 wait_until_element: comp-most-popular
-
-#set this flag to true if using browser based comparison and you wish to compare
-#the base browser to itself. This can be useful to check for page differences caused
-#by loading or other instabilities
-compare_base_to_base: false
 
 #very annoyingly and weirdly, selenium often interprets screenshot sizes different from those
 #stipulated in your window dimensions. Offset behaviour seems inconsistent between browsers, browser versions and
@@ -143,3 +146,8 @@ screenshot_bias:
 # SELENIUM GRID ONLY OPTIONS BELOW HERE
 #
 ###################################################################
+
+grid_url: http://localhost:4444
+
+capabilities:
+

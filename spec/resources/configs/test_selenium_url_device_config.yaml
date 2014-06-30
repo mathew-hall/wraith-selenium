@@ -32,19 +32,6 @@ directory:
 #thumbnail images subdirectory name
 thumbnail_directory: thumbnails
 
-#page load timeout
-timeout: 20
-
-#base type - either 'browser' or 'url'.
-#browser base type will compare a given url using a browser as a base
-#domain base type will use a url as the basis for comparison against a second url
-base_type: url
-
-#set this flag to true if using browser based comparison and you wish to compare
-#the base browser to itself. This can be useful to check for page differences caused
-#by loading or other instabilities
-compare_base_to_base: false
-
 # if you are using url comparison, set the url: base: and url: compare: values
 # if using browser comparison, set the url: compare: value
 # when using browser-based comparison, always leave the base value blank, as we only use the comparison value
@@ -86,3 +73,73 @@ fuzz: '20%'
 #Set the number of days to keep the site spider file
 spider_days:
   - 10
+
+
+###################################################################
+#
+# SELENIUM ONLY OPTIONS BELOW HERE
+#
+###################################################################
+
+#page load timeout
+timeout: 20
+
+#base type - either 'browser' or 'url'.
+#browser base type will compare a given url using a browser as a base
+#domain base type will use a url as the basis for comparison against a second url
+base_type: url
+
+#set this flag to true if using browser based comparison and you wish to compare
+#the base browser to itself. This can be useful to check for page differences caused
+#by loading or other instabilities
+compare_base_to_base: false
+
+#base type - either 'browser' or 'url'.
+#browser base type will compare a given url using a browser as a base.
+#url base type will use a url as the basis for comparison against a second url
+base_type: browser
+
+#set this if you are using browser type based comparison
+base_browser:
+
+#set this to get selenium to wait until a certain page element is displayed
+wait_until_element: comp-most-popular
+
+#very annoyingly and weirdly, selenium often interprets screenshot sizes different from those
+#stipulated in your window dimensions. Offset behaviour seems inconsistent between browsers, browser versions and
+#between different widths, so you will probably have to set some of these values by inspection of the image gallery
+screenshot_bias:
+  width:
+    chrome:
+      desktop:
+        320: 0
+        600: 0
+        768: 0
+        1024: 0
+        1280: 0
+      device:
+        1024: 0
+    firefox:
+      desktop:
+        320: 15
+        600: 15
+        768: 15
+        1024: 15
+        1280: 15
+      device:
+        1024: 15
+    safari:
+      desktop:
+        320: 15
+        600: 15
+        768: 15
+        1024: 15
+        1280: 15
+      device:
+        1024: 15
+
+###################################################################
+#
+# SELENIUM GRID ONLY OPTIONS BELOW HERE
+#
+###################################################################

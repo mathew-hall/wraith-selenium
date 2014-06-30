@@ -97,6 +97,14 @@ class Wraith::Wraith
     @config['engine'][@config['suite']]
   end
 
+  def engine_mode
+    mode = @config['engine_mode']
+    if mode.nil?
+      mode = 'local'
+    end
+    return mode
+  end
+
   def suites
     @config['suites']
   end

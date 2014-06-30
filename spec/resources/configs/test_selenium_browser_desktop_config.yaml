@@ -1,18 +1,20 @@
 #Selenium Engine option
 
 #change this line based on which suite of browsers you want to run
-#TODO: better to pass as a command line argument when have time to refactor
 suite: "standard"
 
 #define different suites of browsers here
 suites:
   webkit: ["phantomjs"]
-  standard: ["chrome", "firefox"]
+  standard: ["safari", "chrome", "firefox"]
 
 #define different engines/drivers to run your browser suites here - e.g. selenium
 engine:
   webkit: ""
   standard: "selenium"
+
+#engine_mode - set to 'grid' if using a selenium grid, defaults to 'local'
+engine_mode: "local"
 
 #set the devices you want to run each browser in your suite on here.
 #you can have 'desktop', 'device', or both
@@ -35,45 +37,17 @@ directory:
 #thumbnail images subdirectory name
 thumbnail_directory: thumbnails
 
-#page load timeout
-timeout: 20
-
-#base type - either 'browser' or 'url'.
-#browser base type will compare a given url using a browser as a base.
-#url base type will use a url as the basis for comparison against a second url
-base_type: browser
-
-#set this flag to true if using browser based comparison and you wish to compare
-#the base browser image to a shot of the refreshed page url using the same base browser.
-#This can be useful to check for page differences caused by loading or other instabilities,
-#but first check that caching in the base browser has been entirely disabled.
-compare_base_to_base: true
-
 # if you are using url comparison, set the url: base: and url: compare: values
 # if using browser comparison, set the url: compare: value
 # when using browser-based comparison, always leave the base value blank, as we only use the comparison value
-#domains:
-#  url:
-#    base: "http://www.live.bbc.co.uk/news"
-#    compare: "http://www.live.bbc.co.uk/russian"
-#  browser:
-#    base:
-#    compare: "http://www.live.bbc.co.uk/news"
-
 domains:
   url:
     base: "http://www.live.bbc.co.uk/news"
     compare: "http://www.live.bbc.co.uk/russian"
   browser:
     base:
-    compare: "http://network.cmbpws.hsbc.testing.fridayengineering.net"
+    compare: "http://www.live.bbc.co.uk/news"
 
-#set this if you are using browser type based comparison
-base_browser: chrome
-
-#set this to get selenium to wait until a certain page element is displayed
-#wait_until_element: orb-contentinfo
-wait_until_element:
 
 #Type screen widths below, here are a couple of examples
 screen_widths:
@@ -87,12 +61,9 @@ screen_widths:
     - 1024
 
 #Type page URL paths below, here are a couple of examples
-#paths:
-#  home: /
-#  uk_index: /uk
-
 paths:
-  index: /
+  home: /
+  uk_index: /uk
 
 # If you don't want to name the paths explicitly you can use a yaml
 # collection as follows, and names will be derived by replacing / with _
@@ -107,6 +78,33 @@ fuzz: '20%'
 #Set the number of days to keep the site spider file
 spider_days:
   - 10
+
+###################################################################
+#
+# SELENIUM ONLY OPTIONS BELOW HERE
+#
+###################################################################
+
+#base type - either 'browser' or 'url'.
+#browser base type will compare a given url using a browser as a base.
+#url base type will use a url as the basis for comparison against a second url
+base_type: browser
+
+#set this flag to true if using browser based comparison and you wish to compare
+#the base browser image to a shot of the refreshed page url using the same base browser.
+#This can be useful to check for page differences caused by loading or other instabilities,
+#but first check that caching in the base browser has been entirely disabled.
+compare_base_to_base: true
+
+#page load timeout
+timeout: 20
+
+#set this if you are using browser type based comparison
+base_browser: chrome
+
+#set this to get selenium to wait until a certain page element is displayed
+#wait_until_element: orb-contentinfo
+wait_until_element: comp-most-popular
 
 #very annoyingly and weirdly, selenium often interprets screenshot sizes different from those
 #stipulated in your window dimensions. Offset behaviour seems inconsistent between browsers, browser versions and
@@ -140,3 +138,9 @@ screenshot_bias:
         1280: 15
       device:
         1024: 15
+
+###################################################################
+#
+# SELENIUM GRID ONLY OPTIONS BELOW HERE
+#
+###################################################################

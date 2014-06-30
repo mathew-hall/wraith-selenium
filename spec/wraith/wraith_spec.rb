@@ -15,7 +15,7 @@ configs = helpers.wraith_configs
 wraith_webkit_url = Wraith::Wraith.new(configs['test_webkit_url_config'])
 wraith_selenium_url = Wraith::Wraith.new(configs['test_selenium_url_config'])
 wraith_selenium_browser = Wraith::Wraith.new(configs['test_selenium_browser_config'])
-
+wraith_selenium_grid_browser = Wraith::Wraith.new(configs['test_selenium_grid_browser_config'])
 test_expectations = helpers.test_expectations
 
 describe Wraith, '#directory'  do
@@ -42,13 +42,8 @@ end
 
 describe Wraith, '#timeout' do
 
-  expected_timeout = test_expectations['timeout']
-  it 'should return the timeout value specified when using the webkit config file' do
-    expect(wraith_webkit_url.timeout).to eq expected_timeout
-  end
-
   it 'should return the timeout value specified when using the selenium config file' do
-    expect(wraith_selenium_url.timeout).to eq expected_timeout
+    expect(wraith_selenium_url.timeout).to eq test_expectations['timeout']
   end
 end
 
@@ -186,6 +181,20 @@ describe Wraith, '#engine' do
   end
 end
 
+describe Wraith, '#engine_mode' do
+  it 'should return the default engine type \'local\'  when using the webkit config file' do
+    expect(wraith_webkit_url.engine_mode).to eq test_expectations['engine_mode']['default']
+  end
+
+  it 'should return the engine type specified when using the selenium browser (local) config file' do
+      expect(wraith_selenium_browser.engine_mode).to eq test_expectations['engine_mode']['local']
+  end
+
+  it 'should return the engine type specified when using the selenium browser (grid) config file' do
+    expect(wraith_selenium_grid_browser.engine_mode).to eq test_expectations['engine_mode']['selenium_grid']
+  end
+end
+
 describe Wraith, '#suites' do
 
   expected_suites = test_expectations['suites']
@@ -240,11 +249,6 @@ describe Wraith, '#base_type' do
 end
 
 describe Wraith, '#compare_base_to_base' do
-
-  it 'should return the base type set when using the webkit url config file' do
-    test = wraith_webkit_url.compare_base_to_base.to_s
-    expect(wraith_webkit_url.compare_base_to_base.to_s).to eq 'false'
-  end
 
   it 'should return the base type set when using the selenium url config file' do
     expect(wraith_selenium_url.compare_base_to_base.to_s).to eq 'false'
