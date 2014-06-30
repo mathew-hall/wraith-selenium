@@ -128,7 +128,7 @@ test_expectations:
   wait_until_element: comp-most-popular
   os_string:
     grid: 'Linux'
-    local: ['Windows','Mac','Linux','Unix']
+    local: ['windows','mac','linux','unix']
   capabilities_array:
     - :url: 'http://blah.com'
       :os: 'linux'

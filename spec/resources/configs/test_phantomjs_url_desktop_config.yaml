@@ -12,8 +12,8 @@ suites:
 
 #define different engines/drivers to run your browser suites here - e.g. selenium
 engine:
-  base: ""
-  compare: "selenium"
+  webkit:
+  standard: "selenium"
 
 #engine_mode - set to 'grid' if using a selenium grid, defaults to 'local'
 engine_mode:
@@ -37,7 +37,7 @@ thumbnail_directory: thumbnails
 #base type - either 'browser' or 'url'.
 #browser base type will compare a given url using a browser as a base
 #domain base type will use a url as the basis for comparison against a second url.
-#phantomJS is always url
+#phantomJS is always base_type=url
 base_type: url
 
 # if you are using url comparison, set the url: base: and url: compare: values

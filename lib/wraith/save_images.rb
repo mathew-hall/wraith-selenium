@@ -64,19 +64,17 @@ class Wraith::SaveImages
 
       wraith.suite.each do |browser|
 
-        #if no browser devices specified, assume desktop
+        #if no browser devices specified, assume desktop and create as hash key
         browser_devices = wraith.browser_devices
         if browser_devices.nil?
-           browser_devices_for_browser = ['desktop']
+           browser_devices_for_browser = {'desktop' => ''}
         else
           browser_devices_for_browser = browser_devices[browser]
         end
-        #TODO: refactor for capabilities hash structure
         browser_devices_for_browser.each_key do |device_or_desktop|
-          #TODO: refactor to include os recognition for macos. linux, etc
-          next unless(os_compatible(browser, device))
+          next unless(os_compatible(browser, device_or_desktop))
 
-          capabilities_array = get_capabilities_array(browser_devices_for_browser[device])
+          capabilities_array = get_capabilities_array(browser_devices_for_browser[device_or_desktop])
 
           capabilities_array.each do |capabilities|
             next unless(os_set(engine_mode, capabilities[:os]))
@@ -84,7 +82,7 @@ class Wraith::SaveImages
             actual_device = precise_device(device_or_desktop, capabilities[:device])
             next if actual_device.nil?
 
-            capabilities[:url] = get_url(engine_mode, wraith.selenium_grid_url, capabilities[:url])
+            capabilities[:url] = get_url(engine_mode, wraith.grid_url, capabilities[:url])
             next unless is_url_properly_set(engine_mode, actual_device, capabilities[:url])
 
             capabilities[:browser] = browser
@@ -98,13 +96,13 @@ class Wraith::SaveImages
               set_page_load_timeout(driver,timeout)
             end
 
-            wraith.widths[device].each do |width|
+            wraith.widths[device_or_desktop].each do |width|
 
               base_file_name = file_names(width, label, os, browser, actual_device, wraith.base_domain_label)
               compare_file_name = file_names(width, label, os, browser, actual_device, wraith.comp_domain_label)
               #if using selenium, calculate the actual width of screenshot buy adding the bias
               unless driver.nil?
-                width_bias = screenshot_bias['width'][browser][device][width]
+                width_bias = screenshot_bias['width'][browser][device_or_desktop][width]
                 if width_bias.nil?
                   width_bias = 0
                 end
@@ -130,9 +128,9 @@ class Wraith::SaveImages
                 wraith.capture_page_image driver, browser, compare_url, width, compare_file_name unless compare_url.nil?
               end
             end
-          end
-          unless driver.nil?
-            quit(driver)
+            unless driver.nil?
+              quit(driver)
+            end
           end
         end
       end

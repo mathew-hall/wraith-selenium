@@ -31,8 +31,8 @@ module Wraith::Driver
   end
 
   def return_driver_instance(engine, engine_mode, capabilities, device)
-    if (defined?(engine)).nil?
-      nil
+    if (defined?(engine)).nil? || engine.nil?
+      return nil
     end
     if engine_mode == 'local'
       if device == 'desktop'
@@ -93,13 +93,13 @@ module Wraith::Driver
     if engine_mode == 'grid'
       return remote_os
     elsif windows?
-      return 'Windows'
+      return 'windows'
     elsif mac?
-      return 'Mac'
+      return 'mac'
     elsif linux?
-      return 'Linux'
+      return 'linux'
     elsif unix?
-      return 'Unix'
+      return 'unix'
     end
   end
 
@@ -127,7 +127,7 @@ module Wraith::Driver
   #will otherwise get the specific device defined in the capability
   #used for file name
   def precise_device(desktop_or_device, precise_device)
-    if desktop_or_device == 'Desktop'
+    if desktop_or_device == 'desktop'
       return desktop_or_device
     elsif precise_device.nil?
       puts 'You must configure the precise device type. Ignoring.'
