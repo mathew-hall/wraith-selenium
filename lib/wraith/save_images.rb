@@ -47,7 +47,7 @@ class Wraith::SaveImages
   end
 
   def file_names(width, label, os, browser, device, domain_label)
-    "#{directory}/#{label}/#{width}_#{engine}_#{engine_mode}_#{os}_#{browser}_#{device}_#{domain_label}.png"
+    "#{directory}/#{label}/#{width}_#{engine}_#{engine_mode}_#{device}_#{os}_#{browser}_#{domain_label}.png"
   end
 
   def save_images
