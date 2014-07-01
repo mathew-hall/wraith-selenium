@@ -121,7 +121,6 @@ class WraithSpecHelpers
     iteration = 1
     filtered_count = 0
     last_count = 0
-    count = 0
     until iteration > total_iterations
       files = Dir.glob(file_path + '/*'  + ext)
       count = files.count

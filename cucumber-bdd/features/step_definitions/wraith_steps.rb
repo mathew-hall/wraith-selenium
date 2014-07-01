@@ -100,8 +100,8 @@ And(/^the filename of the image should reflect whether it was created using (.*)
   browser_suite.each do |browser|
     regex_hash = {
       'prefix' => '',
-      'middle' => browser,
-      'suffix' => device_or_desktop
+      'middle' => device_or_desktop,
+      'suffix' => browser
     }
 
     paths.each_key do |path|

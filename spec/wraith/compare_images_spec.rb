@@ -19,6 +19,8 @@ test_expectations = helpers.test_expectations
 describe Wraith::CompareImages, '#compare_images' do
 
   before(:all) do
+    helpers.destroy_directory(directory + '/' + thumbnails_dir)
+    helpers.destroy_directory(directory)
     helpers.create_directory(directory)
     helpers.create_directory(directory + '/' + thumbnails_dir)
     helpers.image_setup(directory,paths)
