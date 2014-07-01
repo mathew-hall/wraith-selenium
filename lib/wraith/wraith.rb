@@ -81,6 +81,10 @@ class Wraith::Wraith
     end
   end
 
+  def default_parameters
+    @config['default_parameters']
+  end
+
   def spider_file
     @config['spider_file'] ? @config['spider_file'] : 'spider.txt'
   end

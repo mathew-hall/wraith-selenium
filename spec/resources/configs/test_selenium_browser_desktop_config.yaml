@@ -16,15 +16,6 @@ engine:
 #engine_mode - set to 'grid' if using a selenium grid, defaults to 'local'
 engine_mode: "local"
 
-#set the devices you want to run each browser in your suite on here.
-#you can have 'desktop', 'device', or both
-browser_devices:
-  android: ['device']
-  safari: ['desktop']
-  chrome: ['desktop']
-  firefox: ['desktop']
-  ie: ['desktop']
-
 #If you want to have multiple snapping files, set the file name here
 snap_file:
   webkit: "javascript/snap.js"
@@ -85,6 +76,28 @@ spider_days:
 #
 ###################################################################
 
+#set the devices you want to run each browser in your suite on here.
+#you can have 'desktop', 'device', or both
+browser_devices:
+  android:
+    device:
+  safari:
+    desktop:
+  chrome:
+    desktop:
+  firefox:
+    desktop:
+  ie:
+    desktop:
+
+#you can define some default parameters to pass to the selenium driver here,
+#can also leave blank as all optional, but don't delete the key structure
+default_parameters:
+  :url:
+  :capabilities:
+    :version:
+    :platform:
+
 #base type - either 'browser' or 'url'.
 #browser base type will compare a given url using a browser as a base.
 #url base type will use a url as the basis for comparison against a second url
@@ -104,7 +117,8 @@ base_browser: chrome
 
 #set this to get selenium to wait until a certain page element is displayed
 #wait_until_element: orb-contentinfo
-wait_until_element: comp-most-popular
+#wait_until_element: comp-most-popular
+wait_until_element:
 
 #very annoyingly and weirdly, selenium often interprets screenshot sizes different from those
 #stipulated in your window dimensions. Offset behaviour seems inconsistent between browsers, browser versions and

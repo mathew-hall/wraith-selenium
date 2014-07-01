@@ -15,11 +15,6 @@ engine:
   webkit: ""
   standard: "selenium"
 
-#set the devices you want to run each browser in your suite on here.
-#you can have 'desktop', 'device', or both
-browser_devices:
-  safari: ['device']
-
 #If you want to have multiple snapping files, set the file name here
 snap_file:
   webkit: "javascript/snap.js"
@@ -80,6 +75,20 @@ spider_days:
 # SELENIUM ONLY OPTIONS BELOW HERE
 #
 ###################################################################
+
+#set the devices you want to run each browser in your suite on here.
+#you can have 'desktop', 'device', or both
+browser_devices:
+  safari:
+    device:
+
+#you can define some default parameters to pass to the selenium driver here,
+#can also leave blank as all optional, but don't delete the key structure
+default_parameters:
+  :url:
+  :capabilities:
+    :version:
+    :platform:
 
 #page load timeout
 timeout: 20

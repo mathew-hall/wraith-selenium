@@ -74,23 +74,23 @@ class Wraith::SaveImages
         browser_devices_for_browser.each_key do |device_or_desktop|
           next unless(os_compatible(browser, device_or_desktop))
 
-          capabilities_array = get_capabilities_array(browser_devices_for_browser[device_or_desktop])
+          parameters_array = get_parameters_array(browser_devices_for_browser[device_or_desktop])
 
-          capabilities_array.each do |capabilities|
-            next unless(os_set(engine_mode, capabilities[:os]))
+          parameters_array.each do |parameters|
+            next unless(os_set(engine_mode, parameters[:os]))
 
-            actual_device = precise_device(device_or_desktop, capabilities[:device])
+            actual_device = precise_device(device_or_desktop, parameters[:capabilities][:platform])
             next if actual_device.nil?
 
-            capabilities[:url] = get_url(engine_mode, wraith.grid_url, capabilities[:url])
-            next unless is_url_properly_set(engine_mode, actual_device, capabilities[:url])
+            parameters[:url] = get_url(engine_mode, wraith.grid_url, parameters[:url])
+            next unless is_url_properly_set(engine_mode, actual_device, parameters[:url])
 
-            capabilities[:browser] = browser
+            parameters[:browser] = browser
 
-            os = os_string(engine_mode, capabilities[:os])
+            os = os_string(engine_mode, parameters[:capabilities][:platform])
 
             #can return nil if there is no engine
-            driver = return_driver_instance(engine, engine_mode, capabilities, actual_device)
+            driver = return_driver_instance(engine, engine_mode, parameters, actual_device)
 
             unless driver.nil?
               set_page_load_timeout(driver,timeout)

@@ -18,15 +18,6 @@ engine:
 #engine_mode - set to 'grid' if using a selenium grid, defaults to 'local'
 engine_mode:
 
-#set the devices you want to run each browser in your suite on here.
-#you can have 'desktop', 'device', or both
-browser_devices:
-  android: ['device']
-  safari: ['desktop']
-  chrome: ['desktop']
-  firefox: ['desktop']
-  ie: ['desktop']
-
 #If you want to have multiple snapping files, set the file name here
 snap_file:
   webkit: "javascript/snap.js"
@@ -90,6 +81,27 @@ spider_days:
 #
 ###################################################################
 
+#set the devices you want to run each browser in your suite on here.
+#you can have 'desktop', 'device', or both
+browser_devices:
+  android:
+    device:
+  safari:
+    desktop:
+  chrome:
+    desktop:
+  firefox:
+    desktop:
+  ie:
+    desktop:
+
+#you can define some default parameters to pass to the selenium driver here,
+#can also leave blank as all optional, but don't delete the key structure
+default_parameters:
+  :url:
+  :capabilities:
+    :version:
+    :platform:
 
 #page load timeout
 timeout: 20
@@ -98,7 +110,8 @@ timeout: 20
 base_browser:
 
 #set this to get selenium to wait until a certain page element is displayed
-wait_until_element: comp-most-popular
+#wait_until_element: comp-most-popular
+wait_until_element:
 
 #set this flag to true if using browser based comparison and you wish to compare
 #the base browser to itself. This can be useful to check for page differences caused
