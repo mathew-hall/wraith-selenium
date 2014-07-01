@@ -40,12 +40,13 @@ base_compare_file_examples_browser_comparison:
   - 'shots/home/320_selenium_local_desktop_mac_firefox_compare.png'
   - 'shots/home/320_selenium_local_desktop_mac_safari_compare.png'
 
-#different wraith config files to load depending on type of run
+#different wraith config files to load depending on type of run - each config is a feature scenario
 wraith_configs:
   test_webkit_url_config: 'test_phantomjs_url_desktop_config'
   test_selenium_url_config: 'test_selenium_url_desktop_config'
   test_selenium_browser_config: 'test_selenium_browser_desktop_config'
-  test_selenium_grid_browser_config: 'test_selenium_grid_browser_desktop_config'
+  test_selenium_grid_browser_config: 'test_selenium_grid_browser_config'
+  test_selenium_grid_advanced_crop_config: 'test_selenium_grid_advanced_crop_config'
 
 #test expectations
 test_expectations:
@@ -82,11 +83,16 @@ test_expectations:
     standard: ["safari", "chrome", "firefox"]
     webkit: ['phantomjs']
   browser_devices:
-    android: ['device']
-    safari: ['desktop']
-    chrome: ['desktop']
-    firefox: ['desktop']
-    ie: ['desktop']
+    android:
+      device:
+    safari:
+      desktop:
+    chrome:
+      desktop:
+    firefox:
+      desktop:
+    ie:
+      desktop:
   base_type_browser_device_file_count:
     url:
       phantomjs:
@@ -125,11 +131,17 @@ test_expectations:
       - 'shots/home/320_selenium_local_desktop_mac_chrome_compare.png'
       - 'shots/home/320_selenium_local_desktop_mac_firefox_compare.png'
       - 'shots/home/320_selenium_local_desktop_mac_safari_compare.png'
-  wait_until_element: comp-most-popular
+  default_screen_height: 1000
+  default_wait_until_element: comp-most-popular
   os_string:
     grid: 'Linux'
     local: ['windows','mac','linux','unix']
   capabilities_array:
     - :url: 'http://blah.com'
       :os: 'linux'
+  default_parameters:
+    :url:
+    :capabilities:
+      :version:
+      :platform:
   grid_url: 'http://localhost:4444'

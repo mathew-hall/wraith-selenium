@@ -19,8 +19,12 @@ class Wraith::Wraith
     @config['timeout']
   end
 
-  def widths
-    @config['screen_widths']
+  def screen_dimensions
+    @config['screen_dimensions']
+  end
+
+  def default_screen_height
+    @config['default_screen_height']
   end
 
   def domains
@@ -129,8 +133,8 @@ class Wraith::Wraith
     @config['compare_base_to_base']
   end
 
-  def wait_until_element
-    @config['wait_until_element']
+  def default_wait_until_element
+    @config['default_wait_until_element']
   end
 
   def screenshot_bias
@@ -141,26 +145,20 @@ class Wraith::Wraith
     @config['grid_url']
   end
 
-  def capture_page_image(driver, browser, url, width, file_name)
+  def capture_page_image(driver, browser, url, dimensions, file_name)
 
     if (defined?(driver)) && driver.instance_of?(Selenium::WebDriver::Driver)
       begin
-        height = driver.manage.window.size.height
-        if height.nil?
-          height = 1000
-        end
+        width = dimensions[0]
+        height = dimensions[1]
+
         driver.manage.window.resize_to(width, height)
 
-        new_dimensions = driver.manage.window.size
-        new_width = new_dimensions.width
-        new_height = new_dimensions.height
-        puts "width = " + new_width.to_s
-        puts "new_height = " + new_height.to_s
       end
       driver.get(url)
-      if width != new_width
-        puts "Width error!!! Should be " + width.to_s + " but is " + new_width.to_s
-      end
+      #TODO: refactor this properly -
+      driver.execute_script("window.scrollBy(200,200)", "")
+      sleep 5
       if wait_until_element
         begin
           wait = Selenium::WebDriver::Wait.new(:timeout => 10) # seconds

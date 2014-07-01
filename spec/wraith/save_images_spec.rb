@@ -54,20 +54,21 @@ describe Wraith::SaveImages, '#get_capabilities_array' do
 
     cap_array = test_expectations['capabilities_array']
 
-    returned_array = save_images_selenium.get_capabilities_array(cap_array)
+    returned_array = save_images_selenium.get_parameters_array(cap_array)
 
     expect(returned_array).to match_array cap_array
   end
 
   it 'should return a new array with one element consisting of an empty hash if object is nil' do
 
-    returned_array = save_images_selenium.get_capabilities_array(nil)
+    expected_default_parameters = test_expectations['default_parameters']
+    returned_array = save_images_selenium.get_parameters_array(nil)
 
     expect(returned_array.is_a?(Array)).to eq true
     expect(returned_array.length).to eq 1
 
     expect(returned_array[0].is_a?(Hash)).to eq true
-    expect(returned_array[0].keys.length).to eq 0
+    expect(returned_array[0]).to eq expected_default_parameters
   end
 end
 

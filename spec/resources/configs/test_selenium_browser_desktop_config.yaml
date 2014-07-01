@@ -40,8 +40,8 @@ domains:
     compare: "http://www.live.bbc.co.uk/news"
 
 
-#Type screen widths below, here are a couple of examples
-screen_widths:
+#Type screen widths and heights below, here are a couple of examples
+screen_dimensions:
   desktop:
     - 320
     - 600
@@ -115,10 +115,13 @@ timeout: 20
 #set this if you are using browser type based comparison
 base_browser: chrome
 
+#if you have just set screen widths in screen_dimensions, you can set a generic height for the screen here
+default_screen_height: 1000
+
 #set this to get selenium to wait until a certain page element is displayed
-#wait_until_element: orb-contentinfo
-#wait_until_element: comp-most-popular
-wait_until_element:
+#default_wait_until_element: orb-contentinfo
+#default_wait_until_element: comp-most-popular
+default_wait_until_element:
 
 #very annoyingly and weirdly, selenium often interprets screenshot sizes different from those
 #stipulated in your window dimensions. Offset behaviour seems inconsistent between browsers, browser versions and

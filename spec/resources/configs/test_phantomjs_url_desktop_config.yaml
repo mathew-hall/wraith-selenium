@@ -51,7 +51,7 @@ domains:
     compare:
 
 #Type screen widths below, here are a couple of examples
-screen_widths:
+screen_dimensions:
   desktop:
     - 320
     - 600

@@ -112,7 +112,7 @@ base_type: browser
 base_browser:
 
 #set this to get selenium to wait until a certain page element is displayed
-wait_until_element: comp-most-popular
+default_wait_until_element: comp-most-popular
 
 #very annoyingly and weirdly, selenium often interprets screenshot sizes different from those
 #stipulated in your window dimensions. Offset behaviour seems inconsistent between browsers, browser versions and

@@ -55,12 +55,15 @@ Then(/^I expect to see (.*) (.*) files preserved for each width for (.*)$/) do |
     extn = '.txt'
   end
   shot_directory = @cnf_vals['directory'][0]
-  widths = @cnf_vals['screen_widths']
+  screen_dimensions = @cnf_vals['screen_dimensions']
   paths = @cnf_vals['paths']
 
    paths.each_key do |path|
     full_path = Dir.pwd + '/' + shot_directory + '/' + path
-    widths[device_or_desktop].each do |width|
+    screen_dimensions[device_or_desktop].each do |dim|
+
+      dim.is_a?(Array) ? width = dim[0] : width = dim
+
       regex_hash = {
         'prefix' => width,
         'middle' => '',
@@ -126,13 +129,16 @@ And(/^a thumbnail version should be created for the images at each width giving 
   extn = '.png'
 
   shot_directory = @cnf_vals['directory'][0]
-  widths = @cnf_vals['screen_widths']
+  screen_dimensions = @cnf_vals['screen_dimensions']
   paths = @cnf_vals['paths']
   thumbnail_directory = @cnf_vals['thumbnail_directory']
 
   paths.each_key do |path|
     full_path = Dir.pwd + '/' + shot_directory + '/' + thumbnail_directory + '/' + path
-    widths[device_or_desktop].each do |width|
+    screen_dimensions[device_or_desktop].each do |dim|
+
+      dim.is_a?(Array) ? width = dim[0] : width = dim
+
       regex_hash = {
         'prefix' => width,
         'middle' => '',

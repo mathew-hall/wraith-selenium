@@ -16,6 +16,7 @@ wraith_webkit_url = Wraith::Wraith.new(configs['test_webkit_url_config'])
 wraith_selenium_url = Wraith::Wraith.new(configs['test_selenium_url_config'])
 wraith_selenium_browser = Wraith::Wraith.new(configs['test_selenium_browser_config'])
 wraith_selenium_grid_browser = Wraith::Wraith.new(configs['test_selenium_grid_browser_config'])
+wraith_selenium_grid_advanced_crop = Wraith::Wraith.new(configs['test_selenium_grid_advanced_crop_config'])
 test_expectations = helpers.test_expectations
 
 describe Wraith, '#directory'  do
@@ -52,11 +53,11 @@ describe Wraith, '#widths' do
   expected_array = test_expectations['width_array']
 
   it 'should return the widths specified when using the webkit config file' do
-    expect(wraith_webkit_url.widths).to eq expected_array
+    expect(wraith_webkit_url.screen_dimensions).to eq expected_array
   end
 
   it 'should return the widths specified when using the selenium config file' do
-    expect(wraith_selenium_url.widths).to eq expected_array
+    expect(wraith_selenium_grid_advanced_crop.screen_dimensions).to eq expected_array
   end
 end
 
@@ -226,6 +227,17 @@ describe Wraith, '#grid_url' do
     expected_grid_url = test_expectations['grid_url']
 
     expect(wraith_selenium_grid_browser.grid_url).to eq expected_grid_url
+  end
+end
+
+describe Wraith, '#default_screen_height' do
+
+  it 'should return the default screen height in the configuration file' do
+
+    expected_height = test_expectations['default_screen_height']
+
+    expect(wraith_selenium_browser.default_screen_height).to eq expected_height
+
   end
 end
 
@@ -401,12 +413,22 @@ describe Wraith::Wraith, '#get_files_from_array_until_regex' do
 
 end
 
-describe Wraith, '#wait_until_element' do
+describe Wraith, '#default_wait_until_element' do
 
   it 'should return the id of a page element that must be present before the wait condition is satisfied' do
-    expect(wraith_selenium_browser.wait_until_element).to eq test_expectations['wait_until_element']
+    expect(wraith_selenium_url.default_wait_until_element).to eq test_expectations['default_wait_until_element']
   end
 
+end
+
+describe Wraith, '#default_parameters' do
+
+  it 'should return the default parameters key structure' do
+
+    expected_default_parameters = test_expectations['default_parameters']
+
+    expect(wraith_selenium_grid_browser.default_parameters).to eq expected_default_parameters
+  end
 end
 
 describe Wraith::CropImages, '#find_heights' do

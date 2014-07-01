@@ -34,22 +34,8 @@ module Wraith::Driver
     if (defined?(engine)).nil? || engine.nil?
       return nil
     end
-    if engine_mode =='local' && device = 'desktop'
+    if engine_mode =='local' && device == 'desktop'
       return Selenium::WebDriver.for parameters[:browser].to_sym
-
-    # if engine_mode == 'local'
-    #   if device == 'desktop'
-    #     if engine.eql?('selenium') && browser.eql?('chrome')
-    #       return Selenium::WebDriver.for :chrome
-    #     elsif engine.eql?('selenium') && browser.eql?('safari')
-    #       return Selenium::WebDriver.for :safari
-    #     elsif engine.eql?('selenium') && browser.eql?('firefox')
-    #       return Selenium::WebDriver.for :firefox
-    #     elsif engine.eql?('selenium') && browser.eql?('ie')
-    #       return Selenium::WebDriver.for :ie
-    #     elsif engine.eql?('selenium') && browser.eql?('opera')
-    #       return Selenium::WebDriver.for :opera
-    #     end
     elsif device == 'device'
       if engine.eql?('selenium') && browser.eql?('android')
         return Selenium::WebDriver.for :remote, :desired_capabilities => :android, :url => 'http://localhost:4444/wd/hub/'
@@ -63,7 +49,6 @@ module Wraith::Driver
         return Selenium::WebDriver.for :remote, :desired_capabilities => :ipad, :url => 'http://<DEVICE IP>:3001/wd/hub/'
       end
     end
-    # end
   end
 
   def quit(driver)

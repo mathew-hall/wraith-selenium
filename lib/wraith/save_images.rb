@@ -96,7 +96,20 @@ class Wraith::SaveImages
               set_page_load_timeout(driver,timeout)
             end
 
-            wraith.widths[device_or_desktop].each do |width|
+            wraith.screen_dimensions[device_or_desktop].each do |dim|
+
+              height = wraith.default_screen_height
+              # TODO add routine that adds default wait_until if not specified to options
+              # TODO add a subroutine to check that all elements are present for complex cropping
+              # TODO procedures - name - MUST be present, width MUST be present, height optional, scroll coords option
+              # TODO but must have x and y, wait until optional
+
+              if dim.is_a?(Array)
+                width = dim[0]
+                height = dim[1]
+              else
+                width = dim
+              end
 
               base_file_name = file_names(width, label, os, browser, actual_device, wraith.base_domain_label)
               compare_file_name = file_names(width, label, os, browser, actual_device, wraith.comp_domain_label)
@@ -108,24 +121,26 @@ class Wraith::SaveImages
                 end
                 width = width + width_bias
               end
+
+              new_dimensions = [width, height]
               #with url based testing we always take a base shot and comparison shot. The urls are unique in each case
               if wraith.base_type == 'url'
-                wraith.capture_page_image driver, browser, base_url, width, base_file_name unless base_url.nil?
-                wraith.capture_page_image driver, browser, compare_url, width, compare_file_name unless compare_url.nil?
+                wraith.capture_page_image driver, browser, base_url, new_dimensions, base_file_name unless base_url.nil?
+                wraith.capture_page_image driver, browser, compare_url, new_dimensions, compare_file_name unless compare_url.nil?
               #with browser based comparison we take base shot if the current browser is the configured base browser.
               #the urls tested are always identical
               #we can also take a second comparison shot using the base browser if we wish
               #this will be helpful to capture web site instabilities which have nothing to do
               #with cross browser issues
               elsif wraith.base_type == 'browser' && wraith.base_browser == browser && wraith.compare_base_to_base
-                wraith.capture_page_image driver, browser, base_url, width, base_file_name unless base_url.nil?
-                wraith.capture_page_image driver, browser, compare_url, width, compare_file_name unless compare_url.nil?
+                wraith.capture_page_image driver, browser, base_url, new_dimensions, base_file_name unless base_url.nil?
+                wraith.capture_page_image driver, browser, compare_url, new_dimensions, compare_file_name unless compare_url.nil?
               elsif wraith.base_type == 'browser' && wraith.base_browser == browser
-                wraith.capture_page_image driver, browser, base_url, width, base_file_name unless base_url.nil?
+                wraith.capture_page_image driver, browser, base_url, new_dimensions, base_file_name unless base_url.nil?
               #if the comparison type is browser, then any screenshots from a browser that is not the base browser are
               #saved as comparison shots
               elsif wraith.base_type == 'browser'
-                wraith.capture_page_image driver, browser, compare_url, width, compare_file_name unless compare_url.nil?
+                wraith.capture_page_image driver, browser, compare_url, new_dimensions, compare_file_name unless compare_url.nil?
               end
             end
             unless driver.nil?
