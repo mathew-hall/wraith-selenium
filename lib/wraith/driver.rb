@@ -11,7 +11,7 @@ module Wraith::Driver
     return capabilities_array
   end
 
-  def get_url(engine_mode,selenium_grid_url,capabilities_url)
+  def set_url(engine_mode,selenium_grid_url,capabilities_url)
     if engine_mode == 'grid'
       selenium_grid_url
     else
@@ -19,35 +19,21 @@ module Wraith::Driver
     end
   end
 
-  def is_url_properly_set(engine_mode, actual_device, url)
-    #no url is needed when running locally on desktop
-    if engine_mode == 'local' && actual_device == 'desktop'
-      return true
-    elsif url.nil?
-    puts 'The device or grid url is not set. Ignoring'
-      return false
+  def set_browser_name(device_or_desktop,browser,precise_device)
+    if device_or_desktop == 'desktop'
+      browser
+    else
+      precise_device
     end
-    return true
   end
 
   def return_driver_instance(engine, engine_mode, parameters, device)
     if (defined?(engine)).nil? || engine.nil?
       return nil
-    end
-    if engine_mode =='local' && device == 'desktop'
-      return Selenium::WebDriver.for parameters[:browser].to_sym
-    elsif device == 'device'
-      if engine.eql?('selenium') && browser.eql?('android')
-        return Selenium::WebDriver.for :remote, :desired_capabilities => :android, :url => 'http://localhost:4444/wd/hub/'
-      elsif engine.eql?('selenium') && browser.eql?('chrome')
-        return Selenium::WebDriver.for :remote, :desired_capabilities => :chrome
-      elsif engine.eql?('selenium') && browser.eql?('firefox')
-        return Selenium::WebDriver.for :remote, :desired_capabilities => :firefox
-      elsif engine.eql?('selenium') && browser.eql?('ie')
-        return Selenium::WebDriver.for :remote, :desired_capabilities => :ie
-      elsif engine.eql?('selenium') && browser.eql?('safari')
-        return Selenium::WebDriver.for :remote, :desired_capabilities => :ipad, :url => 'http://<DEVICE IP>:3001/wd/hub/'
-      end
+    elsif engine_mode =='local' && device == 'desktop'
+      return Selenium::WebDriver.for parameters[:capabilities][:browser_name].to_sym
+    else
+      return Selenium::WebDriver.for :remote, :desired_capabilities => parameters[:capabilities], :url => parameters[:url]
     end
   end
 
@@ -75,11 +61,11 @@ module Wraith::Driver
     unix? and not mac?
   end
 
-  #returns the remote os if one defined for grid
+  #returns the remote os if one defined for grid or locally attached device
   #if running locally then finds the local os and returns as string
-  def os_string(engine_mode,remote_os)
-    if engine_mode == 'grid'
-      return remote_os
+  def os_string(engine_mode, device_or_desktop, remote_os)
+    if engine_mode == 'grid' || device_or_desktop == 'device'
+      return remote_os.to_s
     elsif windows?
       return 'windows'
     elsif mac?
@@ -102,23 +88,48 @@ module Wraith::Driver
       true
   end
 
-  def os_set(engine_mode, remote_os)
-    if engine_mode == 'grid' && remote_os.nil?
-      puts 'You MUST define the remote os when using Selenium Grid. Ignoring.'
+  def is_url_set(engine_mode, actual_device, url)
+    #no url is needed when running locally on desktop
+    if engine_mode == 'local' && actual_device == 'desktop'
+      return true
+    elsif url.nil?
+    puts 'The device or grid url is not set. Ignoring'
+      return false
+    end
+    return true
+  end
+
+  def is_os_set(engine_mode, device_or_desktop, remote_os)
+    if (engine_mode == 'grid' || device_or_desktop == 'device') && remote_os.nil?
+      puts 'You MUST define the remote os when using Selenium Grid or a remote device. Ignoring.'
       false
     else
       true
     end
   end
 
-  #will always return 'Desktop' is this the generic device type
-  #will otherwise get the specific device defined in the capability
+  def is_precise_device_set(precise_device)
+    if precise_device.nil?
+      puts 'If running on a device, you must configure the actual device (iPad / iPhone, etc) you are running on. Ignoring'
+      return false
+    end
+    return true
+  end
+
+  def is_browser_name_set(browser_name)
+      if browser_name.nil?
+        puts 'You must properly configure your browser name. Ignoring'
+        return false
+      end
+      return true
+  end
+
+  #will always return 'Desktop' as the generic type unless running on a device
+  #in which case gets the specific device defined in the parameters in the config
   #used for file name
-  def precise_device(desktop_or_device, precise_device)
+  def set_precise_device(desktop_or_device, precise_device)
     if desktop_or_device == 'desktop'
       return desktop_or_device
-    elsif precise_device.nil?
-      puts 'You must configure the precise device type. Ignoring.'
     end
     return precise_device
   end

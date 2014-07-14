@@ -19,8 +19,8 @@ class Wraith::Wraith
     @config['timeout']
   end
 
-  def screen_dimensions
-    @config['screen_dimensions']
+  def screen_properties
+    @config['screen_properties']
   end
 
   def default_screen_height
@@ -137,6 +137,28 @@ class Wraith::Wraith
     @config['default_wait_until_element']
   end
 
+  def wait_until_element(element=nil)
+    unless element.nil?
+      element
+    else
+      default_wait_until_element
+    end
+  end
+
+  def check_viewport_origin(viewport_origin)
+    if viewport_origin.nil?
+      false
+    elsif viewport_origin.is_a?(Array) == false
+      false
+    elsif viewport_origin[0].nil?  || viewport_origin[0].to_s !~ /^\d+$/
+      false
+    elsif viewport_origin[1].nil?  || viewport_origin[1].to_s !~ /^\d+$/
+      false
+    else
+      true
+    end
+  end
+
   def screenshot_bias
     @config['screenshot_bias']
   end
@@ -145,21 +167,24 @@ class Wraith::Wraith
     @config['grid_url']
   end
 
-  def capture_page_image(driver, browser, url, dimensions, file_name)
+  def capture_page_image(driver, browser, url, props, file_name)
 
+    width = props[:dimensions][0]
+    height = props[:dimensions][1]
     if (defined?(driver)) && driver.instance_of?(Selenium::WebDriver::Driver)
       begin
-        width = dimensions[0]
-        height = dimensions[1]
-
         driver.manage.window.resize_to(width, height)
-
       end
       driver.get(url)
-      #TODO: refactor this properly -
-      driver.execute_script("window.scrollBy(200,200)", "")
-      sleep 5
-      if wait_until_element
+      #do we have a view port origin configured? - if so use javascript to scroll to it
+      if check_viewport_origin(props[:viewport_origin])
+        begin
+          javascript = 'window.scrollBy(' + props[:viewport_orgin][0] + ',' + props[:viewport_orgin][1] + ',200)'
+          driver.execute_script(javascript, '')
+          sleep 5
+        end
+      end
+      if wait_until_element(props[:wait_until_element])
         begin
           wait = Selenium::WebDriver::Wait.new(:timeout => 10) # seconds
           wait.until { driver.find_element(:id => wait_until_element) }

@@ -46,7 +46,7 @@ domains:
     compare:
 
 #Type screen widths below, here are a couple of examples
-screen_widths:
+screen_properties:
   desktop:
     - 320
     - 600
@@ -102,6 +102,9 @@ default_parameters:
   :capabilities:
     :version:
     :platform:
+
+#if you have just set screen widths in screen_dimensions, you can set a generic height for the screen here
+default_screen_height: 1000
 
 #page load timeout
 timeout: 20

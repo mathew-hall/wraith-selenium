@@ -23,8 +23,6 @@ describe Wraith::CompareImages, '#compare_images' do
     helpers.loop_and_execute_on_directories('destroy', directory, paths, '')
     helpers.loop_and_execute_on_directories('wipe', directory + '/' + thumbnails_dir, paths, '*')
     helpers.loop_and_execute_on_directories('destroy', directory + '/' + thumbnails_dir, paths, '')
-    helpers.destroy_directory(directory + '/' + thumbnails_dir)
-    helpers.destroy_directory(directory)
     helpers.create_directory(directory)
     helpers.create_directory(directory + '/' + thumbnails_dir)
     helpers.image_setup(directory,paths)

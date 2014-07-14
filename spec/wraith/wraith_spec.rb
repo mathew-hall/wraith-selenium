@@ -50,14 +50,14 @@ end
 
 describe Wraith, '#widths' do
 
-  expected_array = test_expectations['width_array']
+  expected_array = test_expectations['screen_properties']
 
   it 'should return the widths specified when using the webkit config file' do
-    expect(wraith_webkit_url.screen_dimensions).to eq expected_array
+    expect(wraith_webkit_url.screen_properties).to match_array expected_array['standard']
   end
 
   it 'should return the widths specified when using the selenium config file' do
-    expect(wraith_selenium_grid_advanced_crop.screen_dimensions).to eq expected_array
+    expect(wraith_selenium_grid_advanced_crop.screen_properties).to match_array expected_array['advanced']
   end
 end
 
@@ -387,6 +387,29 @@ describe Wraith, '#check_base_browser' do
   end
 end
 
+describe Wraith::Wraith, '#check_viewport_origin' do
+
+  it 'should return false if viewport_origin object is nil' do
+    expect(wraith_selenium_browser.check_viewport_origin(nil)).to eq false
+  end
+
+  it 'should return false if viewport_origin object is not an array' do
+    expect(wraith_selenium_browser.check_viewport_origin(Hash.new)).to eq false
+  end
+
+  it 'should return false if viewport_origin x coord is not an Number' do
+    expect(wraith_selenium_browser.check_viewport_origin(['x',200])).to eq false
+  end
+
+  it 'should return false if viewport_origin y coord is not an Number' do
+    expect(wraith_selenium_browser.check_viewport_origin([200,'y'])).to eq false
+  end
+
+  it 'should return true if viewport_origin is an array object and first two elements are integers' do
+    expect(wraith_selenium_browser.check_viewport_origin([200,200])).to eq true
+  end
+end
+
 describe Wraith::Wraith, '#get_files_from_array_until_regex' do
 
   it 'should return base and compare array slice and the remnant array based on a regex for url based comparison' do
@@ -416,9 +439,24 @@ end
 describe Wraith, '#default_wait_until_element' do
 
   it 'should return the id of a page element that must be present before the wait condition is satisfied' do
-    expect(wraith_selenium_url.default_wait_until_element).to eq test_expectations['default_wait_until_element']
+    expect(wraith_selenium_url.default_wait_until_element).to eq test_expectations['wait_until_element']['default']
   end
 
+end
+
+describe Wraith, '#wait_until_element' do
+
+  it 'should return the passed in wait value if set' do
+    expect(wraith_selenium_url.wait_until_element(test_expectations['wait_until_element']['passed_in'])).to eq test_expectations['wait_until_element']['passed_in']
+  end
+
+  it 'should return the passed in the default value if the passed in value is nil' do
+     expect(wraith_selenium_url.wait_until_element(nil)).to eq test_expectations['wait_until_element']['default']
+  end
+
+  it 'should return the passed in the default value if no value passed in' do
+       expect(wraith_selenium_url.wait_until_element).to eq test_expectations['wait_until_element']['default']
+  end
 end
 
 describe Wraith, '#default_parameters' do

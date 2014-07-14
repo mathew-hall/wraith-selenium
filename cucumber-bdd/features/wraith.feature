@@ -24,7 +24,9 @@ Feature: Capturing browser screenshots of URLS and calculating diffs between a b
     #selenium url based comparison
     #|selenium     |url      | 3               |3                  |3                |3              |9              |desktop          |
     #selenium browser based comparison
-    |selenium     |browser  | 1               |3                  |3                |3              |7              |desktop          |
+    #|selenium     |browser  | 1               |3                  |3                |3              |7              |desktop          |
+    #selenium browser based comparison
+    |selenium_grid|browser  | 1               |3                  |3                |3              |7              |desktop          |
     #selenium url based comparison using devices. This example uses an iPad with webdriver installed upon it
     #|selenium     |url      | 1               |1                  |1                |1              |3              |device           |
 

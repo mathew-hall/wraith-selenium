@@ -41,7 +41,7 @@ domains:
 
 
 #Type screen widths and heights below, here are a couple of examples
-screen_dimensions:
+screen_properties:
   desktop:
     - 320
     - 600

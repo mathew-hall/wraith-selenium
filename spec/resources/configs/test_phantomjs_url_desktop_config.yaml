@@ -51,7 +51,7 @@ domains:
     compare:
 
 #Type screen widths below, here are a couple of examples
-screen_dimensions:
+screen_properties:
   desktop:
     - 320
     - 600
@@ -65,6 +65,18 @@ screen_dimensions:
 paths:
   home: /
   uk_index: /uk
+
+#you can define some default parameters to pass to the selenium driver here,
+#can also leave blank as all optional, but don't delete the key structure
+#leave blank when using phantomJS
+default_parameters:
+  :url:
+  :capabilities:
+    :version:
+    :platform:
+
+#if you have just set screen widths in screen_dimensions, you can set a generic height for the screen here
+default_screen_height: 1000
 
 # If you don't want to name the paths explicitly you can use a yaml
 # collection as follows, and names will be derived by replacing / with _

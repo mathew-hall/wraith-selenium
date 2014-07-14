@@ -45,8 +45,8 @@ wraith_configs:
   test_webkit_url_config: 'test_phantomjs_url_desktop_config'
   test_selenium_url_config: 'test_selenium_url_desktop_config'
   test_selenium_browser_config: 'test_selenium_browser_desktop_config'
-  test_selenium_grid_browser_config: 'test_selenium_grid_browser_config'
-  test_selenium_grid_advanced_crop_config: 'test_selenium_grid_advanced_crop_config'
+  test_selenium_grid_browser_config: 'test_selenium_grid_browser_desktop_config'
+  test_selenium_grid_advanced_crop_config: 'test_selenium_grid_advanced_crop_desktop_config'
 
 #test expectations
 test_expectations:
@@ -60,9 +60,32 @@ test_expectations:
   thumbnails_directory: 'thumbnails_dir'
   image_store_dir: 'image_store_dir'
   timeout: 20
-  width_array:
-    desktop: [320, 600, 768, 1024, 1280]
-    device: [1024]
+  screen_properties:
+    standard:
+      desktop: [320, 600, 768, 1024, 1280]
+      device: [1024]
+    advanced:
+      desktop:
+        - :name: 'view1'
+          :dimensions: [320,200]
+          :viewport_origin: [100,100]
+          :wait_until_element:
+        - :name: 'view2'
+          :dimensions: [600,450]
+          :viewport_origin: [200,200]
+          :wait_until_element:
+        - :name: 'view3'
+          :dimensions: [768,900]
+          :viewport_origin: [200,300]
+          :wait_until_element:
+        - :name: 'view4'
+          :dimensions: [1024,1024]
+          :viewport_origin: [200,400]
+          :wait_until_element:
+        - :name: 'view5'
+          :dimensions: [1280,1280]
+          :viewport_origin: [200,500]
+          :wait_until_element:
   base_browser: chrome
   base_types:
     url: 'url'
@@ -132,10 +155,13 @@ test_expectations:
       - 'shots/home/320_selenium_local_desktop_mac_firefox_compare.png'
       - 'shots/home/320_selenium_local_desktop_mac_safari_compare.png'
   default_screen_height: 1000
-  default_wait_until_element: comp-most-popular
+  wait_until_element:
+    default: comp-most-popular
+    passed_in: xxx
   os_string:
-    grid: 'Linux'
-    local: ['windows','mac','linux','unix']
+    grid_and_desktop: 'Linux'
+    local_and_device: 'Linux'
+    local_and_desktop: ['windows','mac','linux','unix']
   capabilities_array:
     - :url: 'http://blah.com'
       :os: 'linux'
@@ -145,3 +171,9 @@ test_expectations:
       :version:
       :platform:
   grid_url: 'http://localhost:4444'
+  set_precise_device:
+    desktop: desktop
+    device: iPad
+  set_browser_name:
+    desktop: safari
+    device: iPad

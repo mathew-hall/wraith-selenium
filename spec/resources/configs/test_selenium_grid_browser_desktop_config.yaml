@@ -6,7 +6,7 @@ suite: "standard"
 #define different suites of browsers here
 suites:
   webkit: ["phantomjs"]
-  standard: ["safari", "chrome", "firefox"]
+  standard: ["firefox"]
 
 #define different engines/drivers to run your browser suites here - e.g. selenium
 engine:
@@ -40,7 +40,7 @@ domains:
     compare: "http://www.live.bbc.co.uk/news"
 
 #Type screen widths below, here are a couple of examples
-screen_widths:
+screen_properties:
   desktop:
     - 320
     - 600
@@ -81,16 +81,11 @@ spider_days:
 #set the devices you want to run each browser in your suite on here.
 #you can have 'desktop', 'device', or both
 browser_devices:
-  android:
-    device:
-  safari:
-    desktop:
-  chrome:
-    desktop:
   firefox:
     desktop:
-  ie:
-    desktop:
+      - :capabilities:
+          :platform: LINUX
+
 
 #you can define some default parameters to pass to the selenium driver here,
 #can also leave blank as all optional, but don't delete the key structure
@@ -99,6 +94,9 @@ default_parameters:
   :capabilities:
     :version:
     :platform:
+
+#if you have just set screen widths in screen_dimensions, you can set a generic height for the screen here
+default_screen_height: 1000
 
 #page load timeout
 timeout: 20
@@ -159,5 +157,5 @@ screenshot_bias:
 #
 ###################################################################
 
-grid_url: http://localhost:4444
+grid_url: http://192.168.1.74:4444/wd/hub
 
