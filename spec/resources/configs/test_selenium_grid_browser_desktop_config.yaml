@@ -6,7 +6,7 @@ suite: "standard"
 #define different suites of browsers here
 suites:
   webkit: ["phantomjs"]
-  standard: ["firefox"]
+  standard: ["ie"]
 
 #define different engines/drivers to run your browser suites here - e.g. selenium
 engine:
@@ -81,10 +81,14 @@ spider_days:
 #set the devices you want to run each browser in your suite on here.
 #you can have 'desktop', 'device', or both
 browser_devices:
-  firefox:
+  chrome:
     desktop:
       - :capabilities:
-          :platform: LINUX
+          :platform: WINDOWS
+  ie:
+    desktop:
+      - :capabilities:
+          :platform: WINDOWS
 
 
 #you can define some default parameters to pass to the selenium driver here,
@@ -123,6 +127,15 @@ default_wait_until_element: comp-most-popular
 #between different widths, so you will probably have to set some of these values by inspection of the image gallery
 screenshot_bias:
   width:
+    ie:
+      desktop:
+        320: 0
+        600: 0
+        768: 0
+        1024: 0
+        1280: 0
+      device:
+        1024: 0
     chrome:
       desktop:
         320: 0

@@ -77,11 +77,11 @@ module Wraith::Driver
     end
   end
 
-  def os_compatible(browser, device)
-    if !windows? && device == 'desktop' && browser.eql?('ie')
+  def os_compatible(browser, engine_mode, device)
+    if !windows? && device == 'desktop' && engine_mode == 'local' && browser.eql?('ie')
       puts 'Sorry, you can not run Internet Explorer on this OS'
       return false
-    elsif device == 'desktop' && browser == 'android'
+    elsif device == 'desktop' && engine_mode == 'local' &&  browser == 'android'
       puts 'Sorry, you can not run ' + browser + ' on ' + device + '.'
       return false
     end

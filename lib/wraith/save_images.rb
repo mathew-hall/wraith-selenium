@@ -72,7 +72,7 @@ class Wraith::SaveImages
           browser_devices_for_browser = browser_devices[browser]
         end
         browser_devices_for_browser.each_key do |device_or_desktop|
-          next unless(os_compatible(browser, device_or_desktop))
+          next unless(os_compatible(browser, engine_mode, device_or_desktop))
 
           parameters_array = get_parameters_array(browser_devices_for_browser[device_or_desktop])
 
