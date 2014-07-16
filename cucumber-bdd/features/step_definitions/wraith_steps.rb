@@ -129,13 +129,13 @@ And(/^a thumbnail version should be created for the images at each width giving 
   extn = '.png'
 
   shot_directory = @cnf_vals['directory'][0]
-  screen_dimensions = @cnf_vals['screen_dimensions']
+  screen_properties = @cnf_vals['screen_properties']
   paths = @cnf_vals['paths']
   thumbnail_directory = @cnf_vals['thumbnail_directory']
 
   paths.each_key do |path|
     full_path = Dir.pwd + '/' + shot_directory + '/' + thumbnail_directory + '/' + path
-    screen_dimensions[device_or_desktop].each do |dim|
+    screen_properties[device_or_desktop].each do |dim|
 
       dim.is_a?(Array) ? width = dim[0] : width = dim
 
