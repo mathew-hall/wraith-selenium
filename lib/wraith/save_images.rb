@@ -46,8 +46,8 @@ class Wraith::SaveImages
     wraith.comp_domain + path unless wraith.comp_domain.nil?
   end
 
-  def file_names(width, label, os, browser, device, domain_label)
-    "#{directory}/#{label}/#{width}_#{engine}_#{engine_mode}_#{device}_#{os}_#{browser}_#{domain_label}.png"
+  def file_names(width, label, os, browser, version, device, domain_label)
+    "#{directory}/#{label}/#{width}_#{engine}_#{engine_mode}_#{device}_#{browser}_#{domain_label}.png"
   end
 
   def save_images
@@ -89,6 +89,7 @@ class Wraith::SaveImages
             parameters[:capabilities][:browser_name] = set_browser_name(device_or_desktop,browser,precise_device)
             next unless is_browser_name_set(parameters[:capabilities][:browser_name])
 
+            browser_version = parameters[:capabilities][:version]
             #can return nil if there is no engine
             driver = return_driver_instance(engine, engine_mode, parameters, precise_device)
 
@@ -110,8 +111,8 @@ class Wraith::SaveImages
                 props_hash[:name] = props
               end
 
-              base_file_name = file_names(props_hash[:name], label, os_name, browser, precise_device, wraith.base_domain_label)
-              compare_file_name = file_names(props_hash[:name], label, os_name, browser, precise_device, wraith.comp_domain_label)
+              base_file_name = file_names(props_hash[:name], label, os_name, browser, browser_version, precise_device, wraith.base_domain_label)
+              compare_file_name = file_names(props_hash[:name], label, os_name, browser, browser_version, precise_device, wraith.comp_domain_label)
               #if using selenium, calculate the actual width of screenshot buy adding the bias
               unless driver.nil?
                 width_bias = screenshot_bias['width'][browser][device_or_desktop][props_hash[:dimensions][0]]

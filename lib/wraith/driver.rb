@@ -21,9 +21,9 @@ module Wraith::Driver
 
   def set_browser_name(device_or_desktop,browser,precise_device)
     if device_or_desktop == 'desktop'
-      browser
+      browser.to_sym
     else
-      precise_device
+      precise_device.to_sym
     end
   end
 
@@ -31,9 +31,13 @@ module Wraith::Driver
     if (defined?(engine)).nil? || engine.nil?
       return nil
     elsif engine_mode =='local' && device == 'desktop'
-      return Selenium::WebDriver.for parameters[:capabilities][:browser_name].to_sym
+      return Selenium::WebDriver.for parameters[:capabilities][:browser_name]
     else
-      return Selenium::WebDriver.for :remote, :desired_capabilities => parameters[:capabilities], :url => parameters[:url]
+      caps = Selenium::WebDriver::Remote::Capabilities.send parameters[:capabilities][:browser_name]
+      parameters[:capabilities].each_key do |key|
+        caps[key] = parameters[:capabilities][key]
+      end
+      return Selenium::WebDriver.for :remote, :desired_capabilities => caps, :url => parameters[:url]
     end
   end
 

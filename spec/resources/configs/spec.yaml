@@ -170,7 +170,7 @@ test_expectations:
     :capabilities:
       :version:
       :platform:
-  grid_url: 'http://localhost:4444'
+  grid_url: 'http://localhost:4444/wd/hub'
   set_precise_device:
     desktop: desktop
     device: iPad

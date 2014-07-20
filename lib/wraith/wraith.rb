@@ -198,14 +198,37 @@ class Wraith::Wraith
 
   end
 
+  def has_stopped_mutating(filename)
+    old_file_size = 1
+    new_file_size = 2
+    time_spent = 0
+    sleep_time = 0.1
+    max_time = 5
+    #check that file has stopped mutating
+    until old_file_size == new_file_size || time_spent > max_time
+      old_file_size = File.size(filename)
+      sleep sleep_time
+      time_spent = time_spent + sleep_time
+      new_file_size = File.size(filename)
+    end
+    if time_spent > max_time
+      return false
+    else
+      return true
+    end
+  end
+
   def self.crop_images(crop, height)
+    full_path =  Dir.pwd + '/' + crop
     # For compatibility with windows file structures switch commenting on the following 2 lines
     puts `convert #{crop} -background none -extent 0x#{height} #{crop}`
     # puts `convert #{crop.gsub('/', '\\')} -background none -extent 0x#{height} #{crop.gsub('/', '\\')}`
   end
 
   def crop_images(crop, height)
-    self.class.crop_images
+    if has_stopped_mutating(crop)
+      self.class.crop_images
+    end
   end
 
   def thumbnail_image(png_path, output_path, pwd)
@@ -236,15 +259,15 @@ class Wraith::Wraith
   end
 
   def find_image_dimensions(file,dimensions='all')
-      File.open(file, 'rb') do |fh|
-        size = ImageSize.new(fh.read).size
-        if dimensions == 'all'
-          return size
-        elsif dimensions == 'width'
-          return size[0]
-        elsif dimensions == 'height'
-          return size[1]
-        end
+    File.open(file, 'rb') do |fh|
+      size = ImageSize.new(fh.read).size
+      if dimensions == 'all'
+        return size
+      elsif dimensions == 'width'
+        return size[0]
+      elsif dimensions == 'height'
+        return size[1]
       end
     end
+  end
 end

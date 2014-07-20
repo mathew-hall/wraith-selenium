@@ -49,9 +49,12 @@ class Wraith::CompareImages
   end
 
   def compare_task(base, compare, output, info)
-    cmdline = "compare -fuzz #{wraith.fuzz} -metric AE -highlight-color blue #{base} #{compare} #{output}"
-    px_value = Open3.popen3(cmdline) { |stdin, stdout, stderr, wait_thr| stderr.read }.to_f
-    img_size = ImageSize.path(output).size.inject(:*)
-    percentage(img_size, px_value, info)
+    full_path = Dir.pwd + '/' + output
+    if @wraith.has_stopped_mutating(full_path)
+      cmdline = "compare -fuzz #{wraith.fuzz} -metric AE -highlight-color blue #{base} #{compare} #{output}"
+      px_value = Open3.popen3(cmdline) { |stdin, stdout, stderr, wait_thr| stderr.read }.to_f
+      img_size = ImageSize.path(full_path).size.inject(:*)
+      percentage(img_size, px_value, info)
+    end
   end
 end

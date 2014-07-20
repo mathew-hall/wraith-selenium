@@ -51,5 +51,4 @@ class Wraith::CropImages
     end
   end
 
-
 end

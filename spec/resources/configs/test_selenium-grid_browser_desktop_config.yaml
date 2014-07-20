@@ -6,7 +6,7 @@ suite: "standard"
 #define different suites of browsers here
 suites:
   webkit: ["phantomjs"]
-  standard: ["ie"]
+  standard: ["firefox","chrome"]
 
 #define different engines/drivers to run your browser suites here - e.g. selenium
 engine:
@@ -81,14 +81,16 @@ spider_days:
 #set the devices you want to run each browser in your suite on here.
 #you can have 'desktop', 'device', or both
 browser_devices:
+  firefox:
+    desktop:
+      - :capabilities:
+          :platform: WINDOWS
+          :version: '12.0'
   chrome:
     desktop:
       - :capabilities:
           :platform: WINDOWS
-  ie:
-    desktop:
-      - :capabilities:
-          :platform: WINDOWS
+          :version: '36'
 
 
 #you can define some default parameters to pass to the selenium driver here,
@@ -111,7 +113,7 @@ timeout: 20
 base_type: browser
 
 #set this if you are using browser type based comparison
-base_browser: chrome
+base_browser: firefox
 
 #set this flag to true if using browser based comparison and you wish to compare
 #the base browser image to a shot of the refreshed page url using the same base browser.
@@ -170,5 +172,5 @@ screenshot_bias:
 #
 ###################################################################
 
-grid_url: http://192.168.1.74:4444/wd/hub
+grid_url: http://localhost:4444/wd/hub
 
