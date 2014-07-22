@@ -5,12 +5,10 @@ suite: "standard"
 
 #define different suites of browsers here
 suites:
-  webkit: ["phantomjs"]
   standard: ["firefox","chrome"]
 
 #define different engines/drivers to run your browser suites here - e.g. selenium
 engine:
-  webkit: ""
   standard: "selenium"
 
 #engine_mode - set to 'grid' if using a selenium grid, defaults to 'local'
@@ -50,20 +48,8 @@ screen_properties:
   device:
     - 1024
 
-#Type page URL paths below, here are a couple of examples
-#paths:
-#  home: /
-#  uk_index: /uk
-
 paths:
   index: /
-
-# If you don't want to name the paths explicitly you can use a yaml
-# collection as follows, and names will be derived by replacing / with _
-#
-# paths:
-#  - /imghp
-#  - /maps
 
 #Amount of fuzz ImageMagick will use
 fuzz: '20%'

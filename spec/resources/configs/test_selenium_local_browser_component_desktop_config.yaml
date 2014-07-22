@@ -3,10 +3,10 @@
 #change this line based on which suite of browsers you want to run
 suite: "standard"
 
-#define different suites of browsers here
+#define different suites of browsers here - only tested on safari and chrome - firefox
+#known not to work as has a different mechanism for taking screenshots.
 suites:
-  webkit: ["phantomjs"]
-  standard: ["safari", "chrome", "firefox"]
+  standard: ["safari", "chrome"]
 
 #define different engines/drivers to run your browser suites here - e.g. selenium
 engine:
@@ -14,7 +14,7 @@ engine:
   standard: "selenium"
 
 #engine_mode - set to 'grid' if using a selenium grid, defaults to 'local'
-engine_mode: "grid"
+engine_mode: "local"
 
 #If you want to have multiple snapping files, set the file name here
 snap_file:
@@ -39,7 +39,7 @@ domains:
     base:
     compare: "http://www.live.bbc.co.uk/news"
 
-#Type screen widths below, here are a couple of examples
+#page components rely on a more complex set of screen properties
 screen_properties:
   desktop:
     - :name: 'view1'
@@ -62,11 +62,6 @@ screen_properties:
       :dimensions: [1280,1280]
       :viewport_origin: [200,500]
       :wait_until_element:
-
-#Type page URL paths below, here are a couple of examples
-#paths:
-#  home: /
-#  uk_index: /uk
 
 paths:
   index: /

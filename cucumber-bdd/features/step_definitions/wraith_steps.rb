@@ -8,13 +8,21 @@ Given(/^I wish to create and compare screenshots of URLs using (.*)$/) do |drive
   @driver = driver
 end
 
+And(/^I wish to use the engine mode (.*)$/) do |mode|
+  @mode = mode
+end
+
 And(/^I wish to use a (.*) as a base comparison in all cases$/) do |base_type|
   @base_type = base_type
-  @config_file_prefix = 'test' + '_' + @driver + '_' + @base_type
+end
+
+
+And(/^I want to test a (.*)$/) do |page_or_component|
+  @page_or_component = page_or_component
 end
 
 And(/^I wish to test on (.*)$/) do |device_or_desktop|
-  @config_file = @config_file_prefix + '_' + device_or_desktop + '_config'
+  @config_file = 'test' + '_' + @driver + '_' +  @mode + '_' + @base_type + '_' + @page_or_component  + '_' + device_or_desktop + '_config'
   @cnf_vals = YAML::load(File.open('configs/' + @config_file + '.yaml'))
 end
 
@@ -149,5 +157,4 @@ And(/^a thumbnail version should be created for the images at each width giving 
     end
   end
 end
-
 

@@ -219,7 +219,6 @@ class Wraith::Wraith
   end
 
   def self.crop_images(crop, height)
-    full_path =  Dir.pwd + '/' + crop
     # For compatibility with windows file structures switch commenting on the following 2 lines
     puts `convert #{crop} -background none -extent 0x#{height} #{crop}`
     # puts `convert #{crop.gsub('/', '\\')} -background none -extent 0x#{height} #{crop.gsub('/', '\\')}`
@@ -242,20 +241,42 @@ class Wraith::Wraith
     #`convert #{png_path.gsub('/', '\\')} -thumbnail 200 -crop 200x200+0+0 #{output_path}`
   end
 
-  def get_files_from_array_while_regex(files,regex,regex2)
-      remnant = files.dup
+  def get_files_from_array_while_regex(files,regex,stop_regex)
+      remnant= []
       slice = []
+      index = 0
+      count = 0
+      property = nil
+      delete_indexes = []
       files.each do |file|
          if file.match(regex)
+           break if !property.nil? && !file.match(property)
            slice.push(file)
-           remnant.shift
-         elsif file.match(regex2)
+           delete_indexes.push(index)
+           count = count + 1
+           property = file.split(/_/)[0]
+         elsif file.match(stop_regex) && count > 0
            break
-         else
-          remnant.shift
          end
+        index = index + 1
+      end
+      file_index = 0
+      files.each do |file|
+         unless number_in_array(file_index,delete_indexes)
+           remnant.push(file)
+         end
+         file_index = file_index + 1
       end
       return slice, remnant
+  end
+
+  def number_in_array(number,array)
+    array.each do |element|
+      if number == element
+        return true
+      end
+    end
+    return false
   end
 
   def find_image_dimensions(file,dimensions='all')

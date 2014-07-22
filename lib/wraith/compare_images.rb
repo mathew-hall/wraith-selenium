@@ -35,7 +35,7 @@ class Wraith::CompareImages
           begin
             compare_task(base_file, compare_file, diff_file, info_file)
             Dir.glob("#{wraith.directory}/*/*.txt").map { |f| "\n#{f}\n#{File.read(f)}" }
-            puts 'Saved diff'
+            puts 'Saved diff ' + diff_file
           end
         end
       end
@@ -50,7 +50,7 @@ class Wraith::CompareImages
 
   def compare_task(base, compare, output, info)
     full_path = Dir.pwd + '/' + output
-    if @wraith.has_stopped_mutating(full_path)
+    if @wraith.has_stopped_mutating(base) && @wraith.has_stopped_mutating(compare)
       cmdline = "compare -fuzz #{wraith.fuzz} -metric AE -highlight-color blue #{base} #{compare} #{output}"
       px_value = Open3.popen3(cmdline) { |stdin, stdout, stderr, wait_thr| stderr.read }.to_f
       img_size = ImageSize.path(full_path).size.inject(:*)
