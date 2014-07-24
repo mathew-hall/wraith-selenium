@@ -49,7 +49,7 @@ screen_properties:
     - 1024
 
 paths:
-  index: /
+  uk_index: /
 
 #Amount of fuzz ImageMagick will use
 fuzz: '20%'

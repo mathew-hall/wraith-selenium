@@ -3,7 +3,6 @@ require 'rspec'
 require_relative '../../lib/wraith/wraith'
 require_relative '../lib/spec_lib'
 
-
 helpers = WraithSpecHelpers.new('spec')
 
 directory = helpers.directory
@@ -16,7 +15,7 @@ wraith_webkit_url = Wraith::Wraith.new(configs['test_webkit_url_config'])
 wraith_selenium_url = Wraith::Wraith.new(configs['test_selenium_url_config'])
 wraith_selenium_browser = Wraith::Wraith.new(configs['test_selenium_browser_config'])
 wraith_selenium_grid_browser = Wraith::Wraith.new(configs['test_selenium_grid_browser_config'])
-wraith_selenium_grid_advanced_crop = Wraith::Wraith.new(configs['test_selenium_grid_advanced_crop_config'])
+wraith_selenium_browser_component = Wraith::Wraith.new(configs['test_selenium_browser_component_config'])
 test_expectations = helpers.test_expectations
 
 describe Wraith, '#directory'  do
@@ -57,7 +56,7 @@ describe Wraith, '#widths' do
   end
 
   it 'should return the widths specified when using the selenium config file' do
-    expect(wraith_selenium_grid_advanced_crop.screen_properties).to match_array expected_array['advanced']
+    expect(wraith_selenium_browser_component.screen_properties).to match_array expected_array['advanced']
   end
 end
 

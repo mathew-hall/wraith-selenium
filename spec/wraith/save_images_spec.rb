@@ -14,7 +14,7 @@ describe Wraith::SaveImages, '#file_names' do
 
   it 'should construct image files names from the browser, device and other specifics' do
 
-    file_name = save_images_selenium.file_names('320','home', 'linux', 'firefox','desktop','base')
+    file_name = save_images_selenium.file_names('320','home', 'linux', 'firefox','version', 'desktop','base')
 
     expect(file_name).to eq test_expectations['file_name']
   end

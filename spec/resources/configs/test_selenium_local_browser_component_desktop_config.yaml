@@ -64,7 +64,7 @@ screen_properties:
       :wait_until_element:
 
 paths:
-  index: /
+  uk_index: /
 
 # If you don't want to name the paths explicitly you can use a yaml
 # collection as follows, and names will be derived by replacing / with _
