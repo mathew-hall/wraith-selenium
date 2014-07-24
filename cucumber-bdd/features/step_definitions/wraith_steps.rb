@@ -101,7 +101,7 @@ And(/^the filename of the image should reflect that it was created using (.*)$/)
   end
 end
 
-And(/^the filename of the image should reflect whether it was created using (.*)$/) do  |device_or_desktop|
+And(/^the filename of the image should reflect whether it was created using (.*)$/) do  |property|
   expected_browser_device_file_count = test_expectations['base_type_browser_device_file_count']
   shot_directory = @cnf_vals['directory'][0]
   paths = @cnf_vals['paths']
@@ -111,14 +111,14 @@ And(/^the filename of the image should reflect whether it was created using (.*)
   browser_suite.each do |browser|
     regex_hash = {
       'prefix' => '',
-      'middle' => device_or_desktop,
+      'middle' => property,
       'suffix' => browser
     }
 
     paths.each_key do |path|
       full_path = Dir.pwd + '/' + shot_directory + '/' + path
       result = helpers.file_count(full_path, regex_hash, '.png', 100, 1.0, 'count')
-      result.to_i.should == expected_browser_device_file_count[@base_type][browser][device_or_desktop].to_i
+      result.to_i.should == expected_browser_device_file_count[@mode][@base_type][browser][property].to_i
     end
   end
 end

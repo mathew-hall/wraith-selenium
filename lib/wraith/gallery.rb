@@ -6,8 +6,7 @@ require 'wraith/wraith'
 class Wraith::GalleryGenerator
   attr_reader :wraith
 
-  #MATCH_FILENAME = /(\S+)_(\S+)\.\S+/
-  MATCH_FILENAME = /(\S+)_(\S*)_(\S+)_(\S+)_(\S+)\.\S+/
+  MATCH_FILENAME = /(\S+)_(\S*)_(\S+)_(\S+)_(\S+)_(\S+)_(\S*)_(\S*)\.\S+/
   TEMPLATE_LOCATION = File.expand_path('gallery_template/gallery_template.erb', File.dirname(__FILE__))
   TEMPLATE_BY_DOMAIN_LOCATION = File.expand_path('gallery_template/gallery_template.erb', File.dirname(__FILE__))
   BOOTSTRAP_LOCATION = File.expand_path('gallery_template/bootstrap.min.css', File.dirname(__FILE__))
@@ -42,9 +41,12 @@ class Wraith::GalleryGenerator
         if !match.nil?
           size = match[1].to_i
           engine = match[2]
-          browser = match[3]
-          platform = match[4]
-          type = match[5]
+          run_mode = match[3]
+          platform_type = match[4]
+          platform = match[5]
+          browser = match[6]
+          version = match[7]
+          screenshot_type = match[8]
           filepath = category + "/" + filename
           thumbnail = "thumbnails/#{category}/#{filename}"
 
@@ -53,7 +55,7 @@ class Wraith::GalleryGenerator
           end
           size_dict = @dirs[category][size]
 
-          case type
+          case screenshot_type
           # when 'diff'
           #   size_dict[:diff] = {
           #       filename: filepath, thumb: thumbnail
@@ -63,10 +65,13 @@ class Wraith::GalleryGenerator
             @diff_data = File.read("#{dirname}/#{filepath}")
           else
             size_dict[:variants] << {
-                type: type,
+                screenshot_type: screenshot_type,
                 engine: engine,
+                run_mode: run_mode,
+                platform_type: platform_type,
                 platform: platform,
                 browser: browser,
+                version: version,
                 filename: filepath,
                 thumb: thumbnail,
                 diff_data: @diff_data

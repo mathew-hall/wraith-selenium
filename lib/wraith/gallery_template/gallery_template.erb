@@ -46,14 +46,16 @@
                                     </div></td>
                                       <td>
                                         <div class="col-lg-3">
-                                            <p class="text-center">Type: <%=file[:type]%></p>
+                                            <p class="text-center">Screen Shot Type: <%=file[:screenshot_type]%></p>
                                             <p class="text-center">Engine: <%=file[:engine]%></p>
 
                                             <% if file[:type] == 'diff' %>
                                               <p class="text-center text-muted"><%=file[:diff_data] %> percent different</p>
                                             <%else %>
+                                              <p class="text-center"><img src="../assets/<%=file[:platform_type]%>.jpg"/></p>
                                               <p class="text-center"><img src="../assets/<%=file[:platform]%>.jpg"/></p>
                                               <p class="text-center"><img src="../assets/<%=file[:browser]%>.jpg"/></p>
+                                              <p class="text-center"><%=file[:version]%></p>
                                             <% end %>
                                         </div>
                                       </td></tr>

@@ -15,7 +15,7 @@ Feature: Capturing browser screenshots of URLS and calculating diffs between a b
     And I expect to see <diff_image_count> diff files preserved for each width for <device_or_desktop>
     And I expect to see <data_file_count> data files preserved for each width for <device_or_desktop>
     And the filename of the image should reflect that it was created using <driver>
-    And the filename of the image should reflect whether it was created using <mode>
+    And the filename of the image should reflect that it was created using <mode>
     And the filename of the image should reflect whether it was created using <device_or_desktop>
     And a thumbnail version should be created for the images at each width giving <thumbnail_count> images per width for <device_or_desktop>
     And a gallery of images created as an HTML page
@@ -29,7 +29,7 @@ Feature: Capturing browser screenshots of URLS and calculating diffs between a b
     #selenium browser based comparison
     #|selenium    |local|browser  |page| 1               |3                  |3                |3              |7              |desktop          |
     #selenium browser based comparison
-    |selenium     |grid|browser  |page             | 1               |2                  |2                |2              |7              |desktop          |
+    |selenium     |grid|browser  |page             | 1               |2                  |2                |2              |5              |desktop          |
     #selenium url based comparison using devices. This example uses an iPad with webdriver installed upon it
     #|selenium     |local|url      |page| 1               |1                  |1                |1              |3              |device           |
 
