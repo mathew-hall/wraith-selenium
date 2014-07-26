@@ -46,6 +46,10 @@ class WraithSpecHelpers
     @spec_config['thumbnails_dir']
   end
 
+  def crops_dir
+    @spec_config['crops_dir']
+  end
+
   def example_files
     @spec_config['example_files']
   end

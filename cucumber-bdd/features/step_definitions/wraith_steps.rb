@@ -68,9 +68,9 @@ Then(/^I expect to see (.*) (.*) files preserved for each width for (.*)$/) do |
 
    paths.each_key do |path|
     full_path = Dir.pwd + '/' + shot_directory + '/' + path
-    screen_properties[device_or_desktop].each do |dim|
+    screen_properties[device_or_desktop].each do |props|
 
-      dim.is_a?(Array) ? width = dim[0] : width = dim
+      props.is_a?(Hash) ? width = props[:name] : width = props
 
       regex_hash = {
         'prefix' => width,
@@ -143,9 +143,9 @@ And(/^a thumbnail version should be created for the images at each width giving 
 
   paths.each_key do |path|
     full_path = Dir.pwd + '/' + shot_directory + '/' + thumbnail_directory + '/' + path
-    screen_properties[device_or_desktop].each do |dim|
+    screen_properties[device_or_desktop].each do |props|
 
-      dim.is_a?(Array) ? width = dim[0] : width = dim
+      props.is_a?(Hash) ? width = props[:name] : width = props
 
       regex_hash = {
         'prefix' => width,

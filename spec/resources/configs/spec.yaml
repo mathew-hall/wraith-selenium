@@ -14,6 +14,9 @@ image_store_dir: 'image_store'
 #store of thumbnail images created during tests
 thumbnails_dir: 'thumbnails'
 
+#store of cropped images created during tests
+crops_dir: 'crops'
+
 #these should match the path directories in the wraith configs
 paths:
   home: /
@@ -184,3 +187,4 @@ test_expectations:
   set_browser_name:
     desktop: :safari
     device: :iPad
+  cropped_file_path: 'shots/crops/uk_index/view1_selenium_local_desktop_mac_chrome__base_cropped_height_112.png'

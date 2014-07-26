@@ -11,6 +11,14 @@ class Wraith::Wraith
     @config['directory'].first
   end
 
+  def thumbnail_directory
+    @config['thumbnail_directory']
+  end
+
+  def crops_directory
+    @config['crops_directory']
+  end
+
   def snap_file
     @config['snap_file'][@config['suite']]
   end
@@ -179,7 +187,7 @@ class Wraith::Wraith
       #do we have a view port origin configured? - if so use javascript to scroll to it
       if check_viewport_origin(props[:viewport_origin])
         begin
-          javascript = 'window.scrollBy(' + props[:viewport_orgin][0] + ',' + props[:viewport_orgin][1] + ',200)'
+          javascript = 'window.scrollBy(' + props[:viewport_origin][0].to_s + ',' + props[:viewport_origin][1].to_s + ')'
           driver.execute_script(javascript, '')
           sleep 5
         end
@@ -217,10 +225,32 @@ class Wraith::Wraith
       return true
     end
   end
+  # TODO:unit test for this method
+  def determine_file_version(file_properties,height_of_comparator)
+    cropped_file_version = create_cropped_file_path(file_properties[:file],height_of_comparator)
+    if File.exist?(cropped_file_version)
+      find_image_dimensions(cropped_file_version,'all',true)
+    else
+      file_properties
+    end
+  end
 
-  def self.crop_images(crop, height)
+  def create_cropped_file_path(original_file, file_height)
+    rel_path,extn = original_file.split('.')
+    rel_path_array = rel_path.split('/')
+    dir = rel_path_array.shift
+    name = rel_path_array.pop
+    remnant_path = rel_path_array.join('/')
+    crops_directory_path = directory + '/' + crops_directory + '/' + remnant_path
+    unless Dir.exists? crops_directory_path
+      FileUtils.mkdir_p crops_directory_path
+    end
+    return crops_directory_path + '/' + name + '_cropped_height_' + file_height.to_s + '.' + extn
+  end
+
+  def self.crop_images(file, height, output)
     # For compatibility with windows file structures switch commenting on the following 2 lines
-    puts `convert #{crop} -background none -extent 0x#{height} #{crop}`
+    puts `convert #{file} -background none -extent 0x#{height} #{output}`
     # puts `convert #{crop.gsub('/', '\\')} -background none -extent 0x#{height} #{crop.gsub('/', '\\')}`
   end
 
@@ -279,10 +309,17 @@ class Wraith::Wraith
     return false
   end
 
-  def find_image_dimensions(file,dimensions='all')
+  # TODO: add test for hash parameter
+  def find_image_dimensions(file,dimensions='all',use_hash=false)
     File.open(file, 'rb') do |fh|
       size = ImageSize.new(fh.read).size
-      if dimensions == 'all'
+      if dimensions == 'all' && use_hash
+        dim = Hash.new
+        dim[:file] = file
+        dim[:width] = size[0]
+        dim[:height] = size[1]
+        return dim
+      elsif dimensions == 'all'
         return size
       elsif dimensions == 'width'
         return size[0]

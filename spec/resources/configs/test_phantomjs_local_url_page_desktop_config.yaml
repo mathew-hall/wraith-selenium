@@ -33,6 +33,8 @@ directory:
 #thumbnail images subdirectory name
 thumbnail_directory: thumbnails
 
+#cropped images subdirectory name
+crops_directory: crops
 
 #base type - either 'browser' or 'url'.
 #browser base type will compare a given url using a browser as a base

@@ -26,6 +26,9 @@ directory:
 #thumbnail images subdirectory name
 thumbnail_directory: thumbnails
 
+#cropped images subdirectory name
+crops_directory: crops
+
 # if you are using url comparison, set the url: base: and url: compare: values
 # if using browser comparison, set the url: compare: value
 # when using browser-based comparison, always leave the base value blank, as we only use the comparison value

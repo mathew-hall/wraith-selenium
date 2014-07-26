@@ -7,6 +7,7 @@ helpers = WraithSpecHelpers.new('spec')
 
 directory = helpers.directory
 thumbnails_dir = helpers.thumbnails_dir
+crops_dir = helpers.crops_dir
 paths = helpers.paths
 
 configs = helpers.wraith_configs
@@ -468,7 +469,7 @@ describe Wraith, '#default_parameters' do
   end
 end
 
-describe Wraith::CropImages, '#find_heights' do
+describe Wraith::Wraith, '#find_heights' do
 
   before do
       helpers.create_directory(directory)
@@ -509,4 +510,33 @@ describe Wraith::CropImages, '#find_heights' do
     expect(actual_file_widths).to match_array(expected_widths)
   end
 
+end
+
+describe Wraith::Wraith, '#create_cropped_file_path' do
+
+  before do
+    helpers.create_directory(directory)
+  end
+
+  after do
+    helpers.loop_and_execute_on_directories('wipe', directory, paths, '*')
+    helpers.loop_and_execute_on_directories('destroy', directory, paths, '')
+    helpers.loop_and_execute_on_directories('wipe', directory + '/' + crops_dir, paths, '*')
+    helpers.loop_and_execute_on_directories('destroy', directory + '/' + crops_dir, paths, '')
+    helpers.destroy_directory(directory + '/' + crops_dir)
+    helpers.destroy_directory(directory)
+  end
+
+  it 'should create the holding directory and return the complete file path for the cropped file' do
+
+    expected_cropped_file_path = test_expectations['cropped_file_path']
+
+    rel_path_array = expected_cropped_file_path.split('/')
+    rel_path_array.pop
+    cropped_file_dir = Dir.pwd + '/' + rel_path_array.join('/')
+    cropped_file_path = wraith_selenium_browser_component.create_cropped_file_path('shots/uk_index/view1_selenium_local_desktop_mac_chrome__base.png',112)
+
+    expect(Dir.exists? cropped_file_dir).to eq true
+    expect(cropped_file_path).to eq expected_cropped_file_path
+  end
 end
