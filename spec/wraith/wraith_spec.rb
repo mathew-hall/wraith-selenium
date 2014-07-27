@@ -416,10 +416,10 @@ describe Wraith::Wraith, '#get_files_from_array_until_regex' do
 
     files = helpers.base_compare_file_examples_url_comparison
 
-    slice, remnant = wraith_selenium_browser.get_files_from_array_while_regex(files,'base','compare')
+    slice, remnant = wraith_selenium_browser.get_files_on_regex(files,'base','compare')
     expect(slice).to match_array(test_expectations['base_compare_file_examples_url_comparison']['base'])
 
-    slice2, remnant2 = wraith_selenium_browser.get_files_from_array_while_regex(remnant,'compare','base')
+    slice2, remnant2 = wraith_selenium_browser.get_files_on_regex(remnant,'compare','base')
     expect(slice2).to match_array(test_expectations['base_compare_file_examples_url_comparison']['compare'])
   end
 
@@ -427,10 +427,10 @@ describe Wraith::Wraith, '#get_files_from_array_until_regex' do
 
     files = helpers.base_compare_file_examples_browser_comparison
 
-    slice, renmant = wraith_selenium_browser.get_files_from_array_while_regex(files,'base','compare')
+    slice, remnant = wraith_selenium_browser.get_files_on_regex(files,'base','compare')
     expect(slice).to match_array(test_expectations['base_compare_file_examples_browser_comparison']['base'])
 
-    slice2, renmant2 = wraith_selenium_browser.get_files_from_array_while_regex(renmant,'compare','base')
+    slice2, remnant2 = wraith_selenium_browser.get_files_on_regex(remnant,'compare','base')
     expect(slice2).to match_array(test_expectations['base_compare_file_examples_browser_comparison']['compare'])
   end
 

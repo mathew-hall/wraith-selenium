@@ -8,7 +8,7 @@ module Wraith::Driver
       new_array[0] = wraith.default_parameters
       return new_array
     end
-    return capabilities_array
+    capabilities_array
   end
 
   def set_url(engine_mode,selenium_grid_url,capabilities_url)
@@ -29,7 +29,7 @@ module Wraith::Driver
 
   def return_driver_instance(engine, engine_mode, parameters, device)
     if (defined?(engine)).nil? || engine.nil?
-      return nil
+      nil
     elsif engine_mode =='local' && device == 'desktop'
       return Selenium::WebDriver.for parameters[:capabilities][:browser_name]
     else
@@ -37,7 +37,7 @@ module Wraith::Driver
       parameters[:capabilities].each_key do |key|
         caps[key] = parameters[:capabilities][key]
       end
-      return Selenium::WebDriver.for :remote, :desired_capabilities => caps, :url => parameters[:url]
+      Selenium::WebDriver.for :remote, :desired_capabilities => caps, :url => parameters[:url]
     end
   end
 
@@ -69,7 +69,7 @@ module Wraith::Driver
   #if running locally then finds the local os and returns as string
   def os_string(engine_mode, device_or_desktop, remote_os)
     if engine_mode == 'grid' || device_or_desktop == 'device'
-      return remote_os.to_s
+      remote_os.to_s
     elsif windows?
       return 'windows'
     elsif mac?
@@ -100,7 +100,7 @@ module Wraith::Driver
     puts 'The device or grid url is not set. Ignoring'
       return false
     end
-    return true
+    true
   end
 
   def is_os_set(engine_mode, device_or_desktop, remote_os)
@@ -117,7 +117,7 @@ module Wraith::Driver
       puts 'If running on a device, you must configure the actual device (iPad / iPhone, etc) you are running on. Ignoring'
       return false
     end
-    return true
+    true
   end
 
   def is_browser_name_set(browser_name)
@@ -125,7 +125,7 @@ module Wraith::Driver
         puts 'You must properly configure your browser name. Ignoring'
         return false
       end
-      return true
+      true
   end
 
   #will always return 'Desktop' as the generic type unless running on a device
@@ -135,7 +135,7 @@ module Wraith::Driver
     if desktop_or_device == 'desktop'
       return desktop_or_device
     end
-    return precise_device
+    precise_device.downcase
   end
 
   def set_page_load_timeout(driver, timeout)

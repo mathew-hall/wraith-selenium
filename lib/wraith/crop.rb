@@ -28,8 +28,8 @@ class Wraith::CropImages
     files = Dir.glob("#{wraith.directory}/*/*.png").sort
     until files.empty?
       #TODO - REFACTOR THIS INTO ONE ROUTINE - PROB IN WRAITH
-      base, files = @wraith.get_files_from_array_while_regex(files,@wraith.base_domain_label,@wraith.comp_domain_label)
-      compare, files = @wraith.get_files_from_array_while_regex(files,@wraith.comp_domain_label,@wraith.base_domain_label)
+      base, files = @wraith.get_files_on_regex(files,@wraith.base_domain_label,@wraith.comp_domain_label)
+      compare, files = @wraith.get_files_on_regex(files,@wraith.comp_domain_label,@wraith.base_domain_label)
       #in fact should only be base file at a time
       base.each do |base_shot|
         @base = base_shot

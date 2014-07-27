@@ -1,4 +1,10 @@
-#Selenium Engine option
+#######################################################################
+#
+# Test config file for running Wraith-Selenium using selenium locally
+# and url-based comparison. This file can be used as a template for
+# production configuration.
+#
+######################################################################
 
 #change this line based on which suite of browsers you want to run
 #better to pass as a command line argument when have time to refactor
@@ -124,9 +130,16 @@ default_wait_until_element: comp-most-popular
 #by loading or other instabilities
 compare_base_to_base: false
 
-#very annoyingly and weirdly, selenium often interprets screenshot sizes different from those
-#stipulated in your window dimensions. Offset behaviour seems inconsistent between browsers, browser versions and
-#between different widths, so you will probably have to set some of these values by inspection of the image gallery
+#very annoyingly and weirdly, selenium often interprets screenshot sizes differently from those
+#stipulated in your window dimensions. Offset behaviour seems inconsistent between browsers,
+#browser versions and between different widths.
+#Your first run using selenium using browser-based comparison may well result in some
+#invalid diff comparisons due to screen shot width variation.
+#To rectify this, inspect the screenshot widths produced against your configured widths,
+#You can then add a bias value for each browser screen width as shown below.
+#
+#Note that when using URL-base comparison this issue shouldn't result in any diff image failures
+#but nonetheless your captured screenshot widths may be different from those you stipulated.
 screenshot_bias:
   width:
     chrome:

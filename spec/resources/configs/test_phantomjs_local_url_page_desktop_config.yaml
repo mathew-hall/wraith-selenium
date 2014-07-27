@@ -1,4 +1,10 @@
-#Headless browser option
+#####################################################################
+#
+# Test config file for running the original Wraith headless browser
+# functionality in both Unit (RSpec) and BDD Feature (Cucumber) testing.
+# As such it can be used as a template for production configuration
+#
+#####################################################################
 
 #change this line based on which suite of browsers you want to run
 #better to pass as a command line argument when have time to refactor
@@ -69,8 +75,8 @@ paths:
   uk_index: /uk
 
 #you can define some default parameters to pass to the selenium driver here,
-#can also leave blank as all optional, but don't delete the key structure
-#leave blank when using phantomJS
+#can also leave blank as all optional, but don't delete the key structure.
+#Leave blank when using phantomJS or other headless browser option
 default_parameters:
   :url:
   :capabilities:

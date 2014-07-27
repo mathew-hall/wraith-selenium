@@ -98,7 +98,7 @@ class Wraith::GalleryGenerator
     end
   end
 
-  def generate_gallery(withPath="")
+  def generate_gallery(withPath='')
     dest = "#{@location}/gallery.html"
     directories = parse_directories(@location)
     generate_html(@location, directories, TEMPLATE_BY_DOMAIN_LOCATION, dest, withPath)

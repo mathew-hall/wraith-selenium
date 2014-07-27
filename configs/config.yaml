@@ -2,33 +2,24 @@
 
 #change this line based on which suite of browsers you want to run
 #better to pass as a command line argument when have time to refactor
-suite: "standard"
+suite: "webkit"
 
 #define different suites of browsers here
 suites:
   webkit: ["phantomjs"]
-  standard: ["safari"] #["safari", "chrome", "firefox","ie"] #android
+  standard: ["safari", "chrome", "firefox"]
   # gecko: "slimerjs"
 
 #define different engines/drivers to run your browser suites here - e.g. selenium
 engine:
-  webkit: ""
+  webkit:
   standard: "selenium"
 
-#todo -- implment this
-browser_versions:
-  android: []
-  safari: []
-  chrome: []
-  firefox: []
-  ie: []
-
-#todo - implement this or incorporate into versions hash?
-devices:
+#engine_mode - set to 'grid' if using a selenium grid, defaults to 'local'
+engine_mode:
 
 options:
   webkit: ""
-  standard: ""
 
 #If you want to have multiple snapping files, set the file name here
 snap_file:
@@ -39,16 +30,30 @@ snap_file:
 directory:
   - 'shots'
 
-#page load timeout
-timeout: 20
+#thumbnail images subdirectory name
+thumbnail_directory: thumbnails
 
-# Add only 2 domains, key will act as a label
+#cropped images subdirectory name
+crops_directory: crops
+
+#base type - either 'browser' or 'url'.
+#browser base type will compare a given url using a browser as a base
+#domain base type will use a url as the basis for comparison against a second url.
+#phantomJS is always base_type=url
+base_type: url
+
+# if you are using url comparison, set the url: base: and url: compare: values
+# if using browser comparison, set the url: compare: value
 domains:
-  base: "http://www.live.bbc.co.uk/news"
-  compare: "http://www.live.bbc.co.uk/russian"
+  url:
+    base: "http://www.live.bbc.co.uk/news"
+    compare: "http://www.live.bbc.co.uk/russian"
+  browser:
+    base:
+    compare:
 
 #Type screen widths below, here are a couple of examples
-screen_widths:
+screen_properties:
   desktop:
     - 320
     - 600
@@ -63,6 +68,18 @@ paths:
   home: /
   uk_index: /uk
 
+#you can define some default parameters to pass to the selenium driver here,
+#can also leave blank as all optional, but don't delete the key structure
+#leave blank when using phantomJS
+default_parameters:
+  :url:
+  :capabilities:
+    :version:
+    :platform:
+
+#if you have just set screen widths in screen_dimensions, you can set a generic height for the screen here
+default_screen_height: 1000
+
 # If you don't want to name the paths explicitly you can use a yaml
 # collection as follows, and names will be derived by replacing / with _
 #
@@ -76,3 +93,16 @@ fuzz: '20%'
 #Set the number of days to keep the site spider file
 spider_days:
   - 10
+
+###################################################################
+#
+# SELENIUM ONLY OPTIONS BELOW HERE
+#
+###################################################################
+
+###################################################################
+#
+# SELENIUM GRID ONLY OPTIONS BELOW HERE
+#
+###################################################################
+

@@ -1,4 +1,10 @@
-#Selenium Engine option
+#######################################################################
+#
+# Test config file for running Wraith-Selenium using selenium locally
+# and browser-based comparison. This file can be used as a template for
+# production configuration.
+#
+######################################################################
 
 #change this line based on which suite of browsers you want to run
 suite: "standard"
@@ -80,7 +86,10 @@ spider_days:
 ###################################################################
 
 #set the devices you want to run each browser in your suite on here.
-#you can have 'desktop', 'device', or both
+#This will configure the capabilities object you wish to pass to the
+#selenium grid. You can have multiple capability objects per browser,
+#thereby allowing you test different browser versions or platforms
+#You can leave blank for local selenium operation
 browser_devices:
   android:
     device:
@@ -126,9 +135,13 @@ default_screen_height: 1000
 #default_wait_until_element: comp-most-popular
 default_wait_until_element:
 
-#very annoyingly and weirdly, selenium often interprets screenshot sizes different from those
-#stipulated in your window dimensions. Offset behaviour seems inconsistent between browsers, browser versions and
-#between different widths, so you will probably have to set some of these values by inspection of the image gallery
+#very annoyingly and weirdly, selenium often interprets screenshot sizes differently from those
+#stipulated in your window dimensions. Offset behaviour seems inconsistent between browsers,
+#browser versions and between different widths.
+#Your first run using selenium using browser-based comparison may well result in some
+#invalid diff comparisons due to screen shot width variation.
+#To rectify this, inspect the screenshot widths produced against your configured widths,
+#You can then add a bias value for each browser screen width as shown below.
 screenshot_bias:
   width:
     chrome:

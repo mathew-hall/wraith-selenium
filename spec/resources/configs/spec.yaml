@@ -1,4 +1,10 @@
-#config values for setting up test runs only
+###########################################################
+# spec.yaml
+# This Config file is used for defining test expectations
+# for both unit (RSpec) and BDD Features (Cucumber) tests
+# and for defining certain other configuration parameters
+# used in the running of those tests
+###########################################################
 
 #used to find whether the specs are being run in a working
 #directory within the test environment
@@ -183,7 +189,7 @@ test_expectations:
   grid_url: 'http://localhost:4444/wd/hub'
   set_precise_device:
     desktop: desktop
-    device: iPad
+    device: ipad
   set_browser_name:
     desktop: :safari
     device: :iPad

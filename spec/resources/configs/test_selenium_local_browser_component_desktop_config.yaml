@@ -1,4 +1,13 @@
-#Selenium Engine option
+###########################################################################
+#
+# test configuration file for using a local selenium server, browser-based
+# comparison and page components rather than whole page screenshots.
+# NOTE! This functionality is rather immature at the time of writing
+# and has only been tested successfully on safari and chrome browsers.
+# It does not work on firefox.
+# As with other test configs this can be used as a template for production
+#
+###########################################################################
 
 #change this line based on which suite of browsers you want to run
 suite: "standard"
@@ -42,7 +51,12 @@ domains:
     base:
     compare: "http://www.live.bbc.co.uk/news"
 
-#page components rely on a more complex set of screen properties
+#the testing of page components rather than whole pages allows you to
+#test components of pages by changing the viewport origin point as well
+#the height and width of each view. You can also name each view.
+#Though currently immature, it is hoped that this option will facilitate the
+#testing of individual page components - a key feature in responsive site design,
+#adding considerably more flexibility to Wraith-Selenium.
 screen_properties:
   desktop:
     - :name: 'view1'
@@ -90,7 +104,10 @@ spider_days:
 ###################################################################
 
 #set the devices you want to run each browser in your suite on here.
-#you can have 'desktop', 'device', or both
+#This will configure the capabilities object you wish to pass to the
+#selenium grid. You can have multiple capability objects per browser,
+#thereby allowing you test different browser versions or platforms
+#You can leave blank for local selenium operation
 browser_devices:
   android:
     device:
@@ -104,7 +121,8 @@ browser_devices:
     desktop:
 
 #you can define some default parameters to pass to the selenium driver here,
-#can also leave blank as all optional, but don't delete the key structure
+#if you are not defining specific capabilities for each browser
+#Filling in these values is optional, but don't delete the key structure
 default_parameters:
   :url:
   :capabilities:
@@ -134,14 +152,18 @@ compare_base_to_base: true
 #set this to get selenium to wait until a certain page element is displayed
 default_wait_until_element: comp-most-popular
 
-#very annoyingly and weirdly, selenium often interprets screenshot sizes different from those
-#stipulated in your window dimensions. Offset behaviour seems inconsistent between browsers, browser versions and
-#between different widths, so you will probably have to set some of these values by inspection of the image gallery
+#very annoyingly and weirdly, selenium often interprets screenshot sizes differently from those
+#stipulated in your window dimensions. Offset behaviour seems inconsistent between browsers,
+#browser versions and between different widths.
+#Your first run using selenium using browser-based comparison may well result in some
+#invalid diff comparisons due to screen shot width variation.
+#To rectify this, inspect the screenshot widths produced against your configured widths,
+#You can then add a bias value for each browser screen width as shown below.
 screenshot_bias:
   width:
     chrome:
       desktop:
-        320: -80
+        320: 0
         600: 0
         768: 0
         1024: 0
