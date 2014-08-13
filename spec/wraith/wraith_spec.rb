@@ -50,14 +50,14 @@ end
 
 describe Wraith, '#widths' do
 
-  expected_array = test_expectations['screen_properties']
+  expected_collection = test_expectations['screen_properties']
 
   it 'should return the widths specified when using the webkit config file' do
-    expect(wraith_webkit_url.screen_properties).to match_array expected_array['standard']
+    expect(wraith_webkit_url.screen_properties).to eq expected_collection['standard']
   end
 
-  it 'should return the widths specified when using the selenium config file' do
-    expect(wraith_selenium_browser_component.screen_properties).to match_array expected_array['advanced']
+  it 'should return the widths specified when using the selenium component config file' do
+    expect(wraith_selenium_browser_component.screen_properties).to eq expected_collection['advanced']
   end
 end
 

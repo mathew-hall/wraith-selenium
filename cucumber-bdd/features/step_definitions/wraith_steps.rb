@@ -121,8 +121,8 @@ And(/^the filename of the image should reflect that it was created using (.*), (
   browser_suite  = @cnf_vals['suites'][test_expectations['driver_suites'][@driver]]
   browser_suite.each do |browser|
     regex_hash = {
-      'prefix' => '',
-      'middle' => base_type,
+      'prefix' => mode,
+      'middle' => device_or_desktop,
       'suffix' => browser
     }
 
@@ -164,7 +164,7 @@ And(/^a thumbnail version should be created for the images at each width giving 
         'suffix' => ''
       }
       count = helpers.file_count(full_path, regex_hash, extn, 100, 2, 'count')
-      expect(count.to_s).to == thumbnail_count
+      expect(count.to_s).to eq thumbnail_count
     end
   end
 end

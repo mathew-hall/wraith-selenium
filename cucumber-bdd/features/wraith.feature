@@ -17,9 +17,9 @@ Feature: Capturing browser screenshots of URLS and calculating diffs between a b
     #phantomJS url based page comparison
     |phantomjs    |local  |url        |page               | 1               |1                  |1                |1              |3              |desktop          |
     #selenium url based page comparison
-    |selenium     |local  |url        |page               | 3               |3                  |3                |3              |9              |desktop          |
+    #|selenium     |local  |url        |page               | 3               |3                  |3                |3              |9              |desktop          |
     #selenium browser based page comparison
-    |selenium     |local  |browser    |page               | 1               |3                  |3                |3              |7              |desktop          |
+    #|selenium     |local  |browser    |page               | 1               |3                  |3                |3              |7              |desktop          |
     #selenium url based page comparison using locally attached devices. This example uses an iPad with webdriver installed upon it
     #|selenium    |local  |url        |page               | 1               |1                  |1                |1              |3              |device           |
     #selenium browser based component comparison using page origin repositioning
