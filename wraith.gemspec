@@ -21,7 +21,6 @@ Gem::Specification.new do |spec|
   spec.add_development_dependency "pry"
   spec.add_development_dependency "cucumber"
   spec.add_development_dependency "rspec", '>= 2.8'
-  #spec.add_development_dependency "rspec-given"
 
   spec.add_runtime_dependency "rake"
   spec.add_runtime_dependency "image_size"
@@ -30,5 +29,6 @@ Gem::Specification.new do |spec|
   spec.add_runtime_dependency "nokogiri"
   spec.add_runtime_dependency "log4r"
   spec.add_runtime_dependency "selenium-webdriver"
+  #spec.add_runtime_dependency "selenium-grid"
   spec.add_runtime_dependency "thor"
 end
