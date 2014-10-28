@@ -40,7 +40,7 @@ class Wraith::CLI < Thor
   desc 'check_comparison_set_up [config_name]','check comparison set'
   def check_comparison_set_up(config_name)
     wraith = Wraith::Wraith.new(config_name)
-    cd = wraith.check_domains(wraith.base_type,wraith.domains)
+    cd = wraith.domains["base"] == nil or wraith.check_domains(wraith.base_type,wraith.domains)
     cb = wraith.check_base_browser(wraith.base_type,wraith.base_browser)
 
     unless cd
