@@ -67,7 +67,7 @@ class Wraith::Wraith
       
       login_button.click
 #      sleep 2
-      wait = Selenium::WebDriver::Wait.new(:timeout => 15)
+      wait = Selenium::WebDriver::Wait.new(:timeout => 30)
       wait.until{
        ready(driver) 
       }
@@ -115,7 +115,7 @@ class Wraith::Wraith
       end
       if wait_until_element(props[:wait_until_element])
         begin
-          wait = Selenium::WebDriver::Wait.new(:timeout => 15) # seconds
+          wait = Selenium::WebDriver::Wait.new(:timeout => 30) # seconds
           wait.until { ready(driver) }
         end
       end
