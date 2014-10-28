@@ -115,7 +115,7 @@ class Wraith::Wraith
       end
       if wait_until_element(props[:wait_until_element])
         begin
-          wait = Selenium::WebDriver::Wait.new(:timeout => 10) # seconds
+          wait = Selenium::WebDriver::Wait.new(:timeout => 15) # seconds
           wait.until { ready(driver) }
         end
       end
