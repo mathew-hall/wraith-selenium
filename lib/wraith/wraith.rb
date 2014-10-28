@@ -34,6 +34,10 @@ class Wraith::Wraith
       nil
     end
   end
+  
+  def get_domain(url)
+    return url.sub(/https?:\/\//,"").split("/")[0]
+  end
 
   def capture_page_image(driver, browser, url, props, file_name)
 
@@ -42,6 +46,47 @@ class Wraith::Wraith
     if (defined?(driver)) && driver.instance_of?(Selenium::WebDriver::Driver)
       begin
         driver.manage.window.resize_to(width, height)
+      end
+
+      
+      driver.get(url)
+      
+      #Have we been redirected?
+      unless driver.current_url.start_with?("https://" + get_domain(url))
+        #Probably, e.g. we are at www.google.com and get sent to www.bing.com
+        puts "Was redirected from #{url} to #{driver.current_url}. Will try to login."
+        begin
+          username_field = driver.find_element(:name, "username")
+          password_field = driver.find_element(:name, "password")
+          login_button = driver.find_element(:name, "submit")
+          
+          if @config.has_key?("credentials")
+            username = @config["credentials"]["username"]
+            password = @config["credentials"]["password"]
+          end
+          
+          
+          username_field.send_keys(username)
+          password_field.send_keys(password)
+          
+          login_button.click
+          sleep 2
+          wait = Selenium::WebDriver::Wait.new(:timeout => 15)
+          wait.until{
+            driver.execute_script("return document.readyState;") == "complete"
+          }
+          
+          unless driver.current_url.start_with?("https://" + get_domain(url))
+            puts "Login doesn't seem to have worked. Still on #{driver.current_url} but expected https://#{get_domain(url)}. Abandoning"
+            return
+          end
+          
+        rescue
+          puts "Redirection doesn't seem to be a login page. Failing capture for #{url}"
+          return
+        end
+        
+      
       end
       driver.get(url)
       #do we have a view port origin configured? - if so use javascript to scroll to it
