@@ -38,6 +38,50 @@ class Wraith::Wraith
   def get_domain(url)
     return url.sub(/https?:\/\//,"").split("/")[0]
   end
+  
+  end
+
+  def login(driver, url)
+    #Probably, e.g. we are at www.google.com and get sent to www.bing.com
+    puts "Was redirected from #{url} to #{driver.current_url}. Will try to login."
+    begin
+      unless @config.has_key?("credentials")
+        puts "No credentials supplied for login. Won't capture #{url}"
+        return false
+      end
+         
+      credentials = @config["credentials"]
+      
+      username_field = driver.find_element(:name, credentials["username_field"])
+      password_field = driver.find_element(:name, credentials["password_field"])
+      login_button = driver.find_element(:name, credentials["login_button"])
+      
+      username = credentials["username"]
+      password = credentials["password"]
+      
+      
+      username_field.send_keys(username)
+      password_field.send_keys(password)
+      
+      login_button.click
+          sleep 2
+      wait = Selenium::WebDriver::Wait.new(:timeout => 15)
+      wait.until{
+            driver.execute_script("return document.readyState;") == "complete"
+      }
+      
+      unless driver.current_url.start_with?("https://" + get_domain(url))
+        puts "Login doesn't seem to have worked. Still on #{driver.current_url} but expected https://#{get_domain(url)}. Abandoning"
+        return false
+      end
+      
+    rescue
+      puts "Redirection doesn't seem to be a login page. Failing capture for #{url}"
+      return false
+    end
+    return true
+    
+  end
 
   def capture_page_image(driver, browser, url, props, file_name)
 
@@ -53,40 +97,10 @@ class Wraith::Wraith
       
       #Have we been redirected?
       unless driver.current_url.start_with?("https://" + get_domain(url))
-        #Probably, e.g. we are at www.google.com and get sent to www.bing.com
-        puts "Was redirected from #{url} to #{driver.current_url}. Will try to login."
-        begin
-          username_field = driver.find_element(:name, "username")
-          password_field = driver.find_element(:name, "password")
-          login_button = driver.find_element(:name, "submit")
-          
-          if @config.has_key?("credentials")
-            username = @config["credentials"]["username"]
-            password = @config["credentials"]["password"]
-          end
-          
-          
-          username_field.send_keys(username)
-          password_field.send_keys(password)
-          
-          login_button.click
-          sleep 2
-          wait = Selenium::WebDriver::Wait.new(:timeout => 15)
-          wait.until{
-            driver.execute_script("return document.readyState;") == "complete"
-          }
-          
-          unless driver.current_url.start_with?("https://" + get_domain(url))
-            puts "Login doesn't seem to have worked. Still on #{driver.current_url} but expected https://#{get_domain(url)}. Abandoning"
-            return
-          end
-          
-        rescue
-          puts "Redirection doesn't seem to be a login page. Failing capture for #{url}"
+        unless login(driver,url)
+          puts "Couldn't log in for #{url}"
           return
         end
-        
-      
       end
       driver.get(url)
       #do we have a view port origin configured? - if so use javascript to scroll to it
