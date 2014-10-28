@@ -39,6 +39,8 @@ class Wraith::Wraith
     return url.sub(/https?:\/\//,"").split("/")[0]
   end
   
+  def ready(driver)
+    driver.execute_script("return document.readyState == 'complete' && (typeof $ == 'undefined' || !$.active)")
   end
 
   def login(driver, url)
@@ -64,10 +66,10 @@ class Wraith::Wraith
       password_field.send_keys(password)
       
       login_button.click
-          sleep 2
+#      sleep 2
       wait = Selenium::WebDriver::Wait.new(:timeout => 15)
       wait.until{
-            driver.execute_script("return document.readyState;") == "complete"
+       ready(driver) 
       }
       
       unless driver.current_url.start_with?("https://" + get_domain(url))
@@ -114,7 +116,7 @@ class Wraith::Wraith
       if wait_until_element(props[:wait_until_element])
         begin
           wait = Selenium::WebDriver::Wait.new(:timeout => 10) # seconds
-          wait.until { driver.find_element(:id => wait_until_element) }
+          wait.until { ready(driver) }
         end
       end
       driver.save_screenshot(file_name)
