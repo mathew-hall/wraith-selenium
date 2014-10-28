@@ -131,15 +131,17 @@ class Wraith::SaveImages
               #we can also take a second comparison shot using the base browser if we wish
               #this will be helpful to capture web site instabilities which have nothing to do
               #with cross browser issues
-              elsif wraith.base_type == 'browser' && wraith.base_browser == browser && wraith.compare_base_to_base
-                wraith.capture_page_image driver, browser, base_url, props_hash, base_file_name unless base_url.nil?
-                wraith.capture_page_image driver, browser, compare_url, props_hash, compare_file_name unless compare_url.nil?
-              elsif wraith.base_type == 'browser' && wraith.base_browser == browser
-                wraith.capture_page_image driver, browser, base_url, props_hash, base_file_name unless base_url.nil?
-              #if the comparison type is browser, then any screenshots from a browser that is not the base browser are
-              #saved as comparison shots
               elsif wraith.base_type == 'browser'
-                wraith.capture_page_image driver, browser, compare_url, props_hash, compare_file_name unless compare_url.nil?
+                if wraith.base_browser == browser && wraith.compare_base_to_base
+                  wraith.capture_page_image driver, browser, base_url, props_hash, base_file_name unless base_url.nil?
+                  wraith.capture_page_image driver, browser, compare_url, props_hash, compare_file_name unless compare_url.nil?
+                elsif wraith.base_browser == browser
+                  wraith.capture_page_image driver, browser, base_url, props_hash, base_file_name unless base_url.nil?
+                #if the comparison type is browser, then any screenshots from a browser that is not the base browser are
+                #saved as comparison shots
+                else
+                  wraith.capture_page_image driver, browser, compare_url, props_hash, compare_file_name unless compare_url.nil?
+                end
               end
             end
             unless driver.nil?
