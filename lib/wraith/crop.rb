@@ -34,16 +34,19 @@ class Wraith::CropImages
       base.each do |base_shot|
         @base = base_shot
         base_height = @wraith.find_image_dimensions(@base,'height')
+        base_width  = @wraith.find_image_dimensions(@base,'width')
         #can be multiple compare files if using browser based comparison
         compare.each do |compare_shot|
           @compare = compare_shot
           compare_height = @wraith.find_image_dimensions(@compare,'height')
-          if base_height != compare_height
+          compare_width  = @wraith.find_image_dimensions(@compare,'width')
+          if base_height != compare_height or base_width != compare_width
             file_to_crop = crop
-            file_height_to_crop_to = base_height > compare_height ? compare_height : base_height
+            file_height_to_crop_to = [compare_height, base_height].min
+            file_width_to_crop_to = [compare_width, base_width].min
             output = @wraith.create_cropped_file_path(file_to_crop,height)
             puts 'cropping image to ' + output
-            Wraith::Wraith.crop_images(file_to_crop, file_height_to_crop_to, output)
+            Wraith::Wraith.crop_images(file_to_crop, file_width_to_crop_to, file_height_to_crop_to, output)
           end
         end
       end

@@ -174,9 +174,13 @@ class Wraith::Wraith
     domains.keys[1]
   end
 
-  def self.crop_images(file, height, output)
+  def self.crop_images(file, width, height, output)
     # For compatibility with windows file structures switch commenting on the following 2 lines
-    puts `convert #{file} -background none -extent 0x#{height} #{output}`
+    unless width
+      puts `convert #{file} -background none -extent 0x#{height} #{output}`
+    else
+      puts `convert #{file} -background none -extent #{width}x#{height} #{output}`
+    end
     # puts `convert #{crop.gsub('/', '\\')} -background none -extent 0x#{height} #{output.gsub('/', '\\')}`
   end
 
