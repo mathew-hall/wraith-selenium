@@ -45,11 +45,12 @@ class Wraith::Wraith
 
   def login(driver, url)
     #Probably, e.g. we are at www.google.com and get sent to www.bing.com
-    puts "Was redirected from #{url} to #{driver.current_url}. Will try to login."
+    puts "Was redirected from #{url} to #{driver.current_url}"
     begin
+      #Don't break old behaviour; if we get a redirect and there's no config, then snapshot it anyway.
       unless @config.has_key?("credentials")
-        puts "No credentials supplied for login. Won't capture #{url}"
-        return false
+        puts "Snapshotting redirection page. Add credentials if this is a login screen."
+        return true
       end
          
       credentials = @config["credentials"]
