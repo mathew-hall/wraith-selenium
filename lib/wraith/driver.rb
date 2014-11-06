@@ -37,6 +37,9 @@ module Wraith::Driver
       parameters[:capabilities].each_key do |key|
         caps[key] = parameters[:capabilities][key]
       end
+      if caps[:browser_name] == :ie or caps[:browser_name].intern == "ie"
+        caps[:browser_name] = "internet explorer"
+      end
       Selenium::WebDriver.for :remote, :desired_capabilities => caps, :url => parameters[:url]
     end
   end
