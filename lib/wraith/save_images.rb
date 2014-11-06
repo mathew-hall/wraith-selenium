@@ -77,6 +77,8 @@ class Wraith::SaveImages
           parameters_array = get_parameters_array(browser_devices_for_browser[device_or_desktop])
 
           parameters_array.each do |parameters|
+            
+                        
             next unless(is_os_set(engine_mode, device_or_desktop, parameters[:capabilities][:platform]))
             os_name = os_string(engine_mode, device_or_desktop, parameters[:capabilities][:platform])
 
@@ -113,9 +115,13 @@ class Wraith::SaveImages
 
               base_file_name = file_names(props_hash[:name], label, os_name, browser, browser_version, precise_device, wraith.base_domain_label)
               compare_file_name = file_names(props_hash[:name], label, os_name, browser, browser_version, precise_device, wraith.comp_domain_label)
-              #if using selenium, calculate the actual width of screenshot buy adding the bias
+              #if using selenium, calculate the actual width of screenshot by adding the bias
               unless driver.nil?
-                width_bias = screenshot_bias['width'][browser][device_or_desktop][props_hash[:dimensions][0]]
+                begin
+                  width_bias = screenshot_bias['width'][browser][device_or_desktop][props_hash[:dimensions][0]]
+                rescue
+                  width_bias = nil
+                end
                 if width_bias.nil?
                   width_bias = 0
                 end
